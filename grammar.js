@@ -297,7 +297,7 @@ module.exports = grammar({
       repeat1(choice($.oneline_string_text, $.oneline_string_escaped_char)),
     oneline_string_text: ($) => seq(/[^#\n\\]/, /[^`]/),
     oneline_string_escaped_char: ($) =>
-      seq("\\", choice("`", "#", "\\", "b", "f", "u", $.unicode_char)),
+      seq("\\", choice("`", "#", "\\", "b", "f", seq("u", $.unicode_char))),
     multiline_string: ($) =>
       seq(
         "```",
@@ -315,7 +315,7 @@ module.exports = grammar({
     multiline_string_escaped_char: ($) =>
       seq(
         "\\",
-        choice("\\", "b", "f", "n", "r", "t", "`", "u", $.unicode_char)
+        choice("\\", "b", "f", "n", "r", "t", "`", seq("u", $.unicode_char))
       ),
     filename: ($) => repeat1(choice($.filename_content, $.template)),
     filename_content: ($) =>
@@ -336,7 +336,7 @@ module.exports = grammar({
     json_object: ($) =>
       seq("{", $.json_key_value, repeat(seq(",", $.json_key_value)), "}"),
     json_key_value: ($) => seq($.json_key_string, ":", $.json_value),
-    json_key_string: ($) => alias($.json_string, 'json_key_string'),
+    json_key_string: ($) => alias($.json_string, "json_key_string"),
     json_array: ($) =>
       seq("[", $.json_value, repeat(seq(",", $.json_value)), "]"),
     json_string: ($) =>
@@ -355,13 +355,7 @@ module.exports = grammar({
           "n",
           "r",
           "t",
-          seq(
-          "u",
-          $.hexdigit,
-          $.hexdigit,
-          $.hexdigit,
-          $.hexdigit
-          )
+          seq("u", $.hexdigit, $.hexdigit, $.hexdigit, $.hexdigit)
         )
       ),
     json_number: ($) =>
@@ -397,14 +391,7 @@ module.exports = grammar({
     exponent: ($) =>
       seq(choice("e", "E"), optional(choice("+", "-")), repeat1($.digit)),
     sp: ($) => seq(/[ \t]/),
-    lt: ($) =>
-      seq(
-        repeat($.sp),
-        choice(
-          seq($.comment, "\n"),
-          seq("\n")
-        )
-      ),
+    lt: ($) => seq(repeat($.sp), choice(seq($.comment, "\n"), seq("\n"))),
     comment: ($) => seq("#", repeat(/([^\n])/)),
     regex: ($) => seq("/", optional($.regex_content), "/"),
     regex_content: ($) => repeat1(choice($.regex_text, $.regex_escaped_char)),
