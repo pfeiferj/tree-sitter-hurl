@@ -2017,12 +2017,17 @@
               "value": "\t"
             },
             {
-              "type": "STRING",
-              "value": "\\u"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "unicode_char"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "u"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "unicode_char"
+                }
+              ]
             }
           ]
         }
@@ -2204,12 +2209,17 @@
               "value": "\t"
             },
             {
-              "type": "STRING",
-              "value": "\\u"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "unicode_char"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "u"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "unicode_char"
+                }
+              ]
             }
           ]
         }
@@ -2304,12 +2314,17 @@
               "value": "f"
             },
             {
-              "type": "STRING",
-              "value": "u"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "unicode_char"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "u"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "unicode_char"
+                }
+              ]
             }
           ]
         }
@@ -2457,12 +2472,17 @@
               "value": "`"
             },
             {
-              "type": "STRING",
-              "value": "u"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "unicode_char"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "u"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "unicode_char"
+                }
+              ]
             }
           ]
         }
