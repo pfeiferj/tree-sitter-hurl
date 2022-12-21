@@ -7,14 +7,19 @@
 "[Captures]" @keyword
 "[Asserts]" @keyword
 "[Options]" @keyword
+
 (comment) @comment
+
 (key_string) @property
+(json_key_string) @property
+
 (value_string) @string
-(method) @function.builtin
-(version) @constant.builtin
 (quoted_string) @string
+(json_string) @string
 (regex) @string.special
-(variable_name) @variable
+(file_value) @string.special
+
+(method) @function.builtin
 "status" @function.builtin
 "url" @function.builtin
 "header" @function.builtin
@@ -28,6 +33,24 @@
 "sha256" @function.builtin
 "md5" @function.builtin
 "bytes" @function.builtin
+(filter) @function.builtin
+
+(version) @constant.builtin
+"null" @constant.builtin
+(boolean) @constant.builtin
+"cacert" @constant.builtin
+"location" @constant.builtin
+"insecure" @constant.builtin
+"max-redirs" @constant.builtin
+"retry" @constant.builtin
+"retry-interval" @constant.builtin
+"retry-max-count" @constant.builtin
+(variable_option "variable") @constant.builtin
+"verbose" @constant.builtin
+"very-verbose" @constant.builtin
+
+(variable_name) @variable
+
 "not" @operator
 "equals" @operator
 "==" @operator
@@ -52,33 +75,19 @@
 "isBoolean" @operator
 "isString" @operator
 "isCollection" @operator
+
 (integer) @number
 (float) @number
 (status) @number
 (json_number) @number
-"[" @punctuation.bracket
-"]" @punctuation.bracket
+(json_number) @number
+
 ":" @punctuation.delimiter
 "," @punctuation.delimiter
-"null" @constant.builtin
-(boolean) @constant.builtin
 
-(filter) @function.builtin
-(json_key_string) @property
-(json_string) @string
-(json_number) @number
+"[" @punctuation.bracket
+"]" @punctuation.bracket
 "{" @punctuation.bracket
 "}" @punctuation.bracket
 "{{" @punctuation.bracket
 "}}" @punctuation.bracket
-(file_value) @string.special
-"cacert" @constant.builtin
-"location" @constant.builtin
-"insecure" @constant.builtin
-"max-redirs" @constant.builtin
-"retry" @constant.builtin
-"retry-interval" @constant.builtin
-"retry-max-count" @constant.builtin
-(variable_option "variable") @constant.builtin
-"verbose" @constant.builtin
-"very-verbose" @constant.builtin
