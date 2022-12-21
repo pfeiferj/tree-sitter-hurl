@@ -1,14 +1,14 @@
 ; highlights.scm
 
-"[QueryStringParams]" @keyword
-"[FormParams]" @keyword
-"[MultipartFormData]" @keyword
-"[Cookies]" @keyword
-"[Captures]" @keyword
-"[Asserts]" @keyword
-"[Options]" @keyword
+"[QueryStringParams]" @property
+"[FormParams]" @property
+"[MultipartFormData]" @property
+"[Cookies]" @property
+"[Captures]" @property
+"[Asserts]" @property
+"[Options]" @property
 
-(comment) @comment
+(comment) @comment @spell
 
 (key_string) @property
 (json_key_string) @property
@@ -16,10 +16,21 @@
 (value_string) @string
 (quoted_string) @string
 (json_string) @string
-(regex) @string.special
 (file_value) @string.special
+(regex) @string.regex
 
-(method) @function.builtin
+"\\" @string.escape
+(regex_escaped_char) @string.escape
+(quoted_string_escaped_char) @string.escape
+(key_string_escaped_char) @string.escape
+(value_string_escaped_char) @string.escape
+(oneline_string_escaped_char) @string.escape
+(multiline_string_escaped_char) @string.escape
+(filename_escaped_char) @string.escape
+(json_string_escaped_char) @string.escape
+
+(method) @type.builtin
+
 "status" @function.builtin
 "url" @function.builtin
 "header" @function.builtin
@@ -33,11 +44,12 @@
 "sha256" @function.builtin
 "md5" @function.builtin
 "bytes" @function.builtin
-(filter) @function.builtin
 
-(version) @constant.builtin
+(filter) @attribute
+
+(version) @string.special
+
 "null" @constant.builtin
-(boolean) @constant.builtin
 "cacert" @constant.builtin
 "location" @constant.builtin
 "insecure" @constant.builtin
@@ -49,38 +61,39 @@
 "verbose" @constant.builtin
 "very-verbose" @constant.builtin
 
+(boolean) @boolean
+
 (variable_name) @variable
 
-"not" @operator
-"equals" @operator
+"not" @keyword.operator
+"equals" @keyword.operator
 "==" @operator
-"notEquals" @operator
+"notEquals" @keyword.operator
 "!=" @operator
-"greaterThan" @operator
+"greaterThan" @keyword.operator
 ">" @operator
-"greaterThanOrEquals" @operator
+"greaterThanOrEquals" @keyword.operator
 ">=" @operator
-"lessThan" @operator
+"lessThan" @keyword.operator
 "<" @operator
-"lessThanOrEquals" @operator
+"lessThanOrEquals" @keyword.operator
 "<=" @operator
-"startsWith" @operator
-"endsWith" @operator
-"contains" @operator
-"matches" @operator
-"exists" @operator
-"includes" @operator
-"isInteger" @operator
-"isFloat" @operator
-"isBoolean" @operator
-"isString" @operator
-"isCollection" @operator
+"startsWith" @keyword.operator
+"endsWith" @keyword.operator
+"contains" @keyword.operator
+"matches" @keyword.operator
+"exists" @keyword.operator
+"includes" @keyword.operator
+"isInteger" @keyword.operator
+"isFloat" @keyword.operator
+"isBoolean" @keyword.operator
+"isString" @keyword.operator
+"isCollection" @keyword.operator
 
 (integer) @number
-(float) @number
+(float) @float
 (status) @number
-(json_number) @number
-(json_number) @number
+(json_number) @float
 
 ":" @punctuation.delimiter
 "," @punctuation.delimiter
@@ -89,5 +102,5 @@
 "]" @punctuation.bracket
 "{" @punctuation.bracket
 "}" @punctuation.bracket
-"{{" @punctuation.bracket
-"}}" @punctuation.bracket
+"{{" @punctuation.special
+"}}" @punctuation.special
