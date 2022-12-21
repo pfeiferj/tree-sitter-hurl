@@ -1,2 +1,2 @@
 ; injections.scm
-((json_value) @json)
+(json_value) @json

@@ -334,11 +334,11 @@ module.exports = grammar({
         $.null
       ),
     json_object: ($) =>
-      seq("{", $.json_key_value, repeat(seq(",", $.json_key_value)), "}"),
+      choice(seq("{", optional($.json_key_value), repeat(seq(",", $.json_key_value)), "}")),
     json_key_value: ($) => seq($.json_key_string, ":", $.json_value),
     json_key_string: ($) => alias($.json_string, "json_key_string"),
     json_array: ($) =>
-      seq("[", $.json_value, repeat(seq(",", $.json_value)), "]"),
+      prec(2,seq("[", $.json_value, repeat(seq(",", $.json_value)), "]")),
     json_string: ($) =>
       seq('"', repeat(choice($.json_string_content, $.template)), '"'),
     json_string_content: ($) =>
@@ -403,7 +403,6 @@ module.exports = grammar({
     [$.lt],
     [$.request],
     [$.value_string_content],
-    [$.key_string_text, $.json_array],
     [$.key_string_content],
     [$.key_string_text],
     [$.response],
