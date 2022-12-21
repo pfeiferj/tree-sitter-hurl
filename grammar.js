@@ -46,7 +46,7 @@ module.exports = grammar({
         "VIEW"
       ),
     version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP"),
-    status: ($) => seq(/[0-9]+/),
+    status: ($) => /[0-9]+/,
     header: ($) => seq(repeat($.lt), $.key_value, $.lt),
     body: ($) => seq(repeat($.lt), $.bytes, $.lt),
     request_section: ($) =>
@@ -154,19 +154,19 @@ module.exports = grammar({
         $.sha256_query,
         $.md5_query
       ),
-    status_query: ($) => seq("status"),
-    url_query: ($) => seq("url"),
+    status_query: ($) => "status",
+    url_query: ($) => "url",
     header_query: ($) => seq("header", $.sp, $.quoted_string),
     cookie_query: ($) => seq("cookie", $.sp, $.quoted_string),
-    body_query: ($) => seq("body"),
+    body_query: ($) => "body",
     xpath_query: ($) => seq("xpath", $.sp, $.quoted_string),
     jsonpath_query: ($) => seq("jsonpath", $.sp, $.quoted_string),
     regex_query: ($) => seq("regex", $.sp, choice($.quoted_string, $.regex)),
     variable_query: ($) => seq("variable", $.sp, $.quoted_string),
-    duration_query: ($) => seq("duration"),
-    sha256_query: ($) => seq("sha256"),
-    md5_query: ($) => seq("md5"),
-    bytes_query: ($) => seq("bytes"),
+    duration_query: ($) => "duration",
+    sha256_query: ($) => "sha256",
+    md5_query: ($) => "md5",
+    bytes_query: ($) => "bytes",
     predicate: ($) => seq(optional(seq("not", $.sp)), $.predicate_func),
     predicate_func: ($) =>
       choice(
@@ -232,13 +232,13 @@ module.exports = grammar({
     contain_predicate: ($) => seq("contains", $.sp, $.quoted_string),
     match_predicate: ($) =>
       seq("matches", $.sp, choice($.quoted_string, $.regex)),
-    exist_predicate: ($) => seq("exists"),
+    exist_predicate: ($) => "exists",
     include_predicate: ($) => seq("includes", $.sp, $.predicate_value),
-    integer_predicate: ($) => seq("isInteger"),
-    float_predicate: ($) => seq("isFloat"),
-    boolean_predicate: ($) => seq("isBoolean"),
-    string_predicate: ($) => seq("isString"),
-    collection_predicate: ($) => seq("isCollection"),
+    integer_predicate: ($) => "isInteger",
+    float_predicate: ($) => "isFloat",
+    boolean_predicate: ($) => "isBoolean",
+    string_predicate: ($) => "isString",
+    collection_predicate: ($) => "isCollection",
     predicate_value: ($) =>
       choice(
         $.null,
@@ -343,7 +343,7 @@ module.exports = grammar({
       seq('"', repeat(choice($.json_string_content, $.template)), '"'),
     json_string_content: ($) =>
       choice($.json_string_text, $.json_string_escaped_char),
-    json_string_text: ($) => seq(/[^"\\]/),
+    json_string_text: ($) => /[^"\\]/,
     json_string_escaped_char: ($) =>
       seq(
         "\\",
@@ -380,35 +380,35 @@ module.exports = grammar({
         $.to_int_filter
       ),
     regex_filter: ($) => seq("regex", $.sp, choice($.quoted_string, $.regex)),
-    count_filter: ($) => seq("count"),
-    url_encode_filter: ($) => seq("urlEncode"),
-    url_decode_filter: ($) => seq("urlDecode"),
-    html_encode_filter: ($) => seq("htmlEscape"),
-    html_decode_filter: ($) => seq("htmlUnescape"),
-    to_int_filter: ($) => seq("toInt"),
+    count_filter: ($) => "count",
+    url_encode_filter: ($) => "urlEncode",
+    url_decode_filter: ($) => "urlDecode",
+    html_encode_filter: ($) => "htmlEscape",
+    html_decode_filter: ($) => "htmlUnescape",
+    to_int_filter: ($) => "toInt",
     boolean: ($) => choice("true", "false"),
-    null: ($) => seq("null"),
-    _alphanum: ($) => seq(/[A-Za-z0-9]/),
-    integer: ($) => seq(repeat1($.digit)),
+    null: ($) => "null",
+    _alphanum: ($) => /[A-Za-z0-9]/,
+    integer: ($) => repeat1($.digit),
     float: ($) => seq($.integer, $.fraction),
-    digit: ($) => seq(/[0-9]/),
-    hexdigit: ($) => seq(/[0-9A-Fa-f]/),
+    digit: ($) => /[0-9]/,
+    hexdigit: ($) => /[0-9A-Fa-f]/,
     fraction: ($) => seq(".", repeat1($.digit)),
     exponent: ($) =>
       seq(choice("e", "E"), optional(choice("+", "-")), repeat1($.digit)),
-    sp: ($) => seq(/[ \t]/),
+    sp: ($) => /[ \t]/,
     lt: ($) =>
       seq(
         repeat($.sp),
         choice(
           seq($.comment, "\n"),
-          seq("\n")
+          "\n"
         )
       ),
     comment: ($) => seq("#", repeat(/([^\n])/)),
     regex: ($) => seq("/", optional($.regex_content), "/"),
     regex_content: ($) => repeat1(choice($.regex_text, $.regex_escaped_char)),
-    regex_text: ($) => seq(/[^\n\\\/]+/),
+    regex_text: ($) => /[^\n\\\/]+/,
     regex_escaped_char: ($) => seq("\\", /[^\n]/),
   },
   conflicts: ($) => [
