@@ -30,6 +30,7 @@
 (json_string_escaped_char) @string.escape
 
 (method) @type.builtin
+(multiline_string_type) @type
 
 "status" @function.builtin
 "url" @function.builtin
