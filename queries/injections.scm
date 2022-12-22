@@ -3,5 +3,5 @@
 
 (multiline_string
   (multiline_string_type) @language
-  (multiline_string_content) @content @include-children)
+  (multiline_string_content) @content @include-children @combined)
 

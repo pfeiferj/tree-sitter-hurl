@@ -299,19 +299,19 @@ module.exports = grammar({
     oneline_string_escaped_char: ($) =>
       seq("\\", choice("`", "#", "\\", "b", "f", seq("u", $.unicode_char))),
     multiline_string: ($) =>
-      seq(
+      prec(2,seq(
         "```",
         optional($.multiline_string_type),
         $.lt,
         repeat(choice($.multiline_string_content, $.template)),
         optional($.lt),
         "```"
-      ),
+      )),
     multiline_string_type: ($) =>
       choice("base64", "hex", "json", "xml", "graphql"),
     multiline_string_content: ($) =>
-      repeat1(choice($.multiline_string_text, $.multiline_string_escaped_char)),
-    multiline_string_text: ($) => seq(/[^\\`]+/,optional(choice("`", "``"))),
+      repeat1(choice($.multiline_string_text, $.multiline_string_escaped_char, $.lt)),
+    multiline_string_text: ($) => seq(/[^\\]/),
     multiline_string_escaped_char: ($) =>
       seq(
         "\\",

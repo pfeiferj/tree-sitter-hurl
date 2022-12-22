@@ -1211,6 +1211,10 @@
       "required": true,
       "types": [
         {
+          "type": "lt",
+          "named": true
+        },
+        {
           "type": "multiline_string_escaped_char",
           "named": true
         },
@@ -2589,10 +2593,6 @@
   },
   {
     "type": "`",
-    "named": false
-  },
-  {
-    "type": "``",
     "named": false
   },
   {
