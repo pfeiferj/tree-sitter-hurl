@@ -304,14 +304,14 @@ module.exports = grammar({
         optional($.multiline_string_type),
         $.lt,
         repeat(choice($.multiline_string_content, $.template)),
-        $.lt,
+        optional($.lt),
         "```"
       ),
     multiline_string_type: ($) =>
       choice("base64", "hex", "json", "xml", "graphql"),
     multiline_string_content: ($) =>
       repeat1(choice($.multiline_string_text, $.multiline_string_escaped_char)),
-    multiline_string_text: ($) => seq(/~[\\]+/, /~"```"/),
+    multiline_string_text: ($) => seq(/[^\\`]+/,optional(choice("`", "``"))),
     multiline_string_escaped_char: ($) =>
       seq(
         "\\",
@@ -320,7 +320,7 @@ module.exports = grammar({
     filename: ($) => repeat1(choice($.filename_content, $.template)),
     filename_content: ($) =>
       repeat1(choice($.filename_text, $.filename_escaped_char)),
-    filename_text: ($) => /~[#; \n\\]+/,
+    filename_text: ($) => /[^#; \n\\]+/,
     filename_escaped_char: ($) => seq("\\", choice(";", "#", /[,]/)),
     unicode_char: ($) => seq("{", repeat1($.hexdigit), "}"),
     json_value: ($) =>

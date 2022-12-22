@@ -2370,8 +2370,16 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "lt"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "lt"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -2425,11 +2433,28 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "~[\\\\]+"
+          "value": "[^\\\\`]+"
         },
         {
-          "type": "PATTERN",
-          "value": "~\"```\""
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "`"
+                },
+                {
+                  "type": "STRING",
+                  "value": "``"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -2522,7 +2547,7 @@
     },
     "filename_text": {
       "type": "PATTERN",
-      "value": "~[#; \\n\\\\]+"
+      "value": "[^#; \\n\\\\]+"
     },
     "filename_escaped_char": {
       "type": "SEQ",
