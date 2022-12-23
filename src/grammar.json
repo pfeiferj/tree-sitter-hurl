@@ -1963,8 +1963,17 @@
             "name": "quoted_string_text"
           },
           {
-            "type": "SYMBOL",
-            "name": "quoted_string_escaped_char"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "quoted_string_escaped_char"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "invalid_quoted_string_escaped_char"
+              }
+            ]
           }
         ]
       }
@@ -1975,6 +1984,19 @@
         {
           "type": "PATTERN",
           "value": "[^\"\\\\]+"
+        }
+      ]
+    },
+    "invalid_quoted_string_escaped_char": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[^\"\\f\\r\\tu\\\\]"
         }
       ]
     },

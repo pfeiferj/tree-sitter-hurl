@@ -269,8 +269,10 @@ module.exports = grammar({
     quoted_string: ($) =>
       seq('"', repeat(choice($.quoted_string_content, $.template)), '"'),
     quoted_string_content: ($) =>
-      repeat1(choice($.quoted_string_text, $.quoted_string_escaped_char)),
+      repeat1(choice($.quoted_string_text, choice($.quoted_string_escaped_char, $.invalid_quoted_string_escaped_char))),
     quoted_string_text: ($) => seq(/[^"\\]+/),
+    invalid_quoted_string_escaped_char: ($) =>
+      seq( "\\", /[^"\f\r\tu\\]/),
     quoted_string_escaped_char: ($) =>
       seq(
         "\\",
