@@ -7,6 +7,7 @@
 "[Captures]" @property
 "[Asserts]" @property
 "[Options]" @property
+"[BasicAuth]" @property
 
 (comment) @comment @spell
 

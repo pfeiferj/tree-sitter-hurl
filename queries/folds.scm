@@ -13,5 +13,6 @@
 (captures_section) @fold
 (asserts_section) @fold
 (options_section) @fold
+(basic_auth_section) @fold
 (json_object) @fold
 (json_array) @fold
