@@ -429,6 +429,10 @@
         {
           "type": "filename",
           "named": true
+        },
+        {
+          "type": "sp",
+          "named": true
         }
       ]
     }
@@ -1045,7 +1049,23 @@
       "required": true,
       "types": [
         {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
           "type": "key_string",
+          "named": true
+        },
+        {
+          "type": "null",
           "named": true
         },
         {
@@ -2410,6 +2430,10 @@
   },
   {
     "type": "$",
+    "named": false
+  },
+  {
+    "type": "*",
     "named": false
   },
   {

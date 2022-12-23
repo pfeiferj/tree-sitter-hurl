@@ -105,3 +105,7 @@
 "}" @punctuation.bracket
 "{{" @punctuation.special
 "}}" @punctuation.special
+
+"base64," @string.special
+"file," @string.special
+"hex," @string.special

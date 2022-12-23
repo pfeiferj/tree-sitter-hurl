@@ -46,7 +46,7 @@ module.exports = grammar({
         "VIEW"
       ),
     version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/*"),
-    status: ($) => seq(/[0-9]+/),
+    status: ($) => choice(seq(/[0-9]+/), '*'),
     header: ($) => seq(repeat($.lt), $.key_value, $.lt),
     body: ($) => seq(repeat($.lt), $.bytes, $.lt),
     request_section: ($) =>
@@ -59,9 +59,9 @@ module.exports = grammar({
       ),
     response_section: ($) => choice($.captures_section, $.asserts_section),
     query_string_params_section: ($) =>
-      seq(repeat($.lt), "[QueryStringParams]", $.lt, repeat($.key_value)),
+      seq(repeat($.lt), "[QueryStringParams]", $.lt, repeat(choice($.key_value, $.lt))),
     form_params_section: ($) =>
-      seq(repeat($.lt), "[FormParams]", $.lt, repeat($.key_value)),
+      seq(repeat($.lt), "[FormParams]", $.lt, optional($.key_value), repeat(seq($.lt,$.key_value)), $.lt),
     multipart_form_data_section: ($) =>
       seq(
         repeat($.lt),
@@ -70,18 +70,18 @@ module.exports = grammar({
         repeat($.multipart_form_data_param)
       ),
     cookies_section: ($) =>
-      seq(repeat($.lt), "[Cookies]", $.lt, repeat($.key_value)),
+      seq(repeat($.lt), "[Cookies]", $.lt, repeat(choice($.key_value, $.lt))),
     captures_section: ($) =>
       seq(repeat($.lt), "[Captures]", $.lt, repeat($.capture)),
     asserts_section: ($) =>
       seq(repeat($.lt), "[Asserts]", $.lt, repeat($.assert)),
     options_section: ($) =>
       seq(repeat($.lt), "[Options]", $.lt, repeat($.option)),
-    key_value: ($) => seq($.key_string, ":", optional($.value_string)),
+    key_value: ($) => seq($.key_string, ":", optional(choice($.value_string, $.boolean, $.float, $.integer, $.null))),
     multipart_form_data_param: ($) => choice($.file_param, $.key_value),
     file_param: ($) => seq(repeat($.lt), $.key_string, ":", $.file_value, $.lt),
     file_value: ($) =>
-      seq("file,", optional($.filename), ";", optional($.file_contenttype)),
+      prec.left(seq("file,", optional($.filename), ";", optional($.sp), optional($.file_contenttype))),
     file_contenttype: ($) => seq(/[a-zA-Z0-9\/+-]+/),
     capture: ($) =>
       seq(
@@ -284,10 +284,10 @@ module.exports = grammar({
     key_string_text: ($) =>
       repeat1(choice($._alphanum, "_", "-", ".", "[", "]", "@", "$")),
     key_string_escaped_char: ($) => seq("\\", choice("#", '"')),
-    value_string: ($) => repeat1(choice($.value_string_content, $.template)),
+    value_string: ($) => prec(3,repeat1(choice($.value_string_content, $.template))),
     value_string_content: ($) =>
       repeat1(choice($.value_string_text, $.value_string_escaped_char)),
-    value_string_text: ($) => prec.right(repeat1(/[^#\n\\]/)),
+    value_string_text: ($) => prec.left(repeat1(/[^#\n\\]/)),
     value_string_escaped_char: ($) =>
       seq(
         "\\",
@@ -385,11 +385,11 @@ module.exports = grammar({
     boolean: ($) => choice("true", "false"),
     null: ($) => seq("null"),
     _alphanum: ($) => seq(/[A-Za-z0-9]/),
-    integer: ($) => seq(repeat1($.digit)),
+    integer: ($) => prec.left(seq(repeat1($.digit))),
     float: ($) => seq($.integer, $.fraction),
     digit: ($) => seq(/[0-9]/),
     hexdigit: ($) => seq(/[0-9A-Fa-f]/),
-    fraction: ($) => seq(".", repeat1($.digit)),
+    fraction: ($) => prec.left(seq(".", repeat1($.digit))),
     exponent: ($) =>
       seq(choice("e", "E"), optional(choice("+", "-")), repeat1($.digit)),
     sp: ($) => seq(/[ \t]/),
@@ -419,6 +419,7 @@ module.exports = grammar({
     [$.captures_section],
     [$.asserts_section],
     [$.key_value],
+    [$.key_value, $.float],
     [$.key_value, $.file_param],
     [$.value_string],
     [$.quoted_string_content],
