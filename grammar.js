@@ -45,7 +45,7 @@ module.exports = grammar({
         "PROPFIND",
         "VIEW"
       ),
-    version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP"),
+    version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/*"),
     status: ($) => seq(/[0-9]+/),
     header: ($) => seq(repeat($.lt), $.key_value, $.lt),
     body: ($) => seq(repeat($.lt), $.bytes, $.lt),

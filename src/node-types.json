@@ -2480,7 +2480,7 @@
     "named": false
   },
   {
-    "type": "HTTP",
+    "type": "HTTP/*",
     "named": false
   },
   {
