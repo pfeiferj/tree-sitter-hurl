@@ -50,6 +50,25 @@
     }
   },
   {
+    "type": "basic_auth_section",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "key_value",
+          "named": true
+        },
+        {
+          "type": "lt",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "body",
     "named": true,
     "fields": {},
@@ -1935,6 +1954,10 @@
       "required": true,
       "types": [
         {
+          "type": "basic_auth_section",
+          "named": true
+        },
+        {
           "type": "cookies_section",
           "named": true
         },
@@ -2586,6 +2609,10 @@
   },
   {
     "type": "[Asserts]",
+    "named": false
+  },
+  {
+    "type": "[BasicAuth]",
     "named": false
   },
   {

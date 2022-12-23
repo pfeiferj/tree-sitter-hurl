@@ -310,6 +310,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "basic_auth_section"
+        },
+        {
+          "type": "SYMBOL",
           "name": "query_string_params_section"
         },
         {
@@ -340,6 +344,30 @@
         {
           "type": "SYMBOL",
           "name": "asserts_section"
+        }
+      ]
+    },
+    "basic_auth_section": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "lt"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "[BasicAuth]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lt"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "key_value"
         }
       ]
     },

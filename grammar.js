@@ -51,6 +51,7 @@ module.exports = grammar({
     body: ($) => seq(repeat($.lt), $.bytes, $.lt),
     request_section: ($) =>
       choice(
+        $.basic_auth_section,
         $.query_string_params_section,
         $.form_params_section,
         $.multipart_form_data_section,
@@ -58,6 +59,8 @@ module.exports = grammar({
         $.options_section
       ),
     response_section: ($) => choice($.captures_section, $.asserts_section),
+    basic_auth_section: ($) =>
+      seq(repeat($.lt), "[BasicAuth]", $.lt, $.key_value),
     query_string_params_section: ($) =>
       seq(repeat($.lt), "[QueryStringParams]", $.lt, repeat(choice($.key_value, $.lt))),
     form_params_section: ($) =>
