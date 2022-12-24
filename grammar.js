@@ -5,7 +5,6 @@ module.exports = grammar({
 
   rules: {
     hurl_file: ($) => seq(repeat($.entry), repeat("\n")),
-    word: $ => /[a-zA-Z0-9\[\],]+/,
     entry: ($) => prec.right(seq($.request, optional($.response), optional("\n"))),
     request: ($) =>
       prec.right(seq(
@@ -59,9 +58,9 @@ module.exports = grammar({
       ),
     response_section: ($) => choice($.captures_section, $.asserts_section),
     basic_auth_section: ($) =>
-      seq("[BasicAuth]", "\n", $.key_value),
+      seq("[BasicAuth]", "\n", $.key_value, "\n"),
     query_string_params_section: ($) =>
-      prec.right(seq("[QueryStringParams]", "\n", repeat(choice($.key_value, "\n")))),
+      prec.right(seq("[QueryStringParams]", "\n", optional($.key_value), repeat(seq("\n",$.key_value)), "\n")),
     form_params_section: ($) =>
       prec.right(seq("[FormParams]", "\n", optional($.key_value), repeat(seq("\n",$.key_value)), "\n")),
     multipart_form_data_section: ($) =>

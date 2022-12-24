@@ -20,10 +20,6 @@
         }
       ]
     },
-    "word": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z0-9\\[\\],]+"
-    },
     "entry": {
       "type": "PREC_RIGHT",
       "value": 0,
@@ -352,6 +348,10 @@
         {
           "type": "SYMBOL",
           "name": "key_value"
+        },
+        {
+          "type": "STRING",
+          "value": "\n"
         }
       ]
     },
@@ -370,20 +370,36 @@
             "value": "\n"
           },
           {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "key_value"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
             "type": "REPEAT",
             "content": {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "key_value"
-                },
                 {
                   "type": "STRING",
                   "value": "\n"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "key_value"
                 }
               ]
             }
+          },
+          {
+            "type": "STRING",
+            "value": "\n"
           }
         ]
       }
