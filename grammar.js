@@ -1,27 +1,26 @@
 module.exports = grammar({
   name: "hurl",
+  //word: $ => $.word,
+  extras: $ => [/[\s\p{Zs}\uFEFF\u2060\u200B]/, $.comment],
 
   rules: {
-    hurl_file: ($) => seq(repeat($.entry), repeat(prec(2,$.lt))),
-    entry: ($) => seq($.request, optional($.response)),
+    hurl_file: ($) => seq(repeat($.entry), repeat("\n")),
+    word: $ => /[a-zA-Z0-9\[\],]+/,
+    entry: ($) => prec.right(seq($.request, optional($.response), optional("\n"))),
     request: ($) =>
-      seq(
-        repeat(prec.left(3,$.lt)),
+      prec.right(seq(
         $.method,
-        $.sp,
         optional($.value_string),
-        $.lt,
+        repeat1("\n"),
         repeat($.header),
         repeat($.request_section),
         optional($.body)
-      ),
+      )),
     response: ($) =>
       seq(
-        repeat(prec.left(3,$.lt)),
         $.version,
-        $.sp,
         $.status,
-        $.lt,
+        "\n",
         repeat($.header),
         repeat($.response_section),
         optional($.body)
@@ -47,8 +46,8 @@ module.exports = grammar({
       ),
     version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/*"),
     status: ($) => choice(seq(/[0-9]+/), '*'),
-    header: ($) => seq(repeat(prec.left($.lt)), $.key_value, $.lt),
-    body: ($) => seq(repeat($.lt), $.bytes, $.lt),
+    header: ($) => seq($.key_value, "\n"),
+    body: ($) => seq($.bytes, "\n"),
     request_section: ($) =>
       choice(
         $.basic_auth_section,
@@ -60,55 +59,50 @@ module.exports = grammar({
       ),
     response_section: ($) => choice($.captures_section, $.asserts_section),
     basic_auth_section: ($) =>
-      seq(repeat($.lt), "[BasicAuth]", $.lt, $.key_value),
+      seq("[BasicAuth]", "\n", $.key_value),
     query_string_params_section: ($) =>
-      seq(repeat($.lt), "[QueryStringParams]", $.lt, repeat(choice($.key_value, $.lt))),
+      prec.right(seq("[QueryStringParams]", "\n", repeat(choice($.key_value, "\n")))),
     form_params_section: ($) =>
-      seq(repeat($.lt), "[FormParams]", $.lt, optional($.key_value), repeat(seq($.lt,$.key_value)), $.lt),
+      prec.right(seq("[FormParams]", "\n", optional($.key_value), repeat(seq("\n",$.key_value)), "\n")),
     multipart_form_data_section: ($) =>
-      seq(
-        repeat($.lt),
+      prec.right(seq(
         "[MultipartFormData]",
-        $.lt,
+        "\n",
         optional($.multipart_form_data_param),
-        repeat(seq($.lt,$.multipart_form_data_param)),
-        $.lt
-      ),
+        repeat(seq("\n",$.multipart_form_data_param)),
+        "\n"
+      )),
     cookies_section: ($) =>
-      seq(repeat($.lt), "[Cookies]", $.lt, optional($.key_value), repeat(seq($.lt, $.key_value)), $.lt),
+      prec.right(seq("[Cookies]", "\n", optional($.key_value), repeat(seq("\n", $.key_value)), "\n")),
     captures_section: ($) =>
-      seq(repeat($.lt), "[Captures]", $.lt, repeat($.capture)),
+      prec.right(seq("[Captures]", "\n", repeat($.capture))),
     asserts_section: ($) =>
-      seq(repeat($.lt), "[Asserts]", $.lt, repeat($.assert)),
+      seq("[Asserts]", "\n", repeat($.assert)),
     options_section: ($) =>
-      seq(repeat($.lt), "[Options]", $.lt, repeat($.option)),
-    key_value: ($) => seq($.key_string, ":", optional(choice($.value_string, $.boolean, $.float, $.integer, $.null))),
+      seq("[Options]", "\n", repeat($.option)),
+    key_value: ($) => prec.right(seq($.key_string, ":", optional(choice($.value_string, $.boolean, $.float, $.integer, $.null)))),
     multipart_form_data_param: ($) => choice($.file_param, $.key_value),
-    file_param: ($) => seq(repeat($.lt), $.key_string, ":", $.file_value, $.lt),
+    file_param: ($) => seq($.key_string, ":", $.file_value, "\n"),
     file_value: ($) =>
-      prec.left(seq("file,", optional($.filename), ";", optional($.sp), optional($.file_contenttype))),
+      prec.left(seq("file,", optional($.filename), ";", optional($.file_contenttype))),
     file_contenttype: ($) => seq(/[a-zA-Z0-9\/+-]+/),
     capture: ($) =>
       seq(
-        repeat($.lt),
         $.key_string,
         ":",
         $.query,
-        repeat(seq($.sp, $.filter)),
-        $.lt
+        repeat(seq($.filter)),
+        "\n"
       ),
     assert: ($) =>
       seq(
-        repeat($.lt),
         $.query,
-        repeat(seq($.sp, $.filter)),
-        $.sp,
+        repeat(seq($.filter)),
         $.predicate,
-        $.lt
+        "\n"
       ),
     option: ($) =>
       seq(
-        repeat($.lt),
         choice(
           $.ca_certificate_option,
           $.follow_redirect_option,
@@ -123,16 +117,16 @@ module.exports = grammar({
         )
       ),
     ca_certificate_option: ($) =>
-      seq("cacert", ":", optional($.filename), $.lt),
-    follow_redirect_option: ($) => seq("location", ":", $.boolean, $.lt),
-    insecure_option: ($) => seq("insecure", ":", $.boolean, $.lt),
-    max_redirs_option: ($) => seq("max-redirs", ":", $.integer, $.lt),
-    retry_option: ($) => seq("retry", ":", $.boolean, $.lt),
-    retry_interval_option: ($) => seq("retry-interval", ":", $.integer, $.lt),
-    retry_max_count_option: ($) => seq("retry-max-count", ":", $.integer, $.lt),
-    variable_option: ($) => seq("variable", ":", $.variable_definition, $.lt),
-    verbose_option: ($) => seq("verbose", ":", $.boolean, $.lt),
-    very_verbose_option: ($) => seq("very-verbose", ":", $.boolean, $.lt),
+      seq("cacert", ":", optional($.filename), "\n"),
+    follow_redirect_option: ($) => seq("location", ":", $.boolean, "\n"),
+    insecure_option: ($) => seq("insecure", ":", $.boolean, "\n"),
+    max_redirs_option: ($) => seq("max-redirs", ":", $.integer, "\n"),
+    retry_option: ($) => seq("retry", ":", $.boolean, "\n"),
+    retry_interval_option: ($) => seq("retry-interval", ":", $.integer, "\n"),
+    retry_max_count_option: ($) => seq("retry-max-count", ":", $.integer, "\n"),
+    variable_option: ($) => seq("variable", ":", $.variable_definition, "\n"),
+    verbose_option: ($) => seq("verbose", ":", $.boolean, "\n"),
+    very_verbose_option: ($) => seq("very-verbose", ":", $.boolean, "\n"),
     variable_definition: ($) => seq($.variable_name, "=", $.variable_value),
     variable_value: ($) =>
       choice(
@@ -161,18 +155,18 @@ module.exports = grammar({
       ),
     status_query: ($) => seq("status"),
     url_query: ($) => seq("url"),
-    header_query: ($) => seq("header", $.sp, $.quoted_string),
-    cookie_query: ($) => seq("cookie", $.sp, $.quoted_string),
+    header_query: ($) => seq("header", $.quoted_string),
+    cookie_query: ($) => seq("cookie", $.quoted_string),
     body_query: ($) => seq("body"),
-    xpath_query: ($) => seq("xpath", $.sp, $.quoted_string),
-    jsonpath_query: ($) => seq("jsonpath", $.sp, $.quoted_string),
-    regex_query: ($) => seq("regex", $.sp, choice($.quoted_string, $.regex)),
-    variable_query: ($) => seq("variable", $.sp, $.quoted_string),
+    xpath_query: ($) => seq("xpath", $.quoted_string),
+    jsonpath_query: ($) => seq("jsonpath", $.quoted_string),
+    regex_query: ($) => seq("regex", choice($.quoted_string, $.regex)),
+    variable_query: ($) => seq("variable", $.quoted_string),
     duration_query: ($) => seq("duration"),
     sha256_query: ($) => seq("sha256"),
     md5_query: ($) => seq("md5"),
     bytes_query: ($) => seq("bytes"),
-    predicate: ($) => seq(optional(seq("not", $.sp)), $.predicate_func),
+    predicate: ($) => seq(optional(seq("not")), $.predicate_func),
     predicate_func: ($) =>
       choice(
         $.equal_predicate,
@@ -194,51 +188,44 @@ module.exports = grammar({
         $.collection_predicate
       ),
     equal_predicate: ($) =>
-      seq(choice("equals", "=="), $.sp, $.predicate_value),
+      seq(choice("equals", "=="), $.predicate_value),
     not_equal_predicate: ($) =>
-      seq(choice("notEquals", "!="), $.sp, $.predicate_value),
+      seq(choice("notEquals", "!="), $.predicate_value),
     greater_predicate: ($) =>
       seq(
         choice("greaterThan", ">"),
-        $.sp,
         choice($.integer, $.float, $.quoted_string)
       ),
     greater_or_equal_predicate: ($) =>
       seq(
         choice("greaterThanOrEquals", ">="),
-        $.sp,
-        repeat($.sp),
         choice($.integer, $.float, $.quoted_string)
       ),
     less_predicate: ($) =>
       seq(
         choice("lessThan", "<"),
-        $.sp,
         choice($.integer, $.float, $.quoted_string)
       ),
     less_or_equal_predicate: ($) =>
       seq(
         choice("lessThanOrEquals", "<="),
-        $.sp,
         choice($.integer, $.float, $.quoted_string)
       ),
     start_with_predicate: ($) =>
       seq(
         "startsWith",
-        $.sp,
         choice($.quoted_string, $.oneline_hex, $.oneline_base64)
       ),
     end_with_predicate: ($) =>
       seq(
         "endsWith",
-        $.sp,
         choice($.quoted_string, $.oneline_hex, $.oneline_base64)
       ),
-    contain_predicate: ($) => seq("contains", $.sp, $.quoted_string),
+    contain_predicate: ($) => seq("contains", $.quoted_string),
     match_predicate: ($) =>
-      seq("matches", $.sp, choice($.quoted_string, $.regex)),
+      seq("matches", choice($.quoted_string, $.regex)),
     exist_predicate: ($) => seq("exists"),
-    include_predicate: ($) => seq("includes", $.sp, $.predicate_value),
+    include_predicate: ($) => seq("includes", $.predicate_value),
     integer_predicate: ($) => seq("isInteger"),
     float_predicate: ($) => seq("isFloat"),
     boolean_predicate: ($) => seq("isBoolean"),
@@ -268,13 +255,13 @@ module.exports = grammar({
         $.oneline_hex
       ),
     xml: ($) => seq("<", "To,Be,Defined", ">"),
-    oneline_base64: ($) => seq("base64,", /[A-Z0-9+-=,\n]+/, ";"),
+    oneline_base64: ($) => seq("base64,", /[a-zA-Z0-9+\-=,\n]+/, ";"),
     oneline_file: ($) => seq("file,", optional($.filename), ";"),
     oneline_hex: ($) => seq("hex,", repeat($.hexdigit), ";"),
     quoted_string: ($) =>
       seq('"', repeat(choice($.quoted_string_content, $.template)), '"'),
     quoted_string_content: ($) =>
-      repeat1(choice($.quoted_string_text, choice($.quoted_string_escaped_char, $.invalid_quoted_string_escaped_char))),
+      prec.right(repeat1(choice($.quoted_string_text, choice($.quoted_string_escaped_char, $.invalid_quoted_string_escaped_char)))),
     quoted_string_text: ($) => seq(/[^"\\]+/),
     invalid_quoted_string_escaped_char: ($) =>
       seq( "\\", /[^"\f\r\tu\\]/),
@@ -285,14 +272,14 @@ module.exports = grammar({
       ),
     key_string: ($) => repeat1(choice($.key_string_content, $.template)),
     key_string_content: ($) =>
-      repeat1(choice($.key_string_text, $.key_string_escaped_char)),
+      prec.left(repeat1(choice($.key_string_text, $.key_string_escaped_char))),
     key_string_text: ($) =>
-      repeat1(choice($._alphanum, "_", "-", ".", "[", "]", "@", "$")),
+      token(repeat1(choice(/[A-Za-z0-9]/, "_", "-", ".", "[", "]", "@", "$"))),
     key_string_escaped_char: ($) => seq("\\", choice("#", '"')),
-    value_string: ($) => prec(3,repeat1(choice($.value_string_content, $.template))),
+    value_string: ($) => prec.left(repeat1(choice($.value_string_content, $.template))),
     value_string_content: ($) =>
-      repeat1(choice($.value_string_text, $.value_string_escaped_char)),
-    value_string_text: ($) => prec.left(repeat1(/[^#\n\\]/)),
+      prec.right(repeat1(choice($.value_string_text, $.value_string_escaped_char))),
+    value_string_text: ($) => prec.right(repeat1(/[^#\n\\]/)),
     value_string_escaped_char: ($) =>
       seq(
         "\\",
@@ -301,7 +288,7 @@ module.exports = grammar({
     oneline_string: ($) =>
       seq("`", repeat(choice($.oneline_string_content, $.template)), "`"),
     oneline_string_content: ($) =>
-      repeat1(choice($.oneline_string_text, $.oneline_string_escaped_char)),
+      prec.left(repeat1(choice($.oneline_string_text, $.oneline_string_escaped_char))),
     oneline_string_text: ($) => seq(/[^#\n\\]/, /[^`]/),
     oneline_string_escaped_char: ($) =>
       seq("\\", choice("`", "#", "\\", "b", "f", seq("u", $.unicode_char))),
@@ -309,15 +296,15 @@ module.exports = grammar({
       prec(2,seq(
         "```",
         optional($.multiline_string_type),
-        $.lt,
+        "\n",
         repeat(choice($.multiline_string_content, $.template)),
-        optional($.lt),
+        optional("\n"),
         "```"
       )),
     multiline_string_type: ($) =>
       choice("base64", "hex", "json", "xml", "graphql"),
     multiline_string_content: ($) =>
-      repeat1(choice($.multiline_string_text, $.multiline_string_escaped_char, $.lt)),
+      prec.right(repeat1(choice($.multiline_string_text, $.multiline_string_escaped_char, "\n"))),
     multiline_string_text: ($) => seq(/[^\\]/),
     multiline_string_escaped_char: ($) =>
       seq(
@@ -326,7 +313,7 @@ module.exports = grammar({
       ),
     filename: ($) => repeat1(choice($.filename_content, $.template)),
     filename_content: ($) =>
-      repeat1(choice($.filename_text, $.filename_escaped_char)),
+      prec.left(repeat1(choice($.filename_text, $.filename_escaped_char))),
     filename_text: ($) => /[^#; \n\\]+/,
     filename_escaped_char: ($) => seq("\\", choice(";", "#", /[,]/)),
     unicode_char: ($) => seq("{", repeat1($.hexdigit), "}"),
@@ -368,7 +355,7 @@ module.exports = grammar({
     json_number: ($) =>
       seq($.integer, optional($.fraction), optional($.exponent)),
     template: ($) => seq("{{", $.expr, "}}"),
-    expr: ($) => seq($.variable_name, repeat(seq($.sp, $.filter))),
+    expr: ($) => seq($.variable_name, repeat(seq($.filter))),
     variable_name: ($) => seq(/[A-Za-z]/, /[A-Za-z_\-0-9]*/),
     filter: ($) =>
       choice(
@@ -380,7 +367,7 @@ module.exports = grammar({
         $.html_decode_filter,
         $.to_int_filter
       ),
-    regex_filter: ($) => seq("regex", $.sp, choice($.quoted_string, $.regex)),
+    regex_filter: ($) => seq("regex", choice($.quoted_string, $.regex)),
     count_filter: ($) => seq("count"),
     url_encode_filter: ($) => seq("urlEncode"),
     url_decode_filter: ($) => seq("urlDecode"),
@@ -397,39 +384,13 @@ module.exports = grammar({
     fraction: ($) => prec.left(seq(".", repeat1($.digit))),
     exponent: ($) =>
       seq(choice("e", "E"), optional(choice("+", "-")), repeat1($.digit)),
-    sp: ($) => seq(/[ \t]/),
-    lt: ($) => seq(repeat($.sp), choice(seq($.comment, "\n"), seq("\n"))),
-    comment: ($) => seq("#", repeat(/([^\n])/)),
+    _sp: ($) => seq(/[ \t]/),
+    comment: ($) => token(seq("#", /.+/)),
     regex: ($) => seq("/", optional($.regex_content), "/"),
     regex_content: ($) => repeat1(choice($.regex_text, $.regex_escaped_char)),
     regex_text: ($) => seq(/[^\n\\\/]+/),
     regex_escaped_char: ($) => seq("\\", /[^\n]/),
   },
   conflicts: ($) => [
-    [$.entry],
-    [$.lt],
-    [$.request],
-    [$.value_string_content],
-    [$.key_string_content],
-    [$.key_string_text],
-    [$.response],
-    [$.query_string_params_section],
-    [$.form_params_section],
-    [$.multipart_form_data_section],
-    [$.cookies_section],
-    [$.options_section],
-    [$.filename_content],
-    [$.oneline_string_content],
-    [$.multiline_string_content],
-    [$.captures_section],
-    [$.asserts_section],
-    [$.key_value],
-    [$.key_value, $.float],
-    [$.key_value, $.file_param],
-    [$.value_string],
-    [$.quoted_string_content],
-    [$.header, $.body, $.basic_auth_section, $.query_string_params_section, $.form_params_section, $.multipart_form_data_section, $.cookies_section, $.options_section],
-    [$.header, $.body, $.captures_section, $.asserts_section],
-    [$.multipart_form_data_section, $.file_param]
   ],
 });
