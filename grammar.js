@@ -2,11 +2,11 @@ module.exports = grammar({
   name: "hurl",
 
   rules: {
-    hurl_file: ($) => seq(repeat($.entry), repeat($.lt)),
+    hurl_file: ($) => seq(repeat($.entry), repeat(prec(2,$.lt))),
     entry: ($) => seq($.request, optional($.response)),
     request: ($) =>
       seq(
-        repeat($.lt),
+        repeat(prec.left(3,$.lt)),
         $.method,
         $.sp,
         optional($.value_string),
@@ -17,7 +17,7 @@ module.exports = grammar({
       ),
     response: ($) =>
       seq(
-        repeat($.lt),
+        repeat(prec.left(3,$.lt)),
         $.version,
         $.sp,
         $.status,
@@ -47,7 +47,7 @@ module.exports = grammar({
       ),
     version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/*"),
     status: ($) => choice(seq(/[0-9]+/), '*'),
-    header: ($) => seq(repeat($.lt), $.key_value, $.lt),
+    header: ($) => seq(repeat(prec.left($.lt)), $.key_value, $.lt),
     body: ($) => seq(repeat($.lt), $.bytes, $.lt),
     request_section: ($) =>
       choice(
@@ -70,10 +70,12 @@ module.exports = grammar({
         repeat($.lt),
         "[MultipartFormData]",
         $.lt,
-        repeat($.multipart_form_data_param)
+        optional($.multipart_form_data_param),
+        repeat(seq($.lt,$.multipart_form_data_param)),
+        $.lt
       ),
     cookies_section: ($) =>
-      seq(repeat($.lt), "[Cookies]", $.lt, repeat(choice($.key_value, $.lt))),
+      seq(repeat($.lt), "[Cookies]", $.lt, optional($.key_value), repeat(seq($.lt, $.key_value)), $.lt),
     captures_section: ($) =>
       seq(repeat($.lt), "[Captures]", $.lt, repeat($.capture)),
     asserts_section: ($) =>
@@ -426,5 +428,8 @@ module.exports = grammar({
     [$.key_value, $.file_param],
     [$.value_string],
     [$.quoted_string_content],
+    [$.header, $.body, $.basic_auth_section, $.query_string_params_section, $.form_params_section, $.multipart_form_data_section, $.cookies_section, $.options_section],
+    [$.header, $.body, $.captures_section, $.asserts_section],
+    [$.multipart_form_data_section, $.file_param]
   ],
 });
