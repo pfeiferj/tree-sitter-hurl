@@ -267,7 +267,7 @@ module.exports = grammar({
     quoted_string_escaped_char: ($) =>
       seq(
         "\\",
-        choice('"', "\\", "\b", "\f", "\n", "\r", "\t", seq("u", $.unicode_char))
+        choice('"', "\\", "b", "f", "n", "r", "t", seq("u", $.unicode_char))
       ),
     key_string: ($) => repeat1(choice($.key_string_content, $.template)),
     key_string_content: ($) =>
@@ -282,7 +282,7 @@ module.exports = grammar({
     value_string_escaped_char: ($) =>
       seq(
         "\\",
-        choice("#", "\\", "\b", "\f", "\n", "\r", "\t", seq("u", $.unicode_char))
+        choice("#", "\\", "b", "f", "n", "r", "t", seq("u", $.unicode_char))
       ),
     oneline_string: ($) =>
       seq("`", repeat(choice($.oneline_string_content, $.template)), "`"),
