@@ -1,0 +1,42 @@
+
+<!doctype HTML>
+<head>
+  <title>Tree-sitter Highlighting</title>
+  <style>
+    body {
+      font-family: monospace
+    }
+    .line-number {
+      user-select: none;
+      text-align: right;
+      color: rgba(27,31,35,.3);
+      padding: 0 10px;
+    }
+    .line {
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+
+<table>
+<tr><td class=line-number>1</td><td class=line><span style='font-style: italic;color: #8a8a8a'># Pull job status until it is completed</span>
+</td></tr>
+<tr><td class=line-number>2</td><td class=line><span style='font-weight: bold;color: #005f5f'>GET</span><span style='color: #008700'> https://api.example.org/jobs/<span style='color: #4e4e4e'>{{</span><span style='color: #875f00'>job_id</span><span style='color: #4e4e4e'>}}</span></span>
+</td></tr>
+<tr><td class=line-number>3</td><td class=line><span style='color: #af0000'>[Options]</span>
+</td></tr>
+<tr><td class=line-number>4</td><td class=line><span style='font-weight: bold;color: #875f00'>retry</span><span style='color: #4e4e4e'>:</span> <span style='font-weight: bold;color: #875f00'>true</span>
+</td></tr>
+<tr><td class=line-number>5</td><td class=line>
+</td></tr>
+<tr><td class=line-number>6</td><td class=line><span style='color: #008787'>HTTP/*</span> <span style='font-weight: bold;color: #875f00'>200</span>
+</td></tr>
+<tr><td class=line-number>7</td><td class=line><span style='color: #af0000'>[Asserts]</span>
+</td></tr>
+<tr><td class=line-number>8</td><td class=line><span style='font-weight: bold;color: #005fd7'>jsonpath</span> <span style='color: #008700'>&quot;$.state&quot;</span> <span style='font-weight: bold;color: #4e4e4e'>==</span> <span style='color: #008700'>&quot;COMPLETED&quot;</span>
+</td></tr>
+</table>
+
+</body>
+

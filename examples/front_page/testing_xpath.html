@@ -1,0 +1,50 @@
+
+<!doctype HTML>
+<head>
+  <title>Tree-sitter Highlighting</title>
+  <style>
+    body {
+      font-family: monospace
+    }
+    .line-number {
+      user-select: none;
+      text-align: right;
+      color: rgba(27,31,35,.3);
+      padding: 0 10px;
+    }
+    .line {
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+
+<table>
+<tr><td class=line-number>1</td><td class=line><span style='font-weight: bold;color: #005f5f'>GET</span><span style='color: #008700'> https://example.org</span>
+</td></tr>
+<tr><td class=line-number>2</td><td class=line>
+</td></tr>
+<tr><td class=line-number>3</td><td class=line><span style='color: #008787'>HTTP/1.1</span> <span style='font-weight: bold;color: #875f00'>200</span>
+</td></tr>
+<tr><td class=line-number>4</td><td class=line><span style='color: #af0000'>Content-Type</span><span style='color: #4e4e4e'>:</span><span style='color: #008700'> text/html; charset=UTF-8</span>
+</td></tr>
+<tr><td class=line-number>5</td><td class=line><span style='color: #af0000'>[Asserts]</span>
+</td></tr>
+<tr><td class=line-number>6</td><td class=line><span style='font-weight: bold;color: #005fd7'>xpath</span> <span style='color: #008700'>&quot;string(/html/head/title)&quot;</span> <span style='font-weight: bold;color: #4e4e4e'>contains</span> <span style='color: #008700'>&quot;Example&quot;</span> <span style='font-style: italic;color: #8a8a8a'># Check title</span>
+</td></tr>
+<tr><td class=line-number>7</td><td class=line><span style='font-weight: bold;color: #005fd7'>xpath</span> <span style='color: #008700'>&quot;count(//p)&quot;</span> <span style='font-weight: bold;color: #4e4e4e'>==</span> <span style='font-weight: bold;color: #875f00'>2</span>                             <span style='font-style: italic;color: #8a8a8a'># Check the number of p</span>
+</td></tr>
+<tr><td class=line-number>8</td><td class=line><span style='font-weight: bold;color: #005fd7'>xpath</span> <span style='color: #008700'>&quot;//p&quot;</span> <span style='font-style: italic;color: #af0000'>count</span> <span style='font-weight: bold;color: #4e4e4e'>==</span> <span style='font-weight: bold;color: #875f00'>2</span>                              <span style='font-style: italic;color: #8a8a8a'># Similar assert for p</span>
+</td></tr>
+<tr><td class=line-number>9</td><td class=line><span style='font-weight: bold;color: #005fd7'>xpath</span> <span style='color: #008700'>&quot;boolean(count(//h2))&quot;</span> <span style='font-weight: bold;color: #4e4e4e'>==</span> <span style='font-weight: bold;color: #875f00'>false</span>               <span style='font-style: italic;color: #8a8a8a'># Check there is no h2  </span>
+</td></tr>
+<tr><td class=line-number>10</td><td class=line><span style='font-weight: bold;color: #005fd7'>xpath</span> <span style='color: #008700'>&quot;//h2&quot;</span> <span style='font-weight: bold;color: #4e4e4e'>not</span> <span style='font-weight: bold;color: #4e4e4e'>exists</span>                             <span style='font-style: italic;color: #8a8a8a'># Similar assert for h2</span>
+</td></tr>
+<tr><td class=line-number>11</td><td class=line><span style='font-weight: bold;color: #005fd7'>xpath</span> <span style='color: #008700'>&quot;string(//div[1])&quot;</span> <span style='font-weight: bold;color: #4e4e4e'>matches</span> <span style='color: #008787'>/Hello.*/</span>
+</td></tr>
+<tr><td class=line-number>12</td><td class=line>
+</td></tr>
+</table>
+
+</body>
+

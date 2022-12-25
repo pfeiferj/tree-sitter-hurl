@@ -1,0 +1,52 @@
+
+<!doctype HTML>
+<head>
+  <title>Tree-sitter Highlighting</title>
+  <style>
+    body {
+      font-family: monospace
+    }
+    .line-number {
+      user-select: none;
+      text-align: right;
+      color: rgba(27,31,35,.3);
+      padding: 0 10px;
+    }
+    .line {
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+
+<table>
+<tr><td class=line-number>1</td><td class=line><span style='font-style: italic;color: #8a8a8a'># Check the SHA-256 response body hash:             </span>
+</td></tr>
+<tr><td class=line-number>2</td><td class=line><span style='font-weight: bold;color: #005f5f'>GET</span><span style='color: #008700'> https://example.org/data.tar.gz</span>
+</td></tr>
+<tr><td class=line-number>3</td><td class=line>
+</td></tr>
+<tr><td class=line-number>4</td><td class=line><span style='color: #008787'>HTTP/*</span> <span style='font-weight: bold;color: #875f00'>*</span>
+</td></tr>
+<tr><td class=line-number>5</td><td class=line><span style='color: #af0000'>[Asserts]</span>
+</td></tr>
+<tr><td class=line-number>6</td><td class=line><span style='font-weight: bold;color: #005fd7'>sha256</span> <span style='font-weight: bold;color: #4e4e4e'>==</span> <span style='color: #008787'>hex,</span>039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81;
+</td></tr>
+<tr><td class=line-number>7</td><td class=line>
+</td></tr>
+<tr><td class=line-number>8</td><td class=line><span style='font-style: italic;color: #8a8a8a'># Checking Byte Order Mark (BOM) in Response Body</span>
+</td></tr>
+<tr><td class=line-number>9</td><td class=line><span style='font-weight: bold;color: #005f5f'>GET</span><span style='color: #008700'> https://example.org/data.bin</span>
+</td></tr>
+<tr><td class=line-number>10</td><td class=line>
+</td></tr>
+<tr><td class=line-number>11</td><td class=line><span style='color: #008787'>HTTP/*</span> <span style='font-weight: bold;color: #875f00'>200</span>
+</td></tr>
+<tr><td class=line-number>12</td><td class=line><span style='color: #af0000'>[Asserts]</span>
+</td></tr>
+<tr><td class=line-number>13</td><td class=line><span style='font-weight: bold;color: #005fd7'>bytes</span> <span style='font-weight: bold;color: #4e4e4e'>startsWith</span> <span style='color: #008787'>hex,</span>efbbbf;
+</td></tr>
+</table>
+
+</body>
+
