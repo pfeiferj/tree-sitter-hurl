@@ -2026,23 +2026,23 @@
             },
             {
               "type": "STRING",
-              "value": "\b"
+              "value": "b"
             },
             {
               "type": "STRING",
-              "value": "\f"
+              "value": "f"
             },
             {
               "type": "STRING",
-              "value": "\n"
+              "value": "n"
             },
             {
               "type": "STRING",
-              "value": "\r"
+              "value": "r"
             },
             {
               "type": "STRING",
-              "value": "\t"
+              "value": "t"
             },
             {
               "type": "SEQ",
@@ -2233,23 +2233,23 @@
             },
             {
               "type": "STRING",
-              "value": "\b"
+              "value": "b"
             },
             {
               "type": "STRING",
-              "value": "\f"
+              "value": "f"
             },
             {
               "type": "STRING",
-              "value": "\n"
+              "value": "n"
             },
             {
               "type": "STRING",
-              "value": "\r"
+              "value": "r"
             },
             {
               "type": "STRING",
-              "value": "\t"
+              "value": "t"
             },
             {
               "type": "SEQ",
