@@ -3254,7 +3254,11 @@
           },
           {
             "type": "PATTERN",
-            "value": ".+"
+            "value": "[^\\n]+"
+          },
+          {
+            "type": "STRING",
+            "value": "\n"
           }
         ]
       }

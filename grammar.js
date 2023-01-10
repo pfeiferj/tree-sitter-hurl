@@ -384,7 +384,7 @@ module.exports = grammar({
     exponent: ($) =>
       seq(choice("e", "E"), optional(choice("+", "-")), repeat1($.digit)),
     _sp: ($) => seq(/[ \t]/),
-    comment: ($) => token(seq("#", /.+/)),
+    comment: ($) => token(seq("#", /[^\n]+/, "\n")),
     regex: ($) => seq("/", optional($.regex_content), "/"),
     regex_content: ($) => repeat1(choice($.regex_text, $.regex_escaped_char)),
     regex_text: ($) => seq(/[^\n\\\/]+/),
