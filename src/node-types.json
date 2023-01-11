@@ -2251,7 +2251,67 @@
   {
     "type": "xml",
     "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "xml_prolog_tag",
+          "named": true
+        },
+        {
+          "type": "xml_tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "xml_close_tag",
+    "named": true,
     "fields": {}
+  },
+  {
+    "type": "xml_open_tag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "xml_prolog_tag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "xml_tag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "value_string",
+          "named": true
+        },
+        {
+          "type": "xml_close_tag",
+          "named": true
+        },
+        {
+          "type": "xml_open_tag",
+          "named": true
+        },
+        {
+          "type": "xml_prolog_tag",
+          "named": true
+        },
+        {
+          "type": "xml_tag",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "xpath_query",
@@ -2321,7 +2381,15 @@
     "named": false
   },
   {
+    "type": "</",
+    "named": false
+  },
+  {
     "type": "<=",
+    "named": false
+  },
+  {
+    "type": "<?",
     "named": false
   },
   {
@@ -2338,6 +2406,10 @@
   },
   {
     "type": ">=",
+    "named": false
+  },
+  {
+    "type": "?>",
     "named": false
   },
   {
@@ -2410,10 +2482,6 @@
   },
   {
     "type": "TRACE",
-    "named": false
-  },
-  {
-    "type": "To,Be,Defined",
     "named": false
   },
   {

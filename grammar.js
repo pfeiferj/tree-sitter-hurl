@@ -254,7 +254,11 @@ module.exports = grammar({
         $.oneline_file,
         $.oneline_hex
       ),
-    xml: ($) => seq("<", "To,Be,Defined", ">"),
+    xml: ($) => seq(repeat($.xml_prolog_tag), $.xml_tag), //TODO: create a more accurate xml grammar
+    xml_prolog_tag: ($) => seq("<?", /[^?]+/,"?>"),
+    xml_tag: ($) => seq($.xml_open_tag, repeat(choice($.xml_prolog_tag, $.xml_tag, $.value_string)), $.xml_close_tag),
+    xml_open_tag: ($) => seq("<", /[^/?][^>]*/, ">"),
+    xml_close_tag: ($) => seq("</", /[^/>]+/, ">"),
     oneline_base64: ($) => seq("base64,", /[a-zA-Z0-9+\-=,\n]+/, ";"),
     oneline_file: ($) => seq("file,", optional($.filename), ";"),
     oneline_hex: ($) => seq("hex,", repeat($.hexdigit), ";"),
