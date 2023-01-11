@@ -4,13 +4,14 @@ module.exports = grammar({
   extras: $ => [/[\s\p{Zs}\uFEFF\u2060\u200B]/, $.comment],
 
   rules: {
-    hurl_file: ($) => seq(repeat($.entry), repeat("\n")),
-    entry: ($) => prec.right(seq($.request, optional($.response), optional("\n"))),
+    hurl_file: ($) => seq(repeat($.entry), repeat($._comment_or_new_line)),
+    entry: ($) => prec.right(seq($.request, optional($.response), optional($._comment_or_new_line))),
+    _comment_or_new_line: ($) => prec.right(repeat1(choice($.comment, "\n"))),
     request: ($) =>
       prec.right(seq(
         $.method,
         optional($.value_string),
-        repeat1("\n"),
+        repeat1($._comment_or_new_line),
         repeat($.header),
         repeat($.request_section),
         optional($.body)
@@ -19,7 +20,7 @@ module.exports = grammar({
       seq(
         $.version,
         $.status,
-        "\n",
+        $._comment_or_new_line,
         repeat($.header),
         repeat($.response_section),
         optional($.body)
@@ -45,8 +46,8 @@ module.exports = grammar({
       ),
     version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/*"),
     status: ($) => choice(seq(/[0-9]+/), '*'),
-    header: ($) => seq($.key_value, "\n"),
-    body: ($) => seq($.bytes, "\n"),
+    header: ($) => seq($.key_value, $._comment_or_new_line),
+    body: ($) => seq($.bytes, $._comment_or_new_line),
     request_section: ($) =>
       choice(
         $.basic_auth_section,
@@ -58,30 +59,30 @@ module.exports = grammar({
       ),
     response_section: ($) => choice($.captures_section, $.asserts_section),
     basic_auth_section: ($) =>
-      seq("[BasicAuth]", "\n", $.key_value, "\n"),
+      seq("[BasicAuth]", $._comment_or_new_line, $.key_value, $._comment_or_new_line),
     query_string_params_section: ($) =>
-      prec.right(seq("[QueryStringParams]", "\n", optional($.key_value), repeat(seq("\n",$.key_value)), "\n")),
+      prec.right(seq("[QueryStringParams]", $._comment_or_new_line, optional($.key_value), repeat(seq($._comment_or_new_line,$.key_value)), $._comment_or_new_line)),
     form_params_section: ($) =>
-      prec.right(seq("[FormParams]", "\n", optional($.key_value), repeat(seq("\n",$.key_value)), "\n")),
+      prec.right(seq("[FormParams]", $._comment_or_new_line, optional($.key_value), repeat(seq($._comment_or_new_line,$.key_value)), $._comment_or_new_line)),
     multipart_form_data_section: ($) =>
       prec.right(seq(
         "[MultipartFormData]",
-        "\n",
+        $._comment_or_new_line,
         optional($.multipart_form_data_param),
-        repeat(seq("\n",$.multipart_form_data_param)),
-        "\n"
+        repeat(seq($._comment_or_new_line,$.multipart_form_data_param)),
+        $._comment_or_new_line
       )),
     cookies_section: ($) =>
-      prec.right(seq("[Cookies]", "\n", optional($.key_value), repeat(seq("\n", $.key_value)), "\n")),
+      prec.right(seq("[Cookies]", $._comment_or_new_line, optional($.key_value), repeat(seq($._comment_or_new_line, $.key_value)), $._comment_or_new_line)),
     captures_section: ($) =>
-      prec.right(seq("[Captures]", "\n", repeat($.capture))),
+      prec.right(seq("[Captures]", $._comment_or_new_line, repeat($.capture))),
     asserts_section: ($) =>
-      seq("[Asserts]", "\n", repeat($.assert)),
+      seq("[Asserts]", $._comment_or_new_line, repeat($.assert)),
     options_section: ($) =>
-      seq("[Options]", "\n", repeat($.option)),
+      seq("[Options]", $._comment_or_new_line, repeat($.option)),
     key_value: ($) => prec.right(seq($.key_string, token.immediate(":"), optional(choice($.value_string, $.boolean, $.float, $.integer, $.null)))),
     multipart_form_data_param: ($) => choice($.file_param, $.key_value),
-    file_param: ($) => seq($.key_string, ":", $.file_value, "\n"),
+    file_param: ($) => seq($.key_string, ":", $.file_value, $._comment_or_new_line),
     file_value: ($) =>
       prec.left(seq("file,", optional($.filename), ";", optional($.file_contenttype))),
     file_contenttype: ($) => seq(/[a-zA-Z0-9\/+-]+/),
@@ -91,14 +92,14 @@ module.exports = grammar({
         ":",
         $.query,
         repeat(seq($.filter)),
-        "\n"
+        $._comment_or_new_line
       ),
     assert: ($) =>
       seq(
         $.query,
         repeat(seq($.filter)),
         $.predicate,
-        "\n"
+        $._comment_or_new_line
       ),
     option: ($) =>
       seq(
@@ -116,16 +117,16 @@ module.exports = grammar({
         )
       ),
     ca_certificate_option: ($) =>
-      seq("cacert", ":", optional($.filename), "\n"),
-    follow_redirect_option: ($) => seq("location", ":", $.boolean, "\n"),
-    insecure_option: ($) => seq("insecure", ":", $.boolean, "\n"),
-    max_redirs_option: ($) => seq("max-redirs", ":", $.integer, "\n"),
-    retry_option: ($) => seq("retry", ":", $.boolean, "\n"),
-    retry_interval_option: ($) => seq("retry-interval", ":", $.integer, "\n"),
-    retry_max_count_option: ($) => seq("retry-max-count", ":", $.integer, "\n"),
-    variable_option: ($) => seq("variable", ":", $.variable_definition, "\n"),
-    verbose_option: ($) => seq("verbose", ":", $.boolean, "\n"),
-    very_verbose_option: ($) => seq("very-verbose", ":", $.boolean, "\n"),
+      seq("cacert", ":", optional($.filename), $._comment_or_new_line),
+    follow_redirect_option: ($) => seq("location", ":", $.boolean, $._comment_or_new_line),
+    insecure_option: ($) => seq("insecure", ":", $.boolean, $._comment_or_new_line),
+    max_redirs_option: ($) => seq("max-redirs", ":", $.integer, $._comment_or_new_line),
+    retry_option: ($) => seq("retry", ":", $.boolean, $._comment_or_new_line),
+    retry_interval_option: ($) => seq("retry-interval", ":", $.integer, $._comment_or_new_line),
+    retry_max_count_option: ($) => seq("retry-max-count", ":", $.integer, $._comment_or_new_line),
+    variable_option: ($) => seq("variable", ":", $.variable_definition, $._comment_or_new_line),
+    verbose_option: ($) => seq("verbose", ":", $.boolean, $._comment_or_new_line),
+    very_verbose_option: ($) => seq("very-verbose", ":", $.boolean, $._comment_or_new_line),
     variable_definition: ($) => seq($.variable_name, "=", $.variable_value),
     variable_value: ($) =>
       choice(
@@ -295,15 +296,15 @@ module.exports = grammar({
       prec(2,seq(
         "```",
         optional($.multiline_string_type),
-        "\n",
+        $._comment_or_new_line,
         repeat(choice($.multiline_string_content, $.template)),
-        optional("\n"),
+        optional($._comment_or_new_line),
         "```"
       )),
     multiline_string_type: ($) =>
       choice("base64", "hex", "json", "xml", "graphql"),
     multiline_string_content: ($) =>
-      prec.right(repeat1(choice($.multiline_string_text, $.multiline_string_escaped_char, "\n"))),
+      prec.right(repeat1(choice($.multiline_string_text, $.multiline_string_escaped_char, $._comment_or_new_line))),
     multiline_string_text: ($) => seq(/[^\\]/),
     multiline_string_escaped_char: ($) =>
       seq(

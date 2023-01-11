@@ -14,8 +14,8 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           }
         }
       ]
@@ -46,8 +46,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "\n"
+                "type": "SYMBOL",
+                "name": "_comment_or_new_line"
               },
               {
                 "type": "BLANK"
@@ -55,6 +55,26 @@
             ]
           }
         ]
+      }
+    },
+    "_comment_or_new_line": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "comment"
+            },
+            {
+              "type": "STRING",
+              "value": "\n"
+            }
+          ]
+        }
       }
     },
     "request": {
@@ -82,8 +102,8 @@
           {
             "type": "REPEAT1",
             "content": {
-              "type": "STRING",
-              "value": "\n"
+              "type": "SYMBOL",
+              "name": "_comment_or_new_line"
             }
           },
           {
@@ -127,8 +147,8 @@
           "name": "status"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         },
         {
           "type": "REPEAT",
@@ -274,8 +294,8 @@
           "name": "key_value"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -287,8 +307,8 @@
           "name": "bytes"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -342,16 +362,16 @@
           "value": "[BasicAuth]"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         },
         {
           "type": "SYMBOL",
           "name": "key_value"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -366,8 +386,8 @@
             "value": "[QueryStringParams]"
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           },
           {
             "type": "CHOICE",
@@ -387,8 +407,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "\n"
+                  "type": "SYMBOL",
+                  "name": "_comment_or_new_line"
                 },
                 {
                   "type": "SYMBOL",
@@ -398,8 +418,8 @@
             }
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           }
         ]
       }
@@ -415,8 +435,8 @@
             "value": "[FormParams]"
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           },
           {
             "type": "CHOICE",
@@ -436,8 +456,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "\n"
+                  "type": "SYMBOL",
+                  "name": "_comment_or_new_line"
                 },
                 {
                   "type": "SYMBOL",
@@ -447,8 +467,8 @@
             }
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           }
         ]
       }
@@ -464,8 +484,8 @@
             "value": "[MultipartFormData]"
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           },
           {
             "type": "CHOICE",
@@ -485,8 +505,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "\n"
+                  "type": "SYMBOL",
+                  "name": "_comment_or_new_line"
                 },
                 {
                   "type": "SYMBOL",
@@ -496,8 +516,8 @@
             }
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           }
         ]
       }
@@ -513,8 +533,8 @@
             "value": "[Cookies]"
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           },
           {
             "type": "CHOICE",
@@ -534,8 +554,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "\n"
+                  "type": "SYMBOL",
+                  "name": "_comment_or_new_line"
                 },
                 {
                   "type": "SYMBOL",
@@ -545,8 +565,8 @@
             }
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           }
         ]
       }
@@ -562,8 +582,8 @@
             "value": "[Captures]"
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           },
           {
             "type": "REPEAT",
@@ -583,8 +603,8 @@
           "value": "[Asserts]"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         },
         {
           "type": "REPEAT",
@@ -603,8 +623,8 @@
           "value": "[Options]"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         },
         {
           "type": "REPEAT",
@@ -697,8 +717,8 @@
           "name": "file_value"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -780,8 +800,8 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -809,8 +829,8 @@
           "name": "predicate"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -888,8 +908,8 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -909,8 +929,8 @@
           "name": "boolean"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -930,8 +950,8 @@
           "name": "boolean"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -951,8 +971,8 @@
           "name": "integer"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -972,8 +992,8 @@
           "name": "boolean"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -993,8 +1013,8 @@
           "name": "integer"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -1014,8 +1034,8 @@
           "name": "integer"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -1035,8 +1055,8 @@
           "name": "variable_definition"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -1056,8 +1076,8 @@
           "name": "boolean"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -1077,8 +1097,8 @@
           "name": "boolean"
         },
         {
-          "type": "STRING",
-          "value": "\n"
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
         }
       ]
     },
@@ -2415,8 +2435,8 @@
             ]
           },
           {
-            "type": "STRING",
-            "value": "\n"
+            "type": "SYMBOL",
+            "name": "_comment_or_new_line"
           },
           {
             "type": "REPEAT",
@@ -2438,8 +2458,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "STRING",
-                "value": "\n"
+                "type": "SYMBOL",
+                "name": "_comment_or_new_line"
               },
               {
                 "type": "BLANK"
@@ -2495,8 +2515,8 @@
               "name": "multiline_string_escaped_char"
             },
             {
-              "type": "STRING",
-              "value": "\n"
+              "type": "SYMBOL",
+              "name": "_comment_or_new_line"
             }
           ]
         }
