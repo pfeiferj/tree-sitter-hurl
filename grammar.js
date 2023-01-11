@@ -79,7 +79,7 @@ module.exports = grammar({
       seq("[Asserts]", "\n", repeat($.assert)),
     options_section: ($) =>
       seq("[Options]", "\n", repeat($.option)),
-    key_value: ($) => prec.right(seq($.key_string, ":", optional(choice($.value_string, $.boolean, $.float, $.integer, $.null)))),
+    key_value: ($) => prec.right(seq($.key_string, token.immediate(":"), optional(choice($.value_string, $.boolean, $.float, $.integer, $.null)))),
     multipart_form_data_param: ($) => choice($.file_param, $.key_value),
     file_param: ($) => seq($.key_string, ":", $.file_value, "\n"),
     file_value: ($) =>
@@ -273,12 +273,12 @@ module.exports = grammar({
     key_string_content: ($) =>
       prec.left(repeat1(choice($.key_string_text, $.key_string_escaped_char))),
     key_string_text: ($) =>
-      token(repeat1(choice(/[A-Za-z0-9]/, "_", "-", ".", "[", "]", "@", "$"))),
-    key_string_escaped_char: ($) => seq("\\", choice("#", '"')),
+      token.immediate(repeat1(token.immediate(choice(/[A-Za-z0-9]/, "_", "-", ".", "[", "]", "@", "$")))),
+    key_string_escaped_char: ($) => seq(token.immediate("\\"), token.immediate(choice("#", '"'))),
     value_string: ($) => prec.left(repeat1(choice($.value_string_content, $.template))),
     value_string_content: ($) =>
       prec.right(repeat1(choice($.value_string_text, $.value_string_escaped_char))),
-    value_string_text: ($) => prec.right(repeat1(/[^#\n\\]/)),
+    value_string_text: ($) => prec.right(repeat1(token.immediate(/[^#\n\\]/))),
     value_string_escaped_char: ($) =>
       seq(
         "\\",
@@ -353,7 +353,7 @@ module.exports = grammar({
       ),
     json_number: ($) =>
       seq($.integer, optional($.fraction), optional($.exponent)),
-    template: ($) => seq("{{", $.expr, "}}"),
+    template: ($) => seq(token.immediate("{{"), $.expr, "}}"),
     expr: ($) => seq($.variable_name, repeat(seq($.filter))),
     variable_name: ($) => seq(/[A-Za-z]/, /[A-Za-z_\-0-9]*/),
     filter: ($) =>
@@ -383,7 +383,6 @@ module.exports = grammar({
     fraction: ($) => prec.left(seq(".", repeat1($.digit))),
     exponent: ($) =>
       seq(choice("e", "E"), optional(choice("+", "-")), repeat1($.digit)),
-    _sp: ($) => seq(/[ \t]/),
     comment: ($) => token(seq("#", /[^\n]+/, "\n")),
     regex: ($) => seq("/", optional($.regex_content), "/"),
     regex_content: ($) => repeat1(choice($.regex_text, $.regex_escaped_char)),
