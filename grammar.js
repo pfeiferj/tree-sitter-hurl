@@ -296,16 +296,16 @@ module.exports = grammar({
       prec(2,seq(
         "```",
         optional($.multiline_string_type),
-        $._comment_or_new_line,
-        repeat(choice($.multiline_string_content, $.template)),
-        optional($._comment_or_new_line),
-        "```"
+        "\n",
+        repeat(choice($.multiline_string_content, prec(1,$.template))),
+        optional("\n"),
+        prec(1,"```")
       )),
     multiline_string_type: ($) =>
       choice("base64", "hex", "json", "xml", "graphql"),
     multiline_string_content: ($) =>
-      prec.right(repeat1(choice($.multiline_string_text, $.multiline_string_escaped_char, $._comment_or_new_line))),
-    multiline_string_text: ($) => seq(/[^\\]/),
+      prec.right(repeat1(prec(1,choice($._multiline_string_text, $.multiline_string_escaped_char, "\n")))),
+    _multiline_string_text: ($) => seq(/[^\\{`]+/, repeat(choice("`", "{"))),
     multiline_string_escaped_char: ($) =>
       seq(
         "\\",
@@ -316,7 +316,7 @@ module.exports = grammar({
       prec.left(repeat1(choice($.filename_text, $.filename_escaped_char))),
     filename_text: ($) => /[^#; \n\\]+/,
     filename_escaped_char: ($) => seq("\\", choice(";", "#", /[,]/)),
-    unicode_char: ($) => seq("{", repeat1($.hexdigit), "}"),
+    unicode_char: ($) => seq("{", $.hexdigit, $.hexdigit, $.hexdigit, $.hexdigit, "}"),
     json_value: ($) =>
       choice(
         $.template,
