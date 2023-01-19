@@ -4,11 +4,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "section_header",
+          "named": true
+        },
+        {
+          "type": "section_type",
           "named": true
         }
       ]
@@ -70,6 +74,10 @@
         {
           "type": "section_header",
           "named": true
+        },
+        {
+          "type": "section_type",
+          "named": true
         }
       ]
     }
@@ -78,6 +86,25 @@
     "type": "digit",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "entry",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "request",
+          "named": true
+        },
+        {
+          "type": "response",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "exponent",
@@ -161,7 +188,7 @@
       "required": false,
       "types": [
         {
-          "type": "request",
+          "type": "entry",
           "named": true
         }
       ]
@@ -440,10 +467,6 @@
           "named": true
         },
         {
-          "type": "response",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         }
@@ -471,7 +494,15 @@
           "named": true
         },
         {
+          "type": "http_status_code",
+          "named": true
+        },
+        {
           "type": "http_version",
+          "named": true
+        },
+        {
+          "type": "section",
           "named": true
         }
       ]
@@ -498,6 +529,21 @@
   },
   {
     "type": "section_header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "section_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section_type",
     "named": true,
     "fields": {}
   },
@@ -827,6 +873,10 @@
   {
     "type": "htmlUnescape",
     "named": false
+  },
+  {
+    "type": "http_status_code",
+    "named": true
   },
   {
     "type": "includes",

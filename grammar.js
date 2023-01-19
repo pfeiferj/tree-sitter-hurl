@@ -4,8 +4,9 @@ module.exports = grammar({
   extras: $ => [/[\s\p{Zs}\uFEFF\u2060\u200B]/, $.comment],
 
   rules: {
-    hurl_file: $ => repeat($.request),
-    request: $ => seq($.header, repeat($.section), optional($.body), optional($.response)),
+    hurl_file: $ => repeat($.entry),
+    entry: $=> seq($.request, optional($.response)),
+    request: $ => seq($.header, repeat($.section), optional($.body)),
     header: $ => seq($.method, $.uri, "\n", optional($.headers)),
     uri: $ => /[^\s]+/,
 
@@ -84,10 +85,12 @@ module.exports = grammar({
 
 
     section: $ => seq($.section_header, repeat($.key_value)),
-    section_header: $ => seq("[", /[a-zA-Z0-9\-_]+/, "]", "\n"),
+    section_header: $ => seq("[", $.section_type, "]", "\n"),
+    section_type: $ => /[a-zA-Z0-9\-_]+/,
 
 
-    response: $ => seq($.http_version, /[0-9]{3}/, "\n", repeat(choice($.capture_section, $.assert_section)), optional($.body)),
+    response: $ => seq($.http_version, $.http_status_code, "\n", repeat(choice($.capture_section, $.assert_section)), optional($.body)),
+    http_status_code: $ => /[0-9]{3}/, 
     http_version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/*"),
 
     key_value: $ => seq($.key, ":", optional(/[ ]+/), $.value, "\n"),
@@ -96,8 +99,8 @@ module.exports = grammar({
     _line: $ => seq(repeat1($._char), "\n"),
     _char: $ => /[^\n#]|\\#/,
 
-    capture_section: $ => seq(alias("[Captures]", $.section_header), repeat($.key_value)),
-    assert_section: $ => prec.right(seq(alias("[Asserts]", $.section_header), repeat($._line))),
+    capture_section: $ => seq(alias(seq("[", alias("Captures", $.section_type), "]"), $.section_header), repeat($.key_value)),
+    assert_section: $ => prec.right(seq(alias(seq("[", alias("Asserts", $.section_type), "]"), $.section_header), repeat($._line))),
 
     xml: ($) => seq(repeat($.xml_prolog_tag), $.xml_tag),
     xml_prolog_tag: ($) => seq("<?", /[^?]+/,"?>"),

@@ -5,8 +5,29 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "request"
+        "name": "entry"
       }
+    },
+    "entry": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "request"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "response"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "request": {
       "type": "SEQ",
@@ -28,18 +49,6 @@
             {
               "type": "SYMBOL",
               "name": "body"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "response"
             },
             {
               "type": "BLANK"
@@ -368,8 +377,8 @@
           "value": "["
         },
         {
-          "type": "PATTERN",
-          "value": "[a-zA-Z0-9\\-_]+"
+          "type": "SYMBOL",
+          "name": "section_type"
         },
         {
           "type": "STRING",
@@ -381,6 +390,10 @@
         }
       ]
     },
+    "section_type": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9\\-_]+"
+    },
     "response": {
       "type": "SEQ",
       "members": [
@@ -389,8 +402,8 @@
           "name": "http_version"
         },
         {
-          "type": "PATTERN",
-          "value": "[0-9]{3}"
+          "type": "SYMBOL",
+          "name": "http_status_code"
         },
         {
           "type": "STRING",
@@ -401,6 +414,10 @@
           "content": {
             "type": "CHOICE",
             "members": [
+              {
+                "type": "SYMBOL",
+                "name": "section"
+              },
               {
                 "type": "SYMBOL",
                 "name": "capture_section"
@@ -425,6 +442,10 @@
           ]
         }
       ]
+    },
+    "http_status_code": {
+      "type": "PATTERN",
+      "value": "[0-9]{3}"
     },
     "http_version": {
       "type": "CHOICE",
@@ -514,8 +535,26 @@
         {
           "type": "ALIAS",
           "content": {
-            "type": "STRING",
-            "value": "[Captures]"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "["
+              },
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "STRING",
+                  "value": "Captures"
+                },
+                "named": true,
+                "value": "section_type"
+              },
+              {
+                "type": "STRING",
+                "value": "]"
+              }
+            ]
           },
           "named": true,
           "value": "section_header"
@@ -538,8 +577,26 @@
           {
             "type": "ALIAS",
             "content": {
-              "type": "STRING",
-              "value": "[Asserts]"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "["
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "STRING",
+                    "value": "Asserts"
+                  },
+                  "named": true,
+                  "value": "section_type"
+                },
+                {
+                  "type": "STRING",
+                  "value": "]"
+                }
+              ]
             },
             "named": true,
             "value": "section_header"
