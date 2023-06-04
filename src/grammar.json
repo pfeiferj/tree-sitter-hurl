@@ -265,6 +265,10 @@
         {
           "type": "STRING",
           "value": "HTTP/*"
+        },
+        {
+          "type": "STRING",
+          "value": "HTTP"
         }
       ]
     },

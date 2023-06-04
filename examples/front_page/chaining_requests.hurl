@@ -2,7 +2,7 @@
 GET https://example.org/api/health
 
 GET https://example.org/api/step1
-HTTP/* 200
+HTTP 200
 
 GET https://example.org/api/step2
 
