@@ -2433,6 +2433,10 @@
     "named": false
   },
   {
+    "type": "HTTP",
+    "named": false
+  },
+  {
     "type": "HTTP/*",
     "named": false
   },
