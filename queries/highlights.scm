@@ -53,8 +53,10 @@
 
 "null" @constant.builtin
 "cacert" @constant.builtin
+"compressed" @constant.builtin
 "location" @constant.builtin
 "insecure" @constant.builtin
+"path_as_is" @constant.builtin
 "max-redirs" @constant.builtin
 "retry" @constant.builtin
 "retry-interval" @constant.builtin
