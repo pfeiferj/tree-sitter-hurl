@@ -850,6 +850,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "compressed_option"
+            },
+            {
+              "type": "SYMBOL",
               "name": "follow_redirect_option"
             },
             {
@@ -859,6 +863,10 @@
             {
               "type": "SYMBOL",
               "name": "max_redirs_option"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "path_as_is_option"
             },
             {
               "type": "SYMBOL",
@@ -910,6 +918,27 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
+        }
+      ]
+    },
+    "compressed_option": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "compressed"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "boolean"
         },
         {
           "type": "SYMBOL",
@@ -973,6 +1002,27 @@
         {
           "type": "SYMBOL",
           "name": "integer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
+        }
+      ]
+    },
+    "path_as_is_option": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "path_as_is"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "boolean"
         },
         {
           "type": "SYMBOL",
