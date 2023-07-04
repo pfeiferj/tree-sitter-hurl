@@ -57,6 +57,7 @@
 "location" @constant.builtin
 "insecure" @constant.builtin
 "path_as_is" @constant.builtin
+"proxy" @constant.builtin
 "max-redirs" @constant.builtin
 "retry" @constant.builtin
 "retry-interval" @constant.builtin
