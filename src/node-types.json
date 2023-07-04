@@ -1391,6 +1391,10 @@
           "named": true
         },
         {
+          "type": "proxy_option",
+          "named": true
+        },
+        {
           "type": "retry_interval_option",
           "named": true
         },
@@ -1595,6 +1599,25 @@
         },
         {
           "type": "template",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "proxy_option",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "value_string",
           "named": true
         }
       ]
@@ -2792,6 +2815,10 @@
   },
   {
     "type": "path_as_is",
+    "named": false
+  },
+  {
+    "type": "proxy",
     "named": false
   },
   {

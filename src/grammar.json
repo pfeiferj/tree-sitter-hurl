@@ -870,6 +870,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "proxy_option"
+            },
+            {
+              "type": "SYMBOL",
               "name": "retry_option"
             },
             {
@@ -1023,6 +1027,27 @@
         {
           "type": "SYMBOL",
           "name": "boolean"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_comment_or_new_line"
+        }
+      ]
+    },
+    "proxy_option": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "proxy"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "value_string"
         },
         {
           "type": "SYMBOL",
