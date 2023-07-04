@@ -213,6 +213,25 @@
     "fields": {}
   },
   {
+    "type": "compressed_option",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "contain_predicate",
     "named": true,
     "fields": {},
@@ -1352,6 +1371,10 @@
           "named": true
         },
         {
+          "type": "compressed_option",
+          "named": true
+        },
+        {
           "type": "follow_redirect_option",
           "named": true
         },
@@ -1361,6 +1384,14 @@
         },
         {
           "type": "max_redirs_option",
+          "named": true
+        },
+        {
+          "type": "path_as_is_option",
+          "named": true
+        },
+        {
+          "type": "proxy_option",
           "named": true
         },
         {
@@ -1404,6 +1435,25 @@
         },
         {
           "type": "option",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "path_as_is_option",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "comment",
           "named": true
         }
       ]
@@ -1549,6 +1599,25 @@
         },
         {
           "type": "template",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "proxy_option",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "value_string",
           "named": true
         }
       ]
@@ -2581,6 +2650,10 @@
     "named": true
   },
   {
+    "type": "compressed",
+    "named": false
+  },
+  {
     "type": "contains",
     "named": false
   },
@@ -2738,6 +2811,14 @@
   },
   {
     "type": "null",
+    "named": false
+  },
+  {
+    "type": "path_as_is",
+    "named": false
+  },
+  {
+    "type": "proxy",
     "named": false
   },
   {

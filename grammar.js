@@ -105,9 +105,12 @@ module.exports = grammar({
       seq(
         choice(
           $.ca_certificate_option,
+          $.compressed_option,
           $.follow_redirect_option,
           $.insecure_option,
           $.max_redirs_option,
+          $.path_as_is_option,
+          $.proxy_option,
           $.retry_option,
           $.retry_interval_option,
           $.retry_max_count_option,
@@ -118,9 +121,12 @@ module.exports = grammar({
       ),
     ca_certificate_option: ($) =>
       seq("cacert", ":", optional($.filename), $._comment_or_new_line),
+    compressed_option: ($) => seq("compressed", ":", $.boolean, $._comment_or_new_line),
     follow_redirect_option: ($) => seq("location", ":", $.boolean, $._comment_or_new_line),
     insecure_option: ($) => seq("insecure", ":", $.boolean, $._comment_or_new_line),
     max_redirs_option: ($) => seq("max-redirs", ":", $.integer, $._comment_or_new_line),
+    path_as_is_option: ($) => seq("path_as_is", ":", $.boolean, $._comment_or_new_line),
+    proxy_option: ($) => seq("proxy", ":", $.value_string, $._comment_or_new_line),
     retry_option: ($) => seq("retry", ":", $.boolean, $._comment_or_new_line),
     retry_interval_option: ($) => seq("retry-interval", ":", $.integer, $._comment_or_new_line),
     retry_max_count_option: ($) => seq("retry-max-count", ":", $.integer, $._comment_or_new_line),
