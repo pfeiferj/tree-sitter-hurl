@@ -1018,7 +1018,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "path_as_is"
+          "value": "path-as-is"
         },
         {
           "type": "STRING",
