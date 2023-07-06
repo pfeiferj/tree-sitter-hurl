@@ -296,7 +296,7 @@ module.exports = grammar({
         choice("#", "\\", "b", "f", "n", "r", "t", seq("u", $.unicode_char))
       ),
     oneline_string: ($) =>
-      seq("`", repeat(choice($.oneline_string_content, $.template)), "`"),
+      seq(/`[^`]/, repeat(choice($.oneline_string_content, $.template)), "`"),
     oneline_string_content: ($) =>
       prec.left(repeat1(choice($.oneline_string_text, $.oneline_string_escaped_char))),
     oneline_string_text: ($) => seq(/[^#\n\\]/, /[^`]/),
@@ -312,7 +312,7 @@ module.exports = grammar({
         prec(1,"```")
       )),
     multiline_string_type: ($) =>
-      choice("base64", "hex", "json", "xml", "graphql"),
+      choice("base64", "hex", "json", "xml", "graphql", /.+/),
     multiline_string_content: ($) =>
       prec.right(repeat1(prec(1,choice($._multiline_string_text, $.multiline_string_escaped_char, "\n")))),
     _multiline_string_text: ($) => seq(/[^\\{`]+/, repeat(choice("`", "{"))),

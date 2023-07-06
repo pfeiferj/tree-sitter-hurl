@@ -2469,8 +2469,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "`"
+          "type": "PATTERN",
+          "value": "`[^`]"
         },
         {
           "type": "REPEAT",
@@ -2665,6 +2665,10 @@
         {
           "type": "STRING",
           "value": "graphql"
+        },
+        {
+          "type": "PATTERN",
+          "value": ".+"
         }
       ]
     },
@@ -2868,6 +2872,19 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "json_body": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "json_object"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "json_array"
         }
       ]
     },
