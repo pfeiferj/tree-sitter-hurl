@@ -286,6 +286,21 @@
     "fields": {}
   },
   {
+    "type": "days_after_now_filter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "days_before_now_filter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "decode_filter",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "digit",
     "named": true,
     "fields": {}
@@ -498,15 +513,47 @@
           "named": true
         },
         {
-          "type": "html_decode_filter",
+          "type": "days_after_now_filter",
           "named": true
         },
         {
-          "type": "html_encode_filter",
+          "type": "days_before_now_filter",
+          "named": true
+        },
+        {
+          "type": "decode_filter",
+          "named": true
+        },
+        {
+          "type": "format_filter",
+          "named": true
+        },
+        {
+          "type": "html_escape_filter",
+          "named": true
+        },
+        {
+          "type": "html_unescape_filter",
+          "named": true
+        },
+        {
+          "type": "nth_filter",
           "named": true
         },
         {
           "type": "regex_filter",
+          "named": true
+        },
+        {
+          "type": "replace_filter",
+          "named": true
+        },
+        {
+          "type": "split_filter",
+          "named": true
+        },
+        {
+          "type": "to_date_filter",
           "named": true
         },
         {
@@ -519,6 +566,10 @@
         },
         {
           "type": "url_encode_filter",
+          "named": true
+        },
+        {
+          "type": "xpath_filter",
           "named": true
         }
       ]
@@ -585,6 +636,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "format_filter",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "fraction",
@@ -687,12 +743,12 @@
     "fields": {}
   },
   {
-    "type": "html_decode_filter",
+    "type": "html_escape_filter",
     "named": true,
     "fields": {}
   },
   {
-    "type": "html_encode_filter",
+    "type": "html_unescape_filter",
     "named": true,
     "fields": {}
   },
@@ -1255,6 +1311,21 @@
       "types": [
         {
           "type": "predicate_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nth_filter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "integer",
           "named": true
         }
       ]
@@ -1850,6 +1921,25 @@
     "fields": {}
   },
   {
+    "type": "replace_filter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "quoted_string",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "request",
     "named": true,
     "fields": {},
@@ -2036,6 +2126,21 @@
     "fields": {}
   },
   {
+    "type": "split_filter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "quoted_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "start_with_predicate",
     "named": true,
     "fields": {},
@@ -2087,6 +2192,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "to_date_filter",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "to_int_filter",
@@ -2383,6 +2493,21 @@
     }
   },
   {
+    "type": "xpath_filter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "quoted_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "xpath_query",
     "named": true,
     "fields": {},
@@ -2666,6 +2791,18 @@
     "named": false
   },
   {
+    "type": "daysAfterNow",
+    "named": false
+  },
+  {
+    "type": "daysBeforeNow",
+    "named": false
+  },
+  {
+    "type": "decode",
+    "named": false
+  },
+  {
     "type": "duration",
     "named": false
   },
@@ -2700,6 +2837,10 @@
   {
     "type": "filename_text",
     "named": true
+  },
+  {
+    "type": "format",
+    "named": false
   },
   {
     "type": "graphql",
@@ -2810,6 +2951,10 @@
     "named": false
   },
   {
+    "type": "nth",
+    "named": false
+  },
+  {
     "type": "null",
     "named": false
   },
@@ -2830,6 +2975,10 @@
     "named": false
   },
   {
+    "type": "replace",
+    "named": false
+  },
+  {
     "type": "retry",
     "named": false
   },
@@ -2846,6 +2995,10 @@
     "named": false
   },
   {
+    "type": "split",
+    "named": false
+  },
+  {
     "type": "startsWith",
     "named": false
   },
@@ -2855,6 +3008,10 @@
   },
   {
     "type": "t",
+    "named": false
+  },
+  {
+    "type": "toDate",
     "named": false
   },
   {

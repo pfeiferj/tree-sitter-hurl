@@ -46,6 +46,20 @@
 "sha256" @function.builtin
 "md5" @function.builtin
 "bytes" @function.builtin
+"daysAfterNow" @function.builtin
+"daysBeforeNow" @function.builtin
+"htmlEscape" @function.builtin
+"htmlUnescape" @function.builtin
+"decode" @function.builtin
+"format" @function.builtin
+"nth" @function.builtin
+"replace" @function.builtin
+"split" @function.builtin
+"toDate" @function.builtin
+"toInt" @function.builtin
+"urlEncode" @function.builtin
+"urlDecode" @function.builtin
+"count" @function.builtin
 
 (filter) @attribute
 
@@ -56,7 +70,7 @@
 "compressed" @constant.builtin
 "location" @constant.builtin
 "insecure" @constant.builtin
-"path_as_is" @constant.builtin
+"path-as-is" @constant.builtin
 "proxy" @constant.builtin
 "max-redirs" @constant.builtin
 "retry" @constant.builtin
