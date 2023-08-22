@@ -244,6 +244,10 @@
         {
           "type": "STRING",
           "value": "VIEW"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[A-Z]+"
         }
       ]
     },
@@ -2875,19 +2879,6 @@
         }
       ]
     },
-    "json_body": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "json_object"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "json_array"
-        }
-      ]
-    },
     "json_value": {
       "type": "CHOICE",
       "members": [
@@ -3256,15 +3247,51 @@
         },
         {
           "type": "SYMBOL",
-          "name": "html_encode_filter"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "html_decode_filter"
-        },
-        {
-          "type": "SYMBOL",
           "name": "to_int_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "html_escape_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "html_unescape_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "days_after_now_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "days_before_now_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "decode_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "format_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "nth_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "replace_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "split_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "to_date_filter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "xpath_filter"
         }
       ]
     },
@@ -3317,7 +3344,7 @@
         }
       ]
     },
-    "html_encode_filter": {
+    "html_escape_filter": {
       "type": "SEQ",
       "members": [
         {
@@ -3326,7 +3353,7 @@
         }
       ]
     },
-    "html_decode_filter": {
+    "html_unescape_filter": {
       "type": "SEQ",
       "members": [
         {
@@ -3341,6 +3368,116 @@
         {
           "type": "STRING",
           "value": "toInt"
+        }
+      ]
+    },
+    "days_after_now_filter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "daysAfterNow"
+        }
+      ]
+    },
+    "days_before_now_filter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "daysBeforeNow"
+        }
+      ]
+    },
+    "decode_filter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "decode"
+        }
+      ]
+    },
+    "format_filter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "format"
+        }
+      ]
+    },
+    "nth_filter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "nth"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "integer"
+        }
+      ]
+    },
+    "replace_filter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "replace"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "quoted_string"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "regex"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quoted_string"
+        }
+      ]
+    },
+    "split_filter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "split"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quoted_string"
+        }
+      ]
+    },
+    "to_date_filter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "toDate"
+        }
+      ]
+    },
+    "xpath_filter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "xpath"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "quoted_string"
         }
       ]
     },
