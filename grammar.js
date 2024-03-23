@@ -5,7 +5,7 @@ module.exports = grammar({
 
   rules: {
     hurl_file: ($) => seq(repeat($.entry), repeat($._comment_or_new_line)),
-    entry: ($) => prec.right(seq($.request, optional($.response), optional($._comment_or_new_line))),
+    entry: ($) => prec.right(seq(optional(repeat($._comment_or_new_line)), $.request, optional($.response), optional($._comment_or_new_line))),
     _comment_or_new_line: ($) => prec.right(repeat1(choice($.comment, "\n"))),
     request: ($) =>
       prec.right(seq(
@@ -310,13 +310,13 @@ module.exports = grammar({
         "\n",
         repeat(choice($.multiline_string_content, prec(1,$.template))),
         optional("\n"),
-        prec(1,"```")
+        prec(2,"```")
       )),
     multiline_string_type: ($) =>
       choice("base64", "hex", "json", "xml", "graphql", /.+/),
     multiline_string_content: ($) =>
-      prec.right(repeat1(prec(1,choice($._multiline_string_text, $.multiline_string_escaped_char, "\n")))),
-    _multiline_string_text: ($) => seq(/[^\\{`]+/, repeat(choice("`", "{"))),
+      prec.left(repeat1(choice($._multiline_string_text, $.multiline_string_escaped_char, "\n"))),
+    _multiline_string_text: ($) => seq(/[^\\{`\n]+/, repeat(choice("`", "{"))),
     multiline_string_escaped_char: ($) =>
       seq(
         "\\",

@@ -27,6 +27,21 @@
         "type": "SEQ",
         "members": [
           {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_comment_or_new_line"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
             "type": "SYMBOL",
             "name": "request"
           },
@@ -2638,7 +2653,7 @@
           },
           {
             "type": "PREC",
-            "value": 1,
+            "value": 2,
             "content": {
               "type": "STRING",
               "value": "```"
@@ -2677,30 +2692,26 @@
       ]
     },
     "multiline_string_content": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "REPEAT1",
         "content": {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_multiline_string_text"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "multiline_string_escaped_char"
-              },
-              {
-                "type": "STRING",
-                "value": "\n"
-              }
-            ]
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_multiline_string_text"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "multiline_string_escaped_char"
+            },
+            {
+              "type": "STRING",
+              "value": "\n"
+            }
+          ]
         }
       }
     },
@@ -2709,7 +2720,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[^\\\\{`]+"
+          "value": "[^\\\\{`\\n]+"
         },
         {
           "type": "REPEAT",
