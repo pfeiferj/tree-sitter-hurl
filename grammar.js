@@ -415,7 +415,7 @@ module.exports = grammar({
     fraction: ($) => prec.left(seq(".", repeat1($.digit))),
     exponent: ($) =>
       seq(choice("e", "E"), optional(choice("+", "-")), repeat1($.digit)),
-    comment: ($) => token(seq("#", /[^\n]+/, "\n")),
+    comment: ($) => token(seq("#", /[^\n]*/, "\n")),
     regex: ($) => seq("/", optional($.regex_content), "/"),
     regex_content: ($) => repeat1(choice($.regex_text, $.regex_escaped_char)),
     regex_text: ($) => seq(/[^\n\\\/]+/),
