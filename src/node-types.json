@@ -84,17 +84,7 @@
     }
   },
   {
-    "type": "body_query",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "boolean",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "boolean_predicate",
     "named": true,
     "fields": {}
   },
@@ -136,11 +126,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "bytes_query",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "ca_certificate_option",
@@ -206,11 +191,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "collection_predicate",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "compressed_option",
@@ -281,36 +261,6 @@
     }
   },
   {
-    "type": "count_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "days_after_now_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "days_before_now_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "decode_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "digit",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "duration_query",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "end_with_predicate",
     "named": true,
     "fields": {},
@@ -372,11 +322,6 @@
     }
   },
   {
-    "type": "exist_predicate",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "exponent",
     "named": true,
     "fields": {},
@@ -411,11 +356,6 @@
     }
   },
   {
-    "type": "file_contenttype",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "file_param",
     "named": true,
     "fields": {},
@@ -443,13 +383,9 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
-        {
-          "type": "file_contenttype",
-          "named": true
-        },
         {
           "type": "filename",
           "named": true
@@ -506,36 +442,8 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "count_filter",
-          "named": true
-        },
-        {
-          "type": "days_after_now_filter",
-          "named": true
-        },
-        {
-          "type": "days_before_now_filter",
-          "named": true
-        },
-        {
-          "type": "decode_filter",
-          "named": true
-        },
-        {
-          "type": "format_filter",
-          "named": true
-        },
-        {
-          "type": "html_escape_filter",
-          "named": true
-        },
-        {
-          "type": "html_unescape_filter",
-          "named": true
-        },
         {
           "type": "nth_filter",
           "named": true
@@ -550,22 +458,6 @@
         },
         {
           "type": "split_filter",
-          "named": true
-        },
-        {
-          "type": "to_date_filter",
-          "named": true
-        },
-        {
-          "type": "to_int_filter",
-          "named": true
-        },
-        {
-          "type": "url_decode_filter",
-          "named": true
-        },
-        {
-          "type": "url_encode_filter",
           "named": true
         },
         {
@@ -593,11 +485,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "float_predicate",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "follow_redirect_option",
@@ -636,11 +523,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "format_filter",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "fraction",
@@ -738,21 +620,6 @@
     }
   },
   {
-    "type": "hexdigit",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "html_escape_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "html_unescape_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "hurl_file",
     "named": true,
     "fields": {},
@@ -819,11 +686,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "integer_predicate",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "invalid_quoted_string_escaped_char",
@@ -973,11 +835,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "json_string_text",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "json_value",
@@ -1196,11 +1053,6 @@
     }
   },
   {
-    "type": "md5_query",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "method",
     "named": true,
     "fields": {}
@@ -1330,11 +1182,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "null",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "oneline_base64",
@@ -1551,16 +1398,8 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
-        {
-          "type": "boolean_predicate",
-          "named": true
-        },
-        {
-          "type": "collection_predicate",
-          "named": true
-        },
         {
           "type": "contain_predicate",
           "named": true
@@ -1574,14 +1413,6 @@
           "named": true
         },
         {
-          "type": "exist_predicate",
-          "named": true
-        },
-        {
-          "type": "float_predicate",
-          "named": true
-        },
-        {
           "type": "greater_or_equal_predicate",
           "named": true
         },
@@ -1591,10 +1422,6 @@
         },
         {
           "type": "include_predicate",
-          "named": true
-        },
-        {
-          "type": "integer_predicate",
           "named": true
         },
         {
@@ -1615,10 +1442,6 @@
         },
         {
           "type": "start_with_predicate",
-          "named": true
-        },
-        {
-          "type": "string_predicate",
           "named": true
         }
       ]
@@ -1700,22 +1523,10 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "body_query",
-          "named": true
-        },
-        {
-          "type": "bytes_query",
-          "named": true
-        },
-        {
           "type": "cookie_query",
-          "named": true
-        },
-        {
-          "type": "duration_query",
           "named": true
         },
         {
@@ -1727,23 +1538,7 @@
           "named": true
         },
         {
-          "type": "md5_query",
-          "named": true
-        },
-        {
           "type": "regex_query",
-          "named": true
-        },
-        {
-          "type": "sha256_query",
-          "named": true
-        },
-        {
-          "type": "status_query",
-          "named": true
-        },
-        {
-          "type": "url_query",
           "named": true
         },
         {
@@ -1834,11 +1629,6 @@
     }
   },
   {
-    "type": "quoted_string_text",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "regex",
     "named": true,
     "fields": {},
@@ -1914,11 +1704,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "regex_text",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "replace_filter",
@@ -2121,11 +1906,6 @@
     }
   },
   {
-    "type": "sha256_query",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "split_filter",
     "named": true,
     "fields": {},
@@ -2169,16 +1949,6 @@
     "fields": {}
   },
   {
-    "type": "status_query",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "string_predicate",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "template",
     "named": true,
     "fields": {},
@@ -2194,16 +1964,6 @@
     }
   },
   {
-    "type": "to_date_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "to_int_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "unicode_char",
     "named": true,
     "fields": {},
@@ -2217,21 +1977,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "url_decode_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "url_encode_filter",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "url_query",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "value_string",
@@ -2791,16 +2536,20 @@
     "named": false
   },
   {
-    "type": "daysAfterNow",
+    "type": "daysAfterNo",
     "named": false
   },
   {
-    "type": "daysBeforeNow",
+    "type": "daysBeforeNo",
     "named": false
   },
   {
     "type": "decode",
     "named": false
+  },
+  {
+    "type": "digit",
+    "named": true
   },
   {
     "type": "duration",
@@ -2867,6 +2616,10 @@
     "named": false
   },
   {
+    "type": "hexdigit",
+    "named": true
+  },
+  {
     "type": "htmlEscape",
     "named": false
   },
@@ -2905,6 +2658,10 @@
   {
     "type": "json",
     "named": false
+  },
+  {
+    "type": "json_string_text",
+    "named": true
   },
   {
     "type": "jsonpath",
@@ -2956,7 +2713,7 @@
   },
   {
     "type": "null",
-    "named": false
+    "named": true
   },
   {
     "type": "path-as-is",
@@ -2967,12 +2724,20 @@
     "named": false
   },
   {
+    "type": "quoted_string_text",
+    "named": true
+  },
+  {
     "type": "r",
     "named": false
   },
   {
     "type": "regex",
     "named": false
+  },
+  {
+    "type": "regex_text",
+    "named": true
   },
   {
     "type": "replace",

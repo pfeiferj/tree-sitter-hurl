@@ -65,7 +65,7 @@
 
 (version) @string.special
 
-"null" @constant.builtin
+(null) @constant.builtin
 "cacert" @constant.builtin
 "compressed" @constant.builtin
 "location" @constant.builtin
