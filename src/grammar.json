@@ -295,13 +295,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[0-9]+"
-            }
-          ]
+          "type": "PATTERN",
+          "value": "[0-9]+"
         },
         {
           "type": "STRING",
@@ -775,8 +770,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "file_contenttype"
+                "type": "PATTERN",
+                "value": "[a-zA-Z0-9\\/+-]+"
               },
               {
                 "type": "BLANK"
@@ -785,15 +780,6 @@
           }
         ]
       }
-    },
-    "file_contenttype": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[a-zA-Z0-9\\/+-]+"
-        }
-      ]
     },
     "capture": {
       "type": "SEQ",
@@ -1250,12 +1236,12 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "status_query"
+          "type": "STRING",
+          "value": "status"
         },
         {
-          "type": "SYMBOL",
-          "name": "url_query"
+          "type": "STRING",
+          "value": "url"
         },
         {
           "type": "SYMBOL",
@@ -1266,8 +1252,8 @@
           "name": "cookie_query"
         },
         {
-          "type": "SYMBOL",
-          "name": "body_query"
+          "type": "STRING",
+          "value": "body"
         },
         {
           "type": "SYMBOL",
@@ -1286,38 +1272,20 @@
           "name": "variable_query"
         },
         {
-          "type": "SYMBOL",
-          "name": "duration_query"
+          "type": "STRING",
+          "value": "duration"
         },
-        {
-          "type": "SYMBOL",
-          "name": "bytes_query"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "sha256_query"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "md5_query"
-        }
-      ]
-    },
-    "status_query": {
-      "type": "SEQ",
-      "members": [
         {
           "type": "STRING",
-          "value": "status"
-        }
-      ]
-    },
-    "url_query": {
-      "type": "SEQ",
-      "members": [
+          "value": "bytes"
+        },
         {
           "type": "STRING",
-          "value": "url"
+          "value": "sha256"
+        },
+        {
+          "type": "STRING",
+          "value": "md5"
         }
       ]
     },
@@ -1344,15 +1312,6 @@
         {
           "type": "SYMBOL",
           "name": "quoted_string"
-        }
-      ]
-    },
-    "body_query": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "body"
         }
       ]
     },
@@ -1417,42 +1376,6 @@
         }
       ]
     },
-    "duration_query": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "duration"
-        }
-      ]
-    },
-    "sha256_query": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "sha256"
-        }
-      ]
-    },
-    "md5_query": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "md5"
-        }
-      ]
-    },
-    "bytes_query": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "bytes"
-        }
-      ]
-    },
     "predicate": {
       "type": "SEQ",
       "members": [
@@ -1460,13 +1383,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "not"
-                }
-              ]
+              "type": "STRING",
+              "value": "not"
             },
             {
               "type": "BLANK"
@@ -1523,32 +1441,32 @@
           "name": "match_predicate"
         },
         {
-          "type": "SYMBOL",
-          "name": "exist_predicate"
+          "type": "STRING",
+          "value": "exists"
         },
         {
           "type": "SYMBOL",
           "name": "include_predicate"
         },
         {
-          "type": "SYMBOL",
-          "name": "integer_predicate"
+          "type": "STRING",
+          "value": "isInteger"
         },
         {
-          "type": "SYMBOL",
-          "name": "float_predicate"
+          "type": "STRING",
+          "value": "isFloat"
         },
         {
-          "type": "SYMBOL",
-          "name": "boolean_predicate"
+          "type": "STRING",
+          "value": "isBoolean"
         },
         {
-          "type": "SYMBOL",
-          "name": "string_predicate"
+          "type": "STRING",
+          "value": "isString"
         },
         {
-          "type": "SYMBOL",
-          "name": "collection_predicate"
+          "type": "STRING",
+          "value": "isCollection"
         }
       ]
     },
@@ -1823,15 +1741,6 @@
         }
       ]
     },
-    "exist_predicate": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "exists"
-        }
-      ]
-    },
     "include_predicate": {
       "type": "SEQ",
       "members": [
@@ -1842,51 +1751,6 @@
         {
           "type": "SYMBOL",
           "name": "predicate_value"
-        }
-      ]
-    },
-    "integer_predicate": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "isInteger"
-        }
-      ]
-    },
-    "float_predicate": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "isFloat"
-        }
-      ]
-    },
-    "boolean_predicate": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "isBoolean"
-        }
-      ]
-    },
-    "string_predicate": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "isString"
-        }
-      ]
-    },
-    "collection_predicate": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "isCollection"
         }
       ]
     },
@@ -2189,13 +2053,8 @@
       }
     },
     "quoted_string_text": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[^\"\\\\]+"
-        }
-      ]
+      "type": "PATTERN",
+      "value": "[^\"\\\\]+"
     },
     "invalid_quoted_string_escaped_char": {
       "type": "SEQ",
@@ -3075,13 +2934,8 @@
       ]
     },
     "json_string_text": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[^\"\\\\]"
-        }
-      ]
+      "type": "PATTERN",
+      "value": "[^\"\\\\]"
     },
     "json_string_escaped_char": {
       "type": "SEQ",
@@ -3245,44 +3099,44 @@
           "name": "regex_filter"
         },
         {
-          "type": "SYMBOL",
-          "name": "count_filter"
+          "type": "STRING",
+          "value": "count"
         },
         {
-          "type": "SYMBOL",
-          "name": "url_encode_filter"
+          "type": "STRING",
+          "value": "urlEncode"
         },
         {
-          "type": "SYMBOL",
-          "name": "url_decode_filter"
+          "type": "STRING",
+          "value": "urlDecode"
         },
         {
-          "type": "SYMBOL",
-          "name": "to_int_filter"
+          "type": "STRING",
+          "value": "toInt"
         },
         {
-          "type": "SYMBOL",
-          "name": "html_escape_filter"
+          "type": "STRING",
+          "value": "htmlEscape"
         },
         {
-          "type": "SYMBOL",
-          "name": "html_unescape_filter"
+          "type": "STRING",
+          "value": "htmlUnescape"
         },
         {
-          "type": "SYMBOL",
-          "name": "days_after_now_filter"
+          "type": "STRING",
+          "value": "daysAfterNo"
         },
         {
-          "type": "SYMBOL",
-          "name": "days_before_now_filter"
+          "type": "STRING",
+          "value": "daysBeforeNo"
         },
         {
-          "type": "SYMBOL",
-          "name": "decode_filter"
+          "type": "STRING",
+          "value": "decode"
         },
         {
-          "type": "SYMBOL",
-          "name": "format_filter"
+          "type": "STRING",
+          "value": "format"
         },
         {
           "type": "SYMBOL",
@@ -3297,8 +3151,8 @@
           "name": "split_filter"
         },
         {
-          "type": "SYMBOL",
-          "name": "to_date_filter"
+          "type": "STRING",
+          "value": "toDate"
         },
         {
           "type": "SYMBOL",
@@ -3325,96 +3179,6 @@
               "name": "regex"
             }
           ]
-        }
-      ]
-    },
-    "count_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "count"
-        }
-      ]
-    },
-    "url_encode_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "urlEncode"
-        }
-      ]
-    },
-    "url_decode_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "urlDecode"
-        }
-      ]
-    },
-    "html_escape_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "htmlEscape"
-        }
-      ]
-    },
-    "html_unescape_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "htmlUnescape"
-        }
-      ]
-    },
-    "to_int_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "toInt"
-        }
-      ]
-    },
-    "days_after_now_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "daysAfterNow"
-        }
-      ]
-    },
-    "days_before_now_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "daysBeforeNow"
-        }
-      ]
-    },
-    "decode_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "decode"
-        }
-      ]
-    },
-    "format_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "format"
         }
       ]
     },
@@ -3470,15 +3234,6 @@
         }
       ]
     },
-    "to_date_filter": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "toDate"
-        }
-      ]
-    },
     "xpath_filter": {
       "type": "SEQ",
       "members": [
@@ -3506,22 +3261,12 @@
       ]
     },
     "null": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "null"
-        }
-      ]
+      "type": "STRING",
+      "value": "null"
     },
     "_alphanum": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[A-Za-z0-9]"
-        }
-      ]
+      "type": "PATTERN",
+      "value": "[A-Za-z0-9]"
     },
     "integer": {
       "type": "PREC_LEFT",
@@ -3553,22 +3298,12 @@
       ]
     },
     "digit": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[0-9]"
-        }
-      ]
+      "type": "PATTERN",
+      "value": "[0-9]"
     },
     "hexdigit": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[0-9A-Fa-f]"
-        }
-      ]
+      "type": "PATTERN",
+      "value": "[0-9A-Fa-f]"
     },
     "fraction": {
       "type": "PREC_LEFT",
@@ -3698,13 +3433,8 @@
       }
     },
     "regex_text": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[^\\n\\\\\\/]+"
-        }
-      ]
+      "type": "PATTERN",
+      "value": "[^\\n\\\\\\/]+"
     },
     "regex_escaped_char": {
       "type": "SEQ",
@@ -3736,4 +3466,3 @@
   "inline": [],
   "supertypes": []
 }
-
