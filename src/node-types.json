@@ -842,7 +842,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "boolean",
@@ -862,10 +862,6 @@
         },
         {
           "type": "json_string",
-          "named": true
-        },
-        {
-          "type": "null",
           "named": true
         },
         {
@@ -955,10 +951,6 @@
         },
         {
           "type": "key_string",
-          "named": true
-        },
-        {
-          "type": "null",
           "named": true
         },
         {
@@ -1453,7 +1445,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "boolean",
@@ -1469,10 +1461,6 @@
         },
         {
           "type": "multiline_string",
-          "named": true
-        },
-        {
-          "type": "null",
           "named": true
         },
         {
@@ -2100,7 +2088,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "boolean",
@@ -2116,10 +2104,6 @@
         },
         {
           "type": "key_string",
-          "named": true
-        },
-        {
-          "type": "null",
           "named": true
         },
         {
@@ -2713,7 +2697,7 @@
   },
   {
     "type": "null",
-    "named": true
+    "named": false
   },
   {
     "type": "path-as-is",

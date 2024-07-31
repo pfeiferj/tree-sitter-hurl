@@ -693,8 +693,8 @@
                     "name": "integer"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "null"
+                    "type": "STRING",
+                    "value": "null"
                   }
                 ]
               },
@@ -1207,8 +1207,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "null"
+          "type": "STRING",
+          "value": "null"
         },
         {
           "type": "SYMBOL",
@@ -1758,8 +1758,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "null"
+          "type": "STRING",
+          "value": "null"
         },
         {
           "type": "SYMBOL",
@@ -2777,8 +2777,8 @@
           "name": "boolean"
         },
         {
-          "type": "SYMBOL",
-          "name": "null"
+          "type": "STRING",
+          "value": "null"
         }
       ]
     },
@@ -3259,10 +3259,6 @@
           "value": "false"
         }
       ]
-    },
-    "null": {
-      "type": "STRING",
-      "value": "null"
     },
     "_alphanum": {
       "type": "PATTERN",

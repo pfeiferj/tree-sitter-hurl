@@ -81,7 +81,7 @@ module.exports = grammar({
       seq("[Asserts]", $._comment_or_new_line, repeat($.assert)),
     options_section: ($) =>
       seq("[Options]", $._comment_or_new_line, repeat($.option)),
-    key_value: ($) => prec.right(seq($.key_string, token.immediate(":"), optional(choice($.value_string, $.boolean, $.float, $.integer, $.null)))),
+    key_value: ($) => prec.right(seq($.key_string, token.immediate(":"), optional(choice($.value_string, $.boolean, $.float, $.integer, "null")))),
     multipart_form_data_param: ($) => choice($.file_param, $.key_value),
     file_param: ($) => seq($.key_string, ":", $.file_value, $._comment_or_new_line),
     file_value: ($) =>
@@ -136,7 +136,7 @@ module.exports = grammar({
     variable_definition: ($) => seq($.variable_name, "=", $.variable_value),
     variable_value: ($) =>
       choice(
-        $.null,
+        "null",
         $.boolean,
         $.integer,
         $.float,
@@ -226,7 +226,7 @@ module.exports = grammar({
     include_predicate: ($) => seq("includes", $.predicate_value),
     predicate_value: ($) =>
       choice(
-        $.null,
+        "null",
         $.boolean,
         $.integer,
         $.float,
@@ -322,7 +322,7 @@ module.exports = grammar({
         $.json_string,
         $.json_number,
         $.boolean,
-        $.null
+        "null"
       ),
     json_object: ($) =>
       choice(seq("{", optional($.json_key_value), repeat(seq(",", $.json_key_value)), "}")),
@@ -381,7 +381,6 @@ module.exports = grammar({
     split_filter: ($) => seq("split", $.quoted_string),
     xpath_filter: ($) => seq("xpath", $.quoted_string),
     boolean: ($) => choice("true", "false"),
-    null: ($) => "null",
     _alphanum: ($) => /[A-Za-z0-9]/,
     integer: ($) => prec.left(seq(repeat1($.digit))),
     float: ($) => seq($.integer, $.fraction),
