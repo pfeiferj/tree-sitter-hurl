@@ -3124,11 +3124,11 @@
         },
         {
           "type": "STRING",
-          "value": "daysAfterNo"
+          "value": "daysAfterNow"
         },
         {
           "type": "STRING",
-          "value": "daysBeforeNo"
+          "value": "daysBeforeNow"
         },
         {
           "type": "STRING",
@@ -3382,7 +3382,7 @@
           },
           {
             "type": "PATTERN",
-            "value": "[^\\n]+"
+            "value": "[^\\n]*"
           },
           {
             "type": "STRING",

@@ -2536,11 +2536,11 @@
     "named": false
   },
   {
-    "type": "daysAfterNo",
+    "type": "daysAfterNow",
     "named": false
   },
   {
-    "type": "daysBeforeNo",
+    "type": "daysBeforeNow",
     "named": false
   },
   {

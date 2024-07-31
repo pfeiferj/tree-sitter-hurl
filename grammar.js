@@ -365,8 +365,8 @@ module.exports = grammar({
         "htmlEscape",
         "htmlUnescape",
 
-        "daysAfterNo",
-        "daysBeforeNo",
+        "daysAfterNow",
+        "daysBeforeNow",
         "decode",
         "format",
         $.nth_filter,
