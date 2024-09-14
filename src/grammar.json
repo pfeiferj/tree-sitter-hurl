@@ -3379,10 +3379,6 @@
           {
             "type": "PATTERN",
             "value": "[^\\n]*"
-          },
-          {
-            "type": "STRING",
-            "value": "\n"
           }
         ]
       }

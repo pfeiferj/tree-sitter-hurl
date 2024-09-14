@@ -1,13 +1,14 @@
 {
   "name": "tree-sitter-hurl",
-  "version": "1.4.1",
+  "version": "1.5.1",
   "description": "",
   "main": "bindings/node",
   "types": "bindings/node",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "install": "node-gyp-build",
-    "prebuildify": "prebuildify --napi --strip"
+    "prestart": "tree-sitter build --wasm",
+    "start": "tree-sitter playground",
+    "test": "node --test bindings/node/*_test.js"
   },
   "author": "Jacob Pfeifer",
   "license": "Apache-2.0",

@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-hurl"
 description = "Hurl grammar for the tree-sitter parsing library"
-version = "1.1.2"
+version = "1.5.1"
 keywords = ["incremental", "parsing", "hurl"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/pfeiferj/tree-sitter-hurl"
@@ -20,7 +20,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "~0.20.3"
+tree-sitter-language = "0.1.0"
 
 [build-dependencies]
 cc = "1.0"
