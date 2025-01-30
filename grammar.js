@@ -185,6 +185,9 @@ module.exports = grammar({
         "isBoolean",
         "isString",
         "isCollection",
+        "isNumber",
+        "isIsoDate",
+        "isEmpty"
       ),
     equal_predicate: ($) =>
       seq(choice("equals", "=="), $.predicate_value),

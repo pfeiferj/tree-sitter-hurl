@@ -108,6 +108,10 @@
 "isBoolean" @keyword.operator
 "isString" @keyword.operator
 "isCollection" @keyword.operator
+"isNumber" @keyword.operator
+"isIsoString" @keyword.operator
+"isEmpty" @keyword.operator
+
 
 (integer) @number
 (float) @float
