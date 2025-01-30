@@ -45,7 +45,7 @@ module.exports = grammar({
         "VIEW",
         /[A-Z]+/
       ),
-    version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/*", "HTTP"),
+    version: ($) => choice("HTTP/1.0", "HTTP/1.1", "HTTP/2", "HTTP/3", "HTTP/*", "HTTP"),
     status: ($) => choice(/[0-9]+/, '*'),
     header: ($) => seq($.key_value, $._comment_or_new_line),
     body: ($) => seq($.bytes, $._comment_or_new_line),
