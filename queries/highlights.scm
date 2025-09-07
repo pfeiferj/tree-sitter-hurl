@@ -1,7 +1,10 @@
 ; highlights.scm
 
+"[Query]" @property
 "[QueryStringParams]" @property
+"[Form]" @property
 "[FormParams]" @property
+"[Multipart]" @property
 "[MultipartFormData]" @property
 "[Cookies]" @property
 "[Captures]" @property

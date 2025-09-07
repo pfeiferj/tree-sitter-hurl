@@ -62,12 +62,12 @@ module.exports = grammar({
     basic_auth_section: ($) =>
       seq("[BasicAuth]", $._comment_or_new_line, $.key_value, $._comment_or_new_line),
     query_string_params_section: ($) =>
-      prec.right(seq("[QueryStringParams]", $._comment_or_new_line, optional($.key_value), repeat(seq($._comment_or_new_line,$.key_value)), $._comment_or_new_line)),
+      prec.right(seq(choice("[Query]", "[QueryStringParams]"), $._comment_or_new_line, optional($.key_value), repeat(seq($._comment_or_new_line,$.key_value)), $._comment_or_new_line)),
     form_params_section: ($) =>
-      prec.right(seq("[FormParams]", $._comment_or_new_line, optional($.key_value), repeat(seq($._comment_or_new_line,$.key_value)), $._comment_or_new_line)),
+      prec.right(seq(choice("[Form]", "[FormParams]"), $._comment_or_new_line, optional($.key_value), repeat(seq($._comment_or_new_line,$.key_value)), $._comment_or_new_line)),
     multipart_form_data_section: ($) =>
       prec.right(seq(
-        "[MultipartFormData]",
+        choice("[Multipart]", "[MultipartFormData]"),
         $._comment_or_new_line,
         optional($.multipart_form_data_param),
         repeat(seq($._comment_or_new_line,$.multipart_form_data_param)),
