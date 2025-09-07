@@ -283,6 +283,10 @@
         },
         {
           "type": "STRING",
+          "value": "HTTP/3"
+        },
+        {
+          "type": "STRING",
           "value": "HTTP/*"
         },
         {
@@ -400,8 +404,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "[QueryStringParams]"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "[Query]"
+              },
+              {
+                "type": "STRING",
+                "value": "[QueryStringParams]"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -449,8 +462,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "[FormParams]"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "[Form]"
+              },
+              {
+                "type": "STRING",
+                "value": "[FormParams]"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -498,8 +520,17 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "STRING",
-            "value": "[MultipartFormData]"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "[Multipart]"
+              },
+              {
+                "type": "STRING",
+                "value": "[MultipartFormData]"
+              }
+            ]
           },
           {
             "type": "SYMBOL",
@@ -1467,6 +1498,18 @@
         {
           "type": "STRING",
           "value": "isCollection"
+        },
+        {
+          "type": "STRING",
+          "value": "isNumber"
+        },
+        {
+          "type": "STRING",
+          "value": "isIsoDate"
+        },
+        {
+          "type": "STRING",
+          "value": "isEmpty"
         }
       ]
     },

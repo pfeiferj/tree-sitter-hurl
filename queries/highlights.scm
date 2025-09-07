@@ -112,7 +112,7 @@
 "isString" @keyword.operator
 "isCollection" @keyword.operator
 "isNumber" @keyword.operator
-"isIsoString" @keyword.operator
+"isIsoDate" @keyword.operator
 "isEmpty" @keyword.operator
 
 

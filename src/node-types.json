@@ -2376,6 +2376,10 @@
     "named": false
   },
   {
+    "type": "HTTP/3",
+    "named": false
+  },
+  {
     "type": "LINK",
     "named": false
   },
@@ -2448,7 +2452,15 @@
     "named": false
   },
   {
+    "type": "[Form]",
+    "named": false
+  },
+  {
     "type": "[MultipartFormData]",
+    "named": false
+  },
+  {
+    "type": "[Multipart]",
     "named": false
   },
   {
@@ -2457,6 +2469,10 @@
   },
   {
     "type": "[QueryStringParams]",
+    "named": false
+  },
+  {
+    "type": "[Query]",
     "named": false
   },
   {
@@ -2628,11 +2644,23 @@
     "named": false
   },
   {
+    "type": "isEmpty",
+    "named": false
+  },
+  {
     "type": "isFloat",
     "named": false
   },
   {
     "type": "isInteger",
+    "named": false
+  },
+  {
+    "type": "isIsoDate",
+    "named": false
+  },
+  {
+    "type": "isNumber",
     "named": false
   },
   {
