@@ -114,6 +114,9 @@
 "isNumber" @keyword.operator
 "isIsoDate" @keyword.operator
 "isEmpty" @keyword.operator
+"isIpv4" @keyword.operator
+"isIpv6" @keyword.operator
+"isUuid" @keyword.operator
 
 
 (integer) @number

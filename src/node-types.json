@@ -2656,6 +2656,14 @@
     "named": false
   },
   {
+    "type": "isIpv4",
+    "named": false
+  },
+  {
+    "type": "isIpv6",
+    "named": false
+  },
+  {
     "type": "isIsoDate",
     "named": false
   },
@@ -2665,6 +2673,10 @@
   },
   {
     "type": "isString",
+    "named": false
+  },
+  {
+    "type": "isUuid",
     "named": false
   },
   {

@@ -1510,6 +1510,18 @@
         {
           "type": "STRING",
           "value": "isEmpty"
+        },
+        {
+          "type": "STRING",
+          "value": "isIpv4"
+        },
+        {
+          "type": "STRING",
+          "value": "isIpv6"
+        },
+        {
+          "type": "STRING",
+          "value": "isUuid"
         }
       ]
     },

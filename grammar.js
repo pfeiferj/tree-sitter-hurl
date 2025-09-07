@@ -187,7 +187,10 @@ module.exports = grammar({
         "isCollection",
         "isNumber",
         "isIsoDate",
-        "isEmpty"
+        "isEmpty",
+        "isIpv4",
+        "isIpv6",
+        "isUuid"
       ),
     equal_predicate: ($) =>
       seq(choice("equals", "=="), $.predicate_value),
