@@ -64,59 +64,24 @@
 "urlDecode" @function.builtin
 "count" @function.builtin
 
-(filter) @attribute
+(filter _) @attribute
 
 (version) @string.special
 
 "null" @constant.builtin
-"cacert" @constant.builtin
-"compressed" @constant.builtin
-"location" @constant.builtin
-"insecure" @constant.builtin
-"path-as-is" @constant.builtin
-"proxy" @constant.builtin
-"max-redirs" @constant.builtin
-"retry" @constant.builtin
-"retry-interval" @constant.builtin
-"retry-max-count" @constant.builtin
-(variable_option "variable") @constant.builtin
-"verbose" @constant.builtin
-"very-verbose" @constant.builtin
+(option (_ key: _ @constant.builtin) )
 
 (boolean) @boolean
 
 (variable_name) @variable
 
-"not" @keyword.operator
-"equals" @keyword.operator
 "==" @operator
-"notEquals" @keyword.operator
 "!=" @operator
-"greaterThan" @keyword.operator
 ">" @operator
-"greaterThanOrEquals" @keyword.operator
 ">=" @operator
-"lessThan" @keyword.operator
 "<" @operator
-"lessThanOrEquals" @keyword.operator
 "<=" @operator
-"startsWith" @keyword.operator
-"endsWith" @keyword.operator
-"contains" @keyword.operator
-"matches" @keyword.operator
-"exists" @keyword.operator
-"includes" @keyword.operator
-"isInteger" @keyword.operator
-"isFloat" @keyword.operator
-"isBoolean" @keyword.operator
-"isString" @keyword.operator
-"isCollection" @keyword.operator
-"isNumber" @keyword.operator
-"isIsoDate" @keyword.operator
-"isEmpty" @keyword.operator
-"isIpv4" @keyword.operator
-"isIpv6" @keyword.operator
-"isUuid" @keyword.operator
+(_ predicate_name: _ @keyword.operator)
 
 
 (integer) @number
