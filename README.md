@@ -29,7 +29,7 @@ Regenerate the parser with the pinned Tree-sitter 0.22 CLI (language ABI 14):
 
     npx tree-sitter generate --no-bindings
 
-The external scanner handles EOF and bracketed-key/JSON disambiguation. It must
+The external scanner handles EOF and key/section/JSON disambiguation. It must
 be compiled together with `src/parser.c`; the provided bindings and Makefile
 include it.
 
@@ -40,3 +40,26 @@ For additional invalid-input, interpolation, CRLF, and incremental EOF coverage:
     .venv/bin/python -m unittest discover -s bindings/python/tests -v
 
 Tests parse Hurl source only; they do not execute HTTP requests.
+
+## Hurl compatibility
+
+The current compatibility target is the published **Hurl 8.0.1** release. The
+regression fixtures cover its filter/query/predicate/file-option names, value
+forms, and template AST boundaries. Tests only parse source; no HTTP is executed.
+
+- Quoted strings and filenames expose interpolation nodes. **newDate** and
+  **newUuid** have dedicated function nodes; longer variable names remain variables.
+- Multiline backslashes are literal. **raw** fences and bare XML (including CDATA)
+  do not interpolate; use a normal/XML-labelled fence when interpolation is wanted.
+- Count options accept the **-1** sentinel only for max-redirs, repeat, and retry.
+  Durations accept contiguous ms, s, m, and h units.
+- Existing textual predicate aliases, retry-max-count, regex-valued replace,
+  and extra fence-language hints remain accepted as compatibility/highlighting
+  extensions. This grammar is not a replacement for Hurl validation.
+- Formal-grammar-only charsetEncode and getEnv functions are not implemented;
+  they are not supported by the stable release. Bare getEnv remains a variable.
+
+The development audit syntax-checked the 375 Hurl fixtures in the official 8.0.1
+source archive. Of the 320 files accepted by its formatter, all 320 now parse
+without Tree-sitter errors (the starting branch parsed 227). This is a regression
+sample, not a claim of exhaustive language equivalence.

@@ -53,3 +53,23 @@ test("all stable Hurl feature-name fixtures parse", () => {
       fixture.category + ": " + fixture.name);
   }
 });
+
+test("stable value forms preserve template AST and reject invalid operands", () => {
+  const parser = new Parser();
+  parser.setLanguage(Hurl);
+  function count(node, type) {
+    return Number(node.type === type) + node.namedChildren.reduce((n, child) => n + count(child, type), 0);
+  }
+  const fixtures = name => JSON.parse(fs.readFileSync(path.join(root, "test", "fixtures", name), "utf8"));
+  for (const fixture of fixtures("hurl8-values.json")) {
+    const node = parser.parse(fixture.source).rootNode;
+    assert.equal(node.hasError, false, fixture.name);
+    assert.equal(count(node, "template"), fixture.templates, fixture.name);
+    for (const [kind, expected] of Object.entries(fixture.nodes || {})) {
+      assert.equal(count(node, kind), expected, fixture.name + ": " + kind);
+    }
+  }
+  for (const fixture of fixtures("hurl8-invalid.json")) {
+    assert.equal(parser.parse(fixture.source).rootNode.hasError, true, fixture.name);
+  }
+});

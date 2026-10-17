@@ -1,0 +1,99 @@
+==================================================
+max-redirs--2
+==================================================
+
+GET https://example.org
+[Options]
+max-redirs: -2
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section))) (ERROR (count_option_key))))
+
+==================================================
+max-time-1 h
+==================================================
+
+GET https://example.org
+[Options]
+max-time: 1 h
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section))) (ERROR (option (duration_option option_key: (duration_option_key) (integer))))))
+
+==================================================
+verbosity-{{value}}
+==================================================
+
+GET https://example.org
+[Options]
+verbosity: {{value}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section)) (ERROR) (body (bytes (json_value (template template: (expr (variable_name)))))))))
+
+==================================================
+cert-a b.pem
+==================================================
+
+GET https://example.org
+[Options]
+cert: a b.pem
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section))) (ERROR (option (cert_option (filename_password (filename_password_content (filename_password_text))))) (duration_unit))))
+
+==================================================
+startsWith-{{value}}
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+body startsWith {{value}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section)) (ERROR (query (simple_query))) (body (bytes (json_value (template template: (expr (variable_name)))))))))
+
+==================================================
+certificate-"unknown"
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: certificate "unknown"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section))) (ERROR (key_string (key_string_content (key_string_text))))))
+
+==================================================
+unicode-D800
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+body == "\u{D800}"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (equal_predicate (predicate_value (quoted_string (ERROR))))))))))))
+
+==================================================
+unicode-110000
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+body == "\u{110000}"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (equal_predicate (predicate_value (quoted_string (ERROR))))))))))))

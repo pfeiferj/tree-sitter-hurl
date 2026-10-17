@@ -1,10 +1,18 @@
+// Hurl escapes are indivisible tokens: extras must never split an escape.
+function escaped(chars, immediate = false) {
+  const rule = seq("\\", choice(...chars, seq("u", /\{0*([0-9A-Fa-f]{1,3}|[0-9A-Ca-cE-Fe-f][0-9A-Fa-f]{3}|[dD][0-7][0-9A-Fa-f]{2}|[1-9A-Fa-f][0-9A-Fa-f]{4}|10[0-9A-Fa-f]{4})\}/)));
+  return immediate ? token.immediate(rule) : token(rule);
+}
+const filenameText = /[^#;{}\s\\]+/;
+const filenameEscapes = ["\\", "b", "f", "n", "r", "t", "#", ";", " ", "{", "}"];
+
 module.exports = grammar({
   name: "hurl",
   //word: $ => $.word,
   extras: $ => [/[\s\p{Zs}\uFEFF\u2060\u200B]/, $.comment],
 
   // The final external is a recovery sentinel; it is never emitted.
-  externals: ($) => [$._eof, $._json_array_start, $._bracketed_key_start, $._error_sentinel],
+  externals: ($) => [$._eof, $._json_array_start, $._bracketed_key_start, $._json_number, $._error_sentinel],
 
   rules: {
     hurl_file: ($) => seq(repeat($.entry), repeat($._comment_or_new_line)),
@@ -66,9 +74,9 @@ module.exports = grammar({
     basic_auth_section: ($) =>
       seq(field("section_header", "[BasicAuth]"), $._line_ending, repeat(seq($.key_value, $._line_ending))),
     query_string_params_section: ($) =>
-      prec.right(seq(field("section_header", choice("[Query]", "[QueryStringParams]")), $._line_ending, optional($.key_value), repeat(seq($._line_ending,$.key_value)), $._line_ending)),
+      seq(field("section_header", choice("[Query]", "[QueryStringParams]")), $._line_ending, repeat(seq($.key_value, $._line_ending))),
     form_params_section: ($) =>
-      prec.right(seq(field("section_header", choice("[Form]", "[FormParams]")), $._line_ending, optional($.key_value), repeat(seq($._line_ending,$.key_value)), $._line_ending)),
+      seq(field("section_header", choice("[Form]", "[FormParams]")), $._line_ending, repeat(seq($.key_value, $._line_ending))),
     multipart_form_data_section: ($) =>
       prec.left(seq(
         field("section_header", choice("[Multipart]", "[MultipartFormData]")),
@@ -76,18 +84,18 @@ module.exports = grammar({
         repeat(seq($.multipart_form_data_param, $._line_ending))
       )),
     cookies_section: ($) =>
-      prec.right(seq(field("section_header", "[Cookies]"), $._line_ending, optional($.key_value), repeat(seq($._line_ending, $.key_value)), $._line_ending)),
+      seq(field("section_header", "[Cookies]"), $._line_ending, repeat(seq($.key_value, $._line_ending))),
     captures_section: ($) =>
       prec.right(seq(field("section_header", "[Captures]"), $._line_ending, repeat($.capture))),
     asserts_section: ($) =>
       seq(field("section_header", "[Asserts]"), $._line_ending, repeat($.assert)),
     options_section: ($) =>
       seq(field("section_header", "[Options]"), $._line_ending, repeat(seq($.option, $._line_ending))),
-    key_value: ($) => prec.right(seq($.key_string, ":", optional(choice($.value_string, $.boolean, $.float, $.integer, "null")))),
+    key_value: ($) => prec.right(seq($.key_string, ":", optional($.value_string))),
     multipart_form_data_param: ($) => choice($.file_param, $.key_value),
     file_param: ($) => seq($.key_string, ":", $.file_value),
     file_value: ($) =>
-      prec.left(seq("file,", optional($.filename), ";", optional(/[a-zA-Z0-9\/+-]+/))),
+      prec.left(seq("file,", optional($.filename), ";", optional(field("content_type", $.value_string)))),
     capture: ($) =>
       seq(
         $.key_string,
@@ -108,6 +116,7 @@ module.exports = grammar({
       seq(
         choice(
           $.ca_certificate_option,
+          $.client_key_option,
           $.cert_option,
           $.variable_option,
           $.boolean_option,
@@ -120,27 +129,32 @@ module.exports = grammar({
       ),
     ca_certificate_option: ($) =>
       seq(field("option_key", "cacert"), ":", $.filename),
+    client_key_option: ($) => seq(field("option_key", "key"), ":", $.filename),
     cert_option: ($) =>
-      seq(field("option_key", "cert"), ":", choice($.template, $.filename_password)),
-    filename_password: ($) => repeat1(choice($.filename_password_text, $.filename_password_escaped_char)),
-    filename_password_text: ($) => /[^#;{}\n\r\\]+/,
-    filename_password_escaped_char: ($) =>
-      seq(
-        "\\",
-        choice("\\", "b", "f", "n", "r", "t", seq("u", $.unicode_char), "#", ";", "{", "}", ":")
-      ),
+      seq(field("option_key", "cert"), ":", $.filename_password),
+    filename_password: ($) => seq(
+      choice($.template, $.filename_password_content),
+      repeat(choice(alias($._key_template, $.template), alias($._filename_password_continue, $.filename_password_content)))
+    ),
+    filename_password_content: ($) => choice($.filename_password_text, $.filename_password_escaped_char),
+    filename_password_text: ($) => filenameText,
+    filename_password_escaped_char: ($) => escaped([...filenameEscapes, ":"]),
+    _filename_password_continue: ($) => choice(
+      alias(token.immediate(filenameText), $.filename_password_text),
+      alias(escaped([...filenameEscapes, ":"], true), $.filename_password_escaped_char)
+    ),
     boolean_option: ($) => seq(field("option_key", $.boolean_option_key), ":", choice($.boolean, $.template)),
     boolean_option_key: ($) => choice("digest", "http1.1", "negotiate", "ntlm", "compressed", "location", "location-trusted", "http1.0", "http2", "http3", "insecure", "ipv4", "ipv6", "netrc", "netrc-optional", "path-as-is", "skip", "verbose", "very-verbose"),
     integer_option: ($) => seq(field("option_key", $.integer_option_key), ":", choice($._unsigned_integer, $.template)),
     integer_option_key: ($) => choice("retry-max-count", "limit-rate"),
-    count_option: ($) => seq(field("option_key", $.count_option_key), ":", choice(alias(token(/-1|[0-9]+/), $.integer), $.template)),
+    count_option: ($) => seq(field("option_key", $.count_option_key), ":", choice(alias(token(/-1|0|[1-9][0-9]*/), $.integer), $.template)),
     count_option_key: ($) => choice("max-redirs", "repeat", "retry"),
     verbosity_option: ($) => seq(field("option_key", "verbosity"), ":", field("level", choice("brief", "verbose", "debug"))),
     duration_option: ($) => seq(field("option_key", $.duration_option_key), ":", choice(seq($._unsigned_integer, optional($.duration_unit)), $.template)),
     duration_option_key: ($) => choice("connect-timeout", "delay", "retry-interval", "max-time"),
-    duration_unit: ($) => choice("ms", "s", "m", "h"),
-    string_option: ($) => prec(2, seq(field("option_key", $.string_option_key), ":", choice($.template, $.value_string))),
-    string_option_key: ($) => choice("resolve", "aws-sigv4", "key", "connect-to", "header", "netrc-file", "output", "pinnedpubkey", "proxy", "unix-socket", "user"),
+    duration_unit: ($) => token.immediate(choice("ms", "s", "m", "h")),
+    string_option: ($) => prec(2, seq(field("option_key", $.string_option_key), ":", optional(choice($.template, $.value_string)))),
+    string_option_key: ($) => choice("resolve", "aws-sigv4", "connect-to", "header", "netrc-file", "output", "pinnedpubkey", "proxy", "unix-socket", "user"),
     variable_option: ($) => seq(field("option_key", "variable"), ":", $.variable_definition),
     variable_definition: ($) => seq($.variable_name, "=", optional($.variable_value)),
     variable_value: ($) =>
@@ -228,7 +242,7 @@ module.exports = grammar({
     match_predicate: ($) =>
       seq(field("predicate_name", "matches"), choice($._predicate_string, $.regex)),
     include_predicate: ($) => seq(field("predicate_name", "includes"), $.predicate_value),
-    _predicate_string: ($) => choice($.quoted_string, $.oneline_string, $.multiline_string),
+    _predicate_string: ($) => choice($.quoted_string, $.oneline_string),
     predicate_value: ($) =>
       choice(
         "null",
@@ -241,6 +255,7 @@ module.exports = grammar({
         $.oneline_base64,
         $.oneline_file,
         $.oneline_string,
+        $.regex,
         $.multiline_string
       ),
     bytes: ($) =>
@@ -253,15 +268,20 @@ module.exports = grammar({
         $.oneline_file,
         $.oneline_hex
       ),
-    xml: ($) => seq(repeat($.xml_prolog_tag), $.xml_tag), //TODO: create a more accurate xml grammar
-    xml_prolog_tag: ($) => seq("<?", /[^?]+/,"?>"),
+    xml: ($) => seq(repeat(choice($.xml_prolog_tag, $.xml_comment)), $.xml_tag),
+    xml_prolog_tag: ($) => token(seq("<?", /([^?]|\?[^>])*/, "?>")),
+    xml_comment: ($) => token(seq("<!--", /([^-]|-[^-])*/, "-->")),
+    xml_cdata: ($) => token(seq("<![CDATA[", /([^\]]|\][^\]]|\]\][^>])*/, "]]>")),
     xml_tag: ($) => choice(
       $.xml_self_closing_tag,
-      seq($.xml_open_tag, repeat(choice($.xml_prolog_tag, $.xml_tag, $.xml_value_string)), $.xml_close_tag)
+      seq($.xml_open_tag, repeat(choice($.xml_prolog_tag, $.xml_comment, $.xml_cdata, $.xml_tag, $.xml_value_string)), $.xml_close_tag)
     ),
-    xml_self_closing_tag: ($) => seq("<", /[^/?][^>]*\//, ">"),
-    xml_open_tag: ($) => seq("<", /[^/?][^>]*/, ">"),
-    xml_close_tag: ($) => seq("</", /[^/>]+/, ">"),
+    xml_name: ($) => /[A-Za-z_:\p{Alphabetic}][A-Za-z0-9_.:\p{Alphabetic}\p{Number}-]*/,
+    xml_attribute: ($) => seq($.xml_name, "=", $.xml_attribute_value),
+    xml_attribute_value: ($) => token(choice(/"[^"]*"/, /'[^']*'/)),
+    xml_self_closing_tag: ($) => seq("<", $.xml_name, repeat($.xml_attribute), "/>"),
+    xml_open_tag: ($) => seq("<", $.xml_name, repeat($.xml_attribute), ">"),
+    xml_close_tag: ($) => seq("</", $.xml_name, ">"),
     oneline_base64: ($) => seq("base64,", /[a-zA-Z0-9+\/= \t\r\n]+/, ";"),
     oneline_file: ($) => seq("file,", optional($.filename), ";"),
     oneline_hex: ($) => seq("hex,", repeat($.hexdigit), ";"),
@@ -269,68 +289,60 @@ module.exports = grammar({
       seq('"', repeat(choice($.template, $.quoted_string_content)), '"'),
     quoted_string_content: ($) =>
       prec.right(repeat1(choice($.quoted_string_text, choice($.quoted_string_escaped_char, $.invalid_quoted_string_escaped_char)))),
-    quoted_string_text: ($) => /[^"\\]+/,
-    invalid_quoted_string_escaped_char: ($) =>
-      seq( "\\", /[^"\f\r\tu\\]/),
-    quoted_string_escaped_char: ($) =>
-      seq(
-        "\\",
-        choice('"', "\\", "b", "f", "n", "r", "t", seq("u", $.unicode_char))
-      ),
+    quoted_string_text: ($) => choice(token(prec(1, /[^"\\{]+/)), token(prec(-1, "{"))),
+    invalid_quoted_string_escaped_char: ($) => token(/\\[^"bfnrtu\\]/),
+    quoted_string_escaped_char: ($) => escaped(['"', "\\", "b", "f", "n", "r", "t", "{", "}"]),
     key_string: ($) => seq(
-      choice(alias($._bracketed_key_content, $.key_string_content), $._key_template, $.key_string_content),
-      repeat(choice($._key_template, $.key_string_content))
+      choice(alias($._bracketed_key_content, $.key_string_content), alias($._key_template, $.template), $.key_string_content),
+      repeat(choice(alias($._key_template, $.template), $.key_string_content))
     ),
     _bracketed_key_content: ($) => seq(alias($._bracketed_key_start, $.key_string_text)),
-    _key_template: ($) => alias(field("template", seq(token.immediate("{{"), $.expr, "}}")), $.template),
+    _key_template: ($) => seq(token.immediate("{{"), field("template", $.expr), "}}"),
     key_string_content: ($) =>
       prec.left(repeat1(choice($.key_string_text, $.key_string_escaped_char))),
     key_string_text: ($) =>
-      token.immediate(/[A-Za-z0-9_.@\$\[\]-]+/),
-    key_string_escaped_char: ($) => token.immediate(seq("\\", choice("#", '"'))),
-    xml_value_string: ($) => prec.right(repeat1(choice($.template, $.value_string_text))),
-    xml_value_string_text: ($) => prec.right(repeat1(/[^<\n]/)),
+      token.immediate(/[\p{Alphabetic}\p{Number}_.@$\[\]-]+/),
+    key_string_escaped_char: ($) => escaped(["#", '"', ":", "/", "\\", "b", "f", "n", "r", "t"], true),
+    xml_value_string: ($) => $.xml_value_string_text,
+    xml_value_string_text: ($) => token(prec(1, /[^<]+/)),
     value_string: ($) => prec.right(repeat1(choice($.template, $.value_string_content))),
     value_string_content: ($) =>
       prec.right(repeat1(choice($.value_string_text, $.value_string_escaped_char))),
     value_string_text: ($) => prec.right(repeat1(/[^#\n\\]/)),
-    value_string_escaped_char: ($) =>
-      seq(
-        "\\",
-        choice("#", "\\", "b", "f", "n", "r", "t", seq("u", $.unicode_char))
-      ),
+    value_string_escaped_char: ($) => escaped(["#", "\\", "b", "f", "n", "r", "t", "{", "}"]),
     oneline_string: ($) =>
       seq("`", repeat(choice($.template, $.oneline_string_content)), "`"),
     oneline_string_content: ($) =>
       prec.left(repeat1(choice($.oneline_string_text, $.oneline_string_escaped_char))),
     oneline_string_text: ($) => choice(token(prec(1, /[^\n\\`{]+/)), token(prec(-1, "{"))),
-    oneline_string_escaped_char: ($) =>
-      token(seq("\\", choice("`", "#", "\\", "b", "f", seq("u", /\{[0-9A-Fa-f]{4}\}/)))),
-    multiline_string: ($) =>
-      prec(2,seq(
-        "```",
-        optional($.multiline_string_type),
-        "\n",
-        repeat(choice($.template, $.multiline_string_content)),
-        optional("\n"),
-        prec(2,"```")
-      )),
-    multiline_string_type: ($) =>
-      choice("base64", "hex", "json", "xml", "graphql", /[^\n]+/),
-    multiline_string_content: ($) =>
-      prec.left(repeat1(choice($._multiline_string_text, $.multiline_string_escaped_char, "\n"))),
-    _multiline_string_text: ($) => token(prec(-1, choice(/[^\\{`\n]+/, "{", "`"))),
-    multiline_string_escaped_char: ($) =>
-      seq(
-        "\\",
-        choice("\\", "b", "f", "n", "r", "t", "`", seq("u", $.unicode_char))
-      ),
-    filename: ($) => repeat1(choice($.template, $.filename_content)),
-    filename_content: ($) =>
-      prec.left(repeat1(choice($.filename_text, $.filename_escaped_char))),
-    filename_text: ($) => /[^#; \n\\]+/,
-    filename_escaped_char: ($) => seq("\\", choice(";", "#", /[,]/)),
-    unicode_char: ($) => seq("{", $.hexdigit, $.hexdigit, $.hexdigit, $.hexdigit, "}"),
+    oneline_string_escaped_char: ($) => escaped([String.fromCharCode(96), "#", "\\", "b", "f", "n", "r", "t", "{", "}"]),
+    multiline_string: ($) => choice(
+      seq("```", alias("raw", $.multiline_string_type), "\n",
+        repeat(alias($.raw_multiline_string_content, $.multiline_string_content)), "```"),
+      seq("```", optional($.multiline_string_type), "\n",
+        repeat(choice($.template, $.multiline_string_content)), "```")
+    ),
+    // Retain legacy language hints as highlighting extensions; only raw changes
+    // interpolation semantics. Multiline backslashes are literal in every mode.
+    multiline_string_type: ($) => choice("base64", "hex", "json", "xml", "graphql", /[^\s`]+/),
+    multiline_string_content: ($) => prec.left(repeat1(choice(
+      token(prec(1, /[^`{]+/)), token(prec(-1, choice("{", "`")))
+    ))),
+    raw_multiline_string_content: ($) => prec.left(repeat1(choice(
+      token(prec(1, /[^`]+/)), token(prec(-1, "`"))
+    ))),
+    filename: ($) => seq(
+      choice($.template, $.filename_content),
+      repeat(choice(alias($._key_template, $.template), alias($._filename_continue, $.filename_content)))
+    ),
+    filename_content: ($) => choice($.filename_text, $.filename_escaped_char),
+    filename_text: ($) => filenameText,
+    filename_escaped_char: ($) => escaped([...filenameEscapes, ","]),
+    _filename_continue: ($) => choice(
+      alias(token.immediate(filenameText), $.filename_text),
+      alias(escaped([...filenameEscapes, ","], true), $.filename_escaped_char)
+    ),
+    unicode_char: ($) => seq("{", repeat1($.hexdigit), "}"),
     json_value: ($) =>
       choice(
         $.template,
@@ -350,28 +362,14 @@ module.exports = grammar({
       seq('"', repeat($.json_string_content), '"'),
     json_string_content: ($) =>
       prec.left(choice($.template, $.json_string_text, $.json_string_escaped_char)),
-    json_string_text: ($) => prec.right(repeat1(/[^"\\]/)),
-    json_string_escaped_char: ($) =>
-      seq(
-        "\\",
-        choice(
-          '"',
-          "\\",
-          "b",
-          "f",
-          "n",
-          "r",
-          "t",
-          seq("u", $.json_hexdigit, $.json_hexdigit, $.json_hexdigit, $.json_hexdigit)
-        )
-      ),
+    json_string_text: ($) => choice(token(prec(1, /[^"\\{]+/)), token(prec(-1, "{"))),
+    json_string_escaped_char: ($) => token(seq("\\", choice('"', "\\", "/", "b", "f", "n", "r", "t", /u[0-9A-Fa-f]{4}/))),
     json_number: ($) => $._json_number,
-    _json_number: ($) =>
-      token(/-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?/),
     json_boolean: ($) => choice("true", "false"),
     template: ($) => field("template", seq("{{", $.expr, "}}")),
-    expr: ($) => seq($.variable_name, repeat(seq($.filter))),
-    variable_name: ($) => seq(/[A-Za-z]/, /[A-Za-z_\-0-9]*/),
+    expr: ($) => seq(choice($.function, $.variable_name), repeat(seq($.filter))),
+    function: ($) => choice("newDate", "newUuid"),
+    variable_name: ($) => /[A-Za-z][A-Za-z_0-9-]*/,
     filter: ($) =>
       choice(
         $.simple_filter_key,
@@ -394,7 +392,7 @@ module.exports = grammar({
     boolean: ($) => choice("true", "false"),
     _alphanum: ($) => /[A-Za-z0-9]/,
     integer: ($) => token(/-?[0-9]+/),
-    _unsigned_integer: ($) => alias(token(/[0-9]+/), $.integer),
+    _unsigned_integer: ($) => alias(token(/0|[1-9][0-9]*/), $.integer),
     json_integer: ($) => prec.left(seq(repeat1($.json_digit))),
     float: ($) => token(/-?[0-9]+\.[0-9]+/),
     digit: ($) => /[0-9]/,

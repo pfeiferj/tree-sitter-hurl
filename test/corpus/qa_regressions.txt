@@ -64,7 +64,7 @@ GET https://example.org
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (ERROR (bytes (json_value (json_number))))))
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (ERROR) (value_string (value_string_content (value_string_text))))))))
 
 ==================================================
 invalid_key_6
@@ -97,7 +97,7 @@ GET https://example.org
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (ERROR template: (template) template: (template (variable_name)) template: (template) (bytes (json_value (template template: (expr (variable_name))))))))
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (ERROR (template template: (expr (variable_name))) (bytes (json_value (template template: (expr (variable_name))))))))
 
 ==================================================
 valid_key_0
@@ -108,7 +108,7 @@ foo[1]: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
 
 ==================================================
 valid_key_1
@@ -119,7 +119,7 @@ foo[01]: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
 
 ==================================================
 valid_key_2
@@ -141,7 +141,7 @@ X.Version: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
 
 ==================================================
 valid_key_4
@@ -152,7 +152,7 @@ foo{{bar}}: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) template: (template) template: (template (variable_name)) template: (template)) (value_string (value_string_content (value_string_text))))))))
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text)) (template template: (expr (variable_name)))) (value_string (value_string_content (value_string_text))))))))
 
 ==================================================
 valid_key_5
@@ -163,7 +163,7 @@ GET https://example.org
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string template: (template) template: (template (variable_name)) template: (template) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (template template: (expr (variable_name))) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
 
 ==================================================
 valid_key_6
@@ -174,7 +174,7 @@ GET https://example.org
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) template: (template) template: (template (variable_name)) template: (template) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (template template: (expr (variable_name))) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
 
 ==================================================
 valid_key_7

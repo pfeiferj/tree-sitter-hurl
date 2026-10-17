@@ -1,0 +1,1144 @@
+[
+  {
+    "category": "functions",
+    "name": "newDate",
+    "source": "GET https://example.org/{{newDate}}\n",
+    "templates": 1,
+    "nodes": {
+      "function": 1
+    }
+  },
+  {
+    "category": "functions",
+    "name": "newUuid",
+    "source": "GET https://example.org/{{newUuid}}\n",
+    "templates": 1,
+    "nodes": {
+      "function": 1
+    }
+  },
+  {
+    "category": "functions",
+    "name": "getEnv",
+    "source": "GET https://example.org/{{getEnv}}\n",
+    "templates": 1
+  },
+  {
+    "category": "value-forms",
+    "name": "comparison-placeholder->",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nstatus > {{limit}}\n",
+    "templates": 1
+  },
+  {
+    "category": "value-forms",
+    "name": "comparison-placeholder->=",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nstatus >= {{limit}}\n",
+    "templates": 1
+  },
+  {
+    "category": "value-forms",
+    "name": "comparison-placeholder-<",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nstatus < {{limit}}\n",
+    "templates": 1
+  },
+  {
+    "category": "value-forms",
+    "name": "comparison-placeholder-<=",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nstatus <= {{limit}}\n",
+    "templates": 1
+  },
+  {
+    "category": "value-forms",
+    "name": "nth-placeholder",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: jsonpath \"$.items\" nth {{index}}\n",
+    "templates": 1
+  },
+  {
+    "category": "value-forms",
+    "name": "oneline-predicate-==",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == `hello`\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "oneline-predicate-!=",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody != `hello`\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "oneline-predicate-contains",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody contains `hello`\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "oneline-predicate-includes",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody includes `hello`\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "oneline-predicate-startsWith",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody startsWith `hello`\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "oneline-predicate-endsWith",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody endsWith `hello`\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "hex-predicate-contains",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbytes contains hex,beef;\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "hex-predicate-includes",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbytes includes hex,beef;\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "max-redirs-infinite",
+    "source": "GET https://example.org\n[Options]\nmax-redirs: -1\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "repeat-infinite",
+    "source": "GET https://example.org\n[Options]\nrepeat: -1\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "retry-infinite",
+    "source": "GET https://example.org\n[Options]\nretry: -1\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "connect-timeout-ms",
+    "source": "GET https://example.org\n[Options]\nconnect-timeout: 1ms\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "connect-timeout-s",
+    "source": "GET https://example.org\n[Options]\nconnect-timeout: 1s\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "connect-timeout-m",
+    "source": "GET https://example.org\n[Options]\nconnect-timeout: 1m\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "connect-timeout-h",
+    "source": "GET https://example.org\n[Options]\nconnect-timeout: 1h\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "delay-ms",
+    "source": "GET https://example.org\n[Options]\ndelay: 1ms\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "delay-s",
+    "source": "GET https://example.org\n[Options]\ndelay: 1s\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "delay-m",
+    "source": "GET https://example.org\n[Options]\ndelay: 1m\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "delay-h",
+    "source": "GET https://example.org\n[Options]\ndelay: 1h\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "retry-interval-ms",
+    "source": "GET https://example.org\n[Options]\nretry-interval: 1ms\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "retry-interval-s",
+    "source": "GET https://example.org\n[Options]\nretry-interval: 1s\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "retry-interval-m",
+    "source": "GET https://example.org\n[Options]\nretry-interval: 1m\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "retry-interval-h",
+    "source": "GET https://example.org\n[Options]\nretry-interval: 1h\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "max-time-ms",
+    "source": "GET https://example.org\n[Options]\nmax-time: 1ms\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "max-time-s",
+    "source": "GET https://example.org\n[Options]\nmax-time: 1s\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "max-time-m",
+    "source": "GET https://example.org\n[Options]\nmax-time: 1m\n",
+    "templates": 0
+  },
+  {
+    "category": "value-forms",
+    "name": "max-time-h",
+    "source": "GET https://example.org\n[Options]\nmax-time: 1h\n",
+    "templates": 0
+  },
+  {
+    "category": "option-placeholders",
+    "name": "aws-sigv4",
+    "source": "GET https://example.org\n[Options]\naws-sigv4: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "cacert",
+    "source": "GET https://example.org\n[Options]\ncacert: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "cert",
+    "source": "GET https://example.org\n[Options]\ncert: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "compressed",
+    "source": "GET https://example.org\n[Options]\ncompressed: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "connect-to",
+    "source": "GET https://example.org\n[Options]\nconnect-to: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "connect-timeout",
+    "source": "GET https://example.org\n[Options]\nconnect-timeout: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "delay",
+    "source": "GET https://example.org\n[Options]\ndelay: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "digest",
+    "source": "GET https://example.org\n[Options]\ndigest: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "insecure",
+    "source": "GET https://example.org\n[Options]\ninsecure: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "header",
+    "source": "GET https://example.org\n[Options]\nheader: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "http1.0",
+    "source": "GET https://example.org\n[Options]\nhttp1.0: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "http1.1",
+    "source": "GET https://example.org\n[Options]\nhttp1.1: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "http2",
+    "source": "GET https://example.org\n[Options]\nhttp2: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "http3",
+    "source": "GET https://example.org\n[Options]\nhttp3: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "ipv4",
+    "source": "GET https://example.org\n[Options]\nipv4: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "ipv6",
+    "source": "GET https://example.org\n[Options]\nipv6: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "key",
+    "source": "GET https://example.org\n[Options]\nkey: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "limit-rate",
+    "source": "GET https://example.org\n[Options]\nlimit-rate: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "location",
+    "source": "GET https://example.org\n[Options]\nlocation: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "location-trusted",
+    "source": "GET https://example.org\n[Options]\nlocation-trusted: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "max-redirs",
+    "source": "GET https://example.org\n[Options]\nmax-redirs: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "max-time",
+    "source": "GET https://example.org\n[Options]\nmax-time: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "negotiate",
+    "source": "GET https://example.org\n[Options]\nnegotiate: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "netrc",
+    "source": "GET https://example.org\n[Options]\nnetrc: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "netrc-file",
+    "source": "GET https://example.org\n[Options]\nnetrc-file: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "netrc-optional",
+    "source": "GET https://example.org\n[Options]\nnetrc-optional: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "ntlm",
+    "source": "GET https://example.org\n[Options]\nntlm: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "output",
+    "source": "GET https://example.org\n[Options]\noutput: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "path-as-is",
+    "source": "GET https://example.org\n[Options]\npath-as-is: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "pinnedpubkey",
+    "source": "GET https://example.org\n[Options]\npinnedpubkey: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "proxy",
+    "source": "GET https://example.org\n[Options]\nproxy: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "repeat",
+    "source": "GET https://example.org\n[Options]\nrepeat: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "resolve",
+    "source": "GET https://example.org\n[Options]\nresolve: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "retry",
+    "source": "GET https://example.org\n[Options]\nretry: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "retry-interval",
+    "source": "GET https://example.org\n[Options]\nretry-interval: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "skip",
+    "source": "GET https://example.org\n[Options]\nskip: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "unix-socket",
+    "source": "GET https://example.org\n[Options]\nunix-socket: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "user",
+    "source": "GET https://example.org\n[Options]\nuser: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "verbose",
+    "source": "GET https://example.org\n[Options]\nverbose: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "option-placeholders",
+    "name": "very-verbose",
+    "source": "GET https://example.org\n[Options]\nvery-verbose: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "captures",
+    "name": "redact-status",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: status redact\n",
+    "templates": 0
+  },
+  {
+    "category": "captures",
+    "name": "redact-jsonpath \"$.secret\"",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: jsonpath \"$.secret\" redact\n",
+    "templates": 0
+  },
+  {
+    "category": "captures",
+    "name": "redact-body regex \"x\"",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body regex \"x\" redact\n",
+    "templates": 0
+  },
+  {
+    "category": "queries-fields",
+    "name": "certificate-Start-Date",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: certificate \"Start-Date\"\n",
+    "templates": 0
+  },
+  {
+    "category": "queries-fields",
+    "name": "certificate-Expire-Date",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: certificate \"Expire-Date\"\n",
+    "templates": 0
+  },
+  {
+    "category": "queries-fields",
+    "name": "certificate-Subject",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: certificate \"Subject\"\n",
+    "templates": 0
+  },
+  {
+    "category": "queries-fields",
+    "name": "certificate-Issuer",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: certificate \"Issuer\"\n",
+    "templates": 0
+  },
+  {
+    "category": "queries-fields",
+    "name": "certificate-Serial-Number",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: certificate \"Serial-Number\"\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-foo",
+    "source": "GET https://example.org\nfoo: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-é",
+    "source": "GET https://example.org\né: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-name",
+    "source": "GET https://example.org\nname: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-escape-\\:",
+    "source": "GET https://example.org\nX\\:: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-escape-\\/",
+    "source": "GET https://example.org\nX\\/: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-escape-\\\\",
+    "source": "GET https://example.org\nX\\\\: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-escape-\\n",
+    "source": "GET https://example.org\nX\\n: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-escape-\\t",
+    "source": "GET https://example.org\nX\\t: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-escape-\\u{41}",
+    "source": "GET https://example.org\nX\\u{41}: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-escape-\\u{0041}",
+    "source": "GET https://example.org\nX\\u{0041}: value\n",
+    "templates": 0
+  },
+  {
+    "category": "key-forms",
+    "name": "key-escape-\\u{1F600}",
+    "source": "GET https://example.org\nX\\u{1F600}: value\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "value-unicode-\\u{41}",
+    "source": "GET https://example.org\nX: \\u{41}\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "quoted-unicode-\\u{41}",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"\\u{41}\"\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "oneline-unicode-\\u{41}",
+    "source": "POST https://example.org\n`\\u{41}`\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "value-unicode-\\u{0041}",
+    "source": "GET https://example.org\nX: \\u{0041}\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "quoted-unicode-\\u{0041}",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"\\u{0041}\"\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "oneline-unicode-\\u{0041}",
+    "source": "POST https://example.org\n`\\u{0041}`\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "value-unicode-\\u{1F600}",
+    "source": "GET https://example.org\nX: \\u{1F600}\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "quoted-unicode-\\u{1F600}",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"\\u{1F600}\"\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "oneline-unicode-\\u{1F600}",
+    "source": "POST https://example.org\n`\\u{1F600}`\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "value-unicode-\\u{10FFFF}",
+    "source": "GET https://example.org\nX: \\u{10FFFF}\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "quoted-unicode-\\u{10FFFF}",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"\\u{10FFFF}\"\n",
+    "templates": 0
+  },
+  {
+    "category": "string-forms",
+    "name": "oneline-unicode-\\u{10FFFF}",
+    "source": "POST https://example.org\n`\\u{10FFFF}`\n",
+    "templates": 0
+  },
+  {
+    "category": "filename-forms",
+    "name": "a\\ b.txt",
+    "source": "POST https://example.org\nfile,a\\ b.txt;\n",
+    "templates": 0
+  },
+  {
+    "category": "filename-forms",
+    "name": "a\\\\b.txt",
+    "source": "POST https://example.org\nfile,a\\\\b.txt;\n",
+    "templates": 0
+  },
+  {
+    "category": "filename-forms",
+    "name": "a\\{b\\}.txt",
+    "source": "POST https://example.org\nfile,a\\{b\\}.txt;\n",
+    "templates": 0
+  },
+  {
+    "category": "filename-forms",
+    "name": "a\\u{41}.txt",
+    "source": "POST https://example.org\nfile,a\\u{41}.txt;\n",
+    "templates": 0
+  },
+  {
+    "category": "filename-forms",
+    "name": "{{path}}",
+    "source": "POST https://example.org\nfile,{{path}};\n",
+    "templates": 1
+  },
+  {
+    "category": "filename-forms",
+    "name": "prefix-{{path}}",
+    "source": "POST https://example.org\nfile,prefix-{{path}};\n",
+    "templates": 1
+  },
+  {
+    "category": "filename-password",
+    "name": "path:pass",
+    "source": "GET https://example.org\n[Options]\ncert: path:pass\n",
+    "templates": 0
+  },
+  {
+    "category": "filename-password",
+    "name": "{{cert}}",
+    "source": "GET https://example.org\n[Options]\ncert: {{cert}}\n",
+    "templates": 1
+  },
+  {
+    "category": "filename-password",
+    "name": "path-{{cert}}:pass",
+    "source": "GET https://example.org\n[Options]\ncert: path-{{cert}}:pass\n",
+    "templates": 1
+  },
+  {
+    "category": "filename-password",
+    "name": "path:{{password}}",
+    "source": "GET https://example.org\n[Options]\ncert: path:{{password}}\n",
+    "templates": 1
+  },
+  {
+    "category": "filename-password",
+    "name": "a\\ b.pem:pass",
+    "source": "GET https://example.org\n[Options]\ncert: a\\ b.pem:pass\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "''-'a\\\\q\\\\d'",
+    "source": "POST https://example.org\n```\na\\q\\d\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "''-'{{name}}'",
+    "source": "POST https://example.org\n```\n{{name}}\n```\n",
+    "templates": 1
+  },
+  {
+    "category": "multiline",
+    "name": "''-'# hash'",
+    "source": "POST https://example.org\n```\n# hash\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'raw'-'a\\\\q\\\\d'",
+    "source": "POST https://example.org\n```raw\na\\q\\d\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'raw'-'{{name}}'",
+    "source": "POST https://example.org\n```raw\n{{name}}\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'raw'-'{{ not a variable }}'",
+    "source": "POST https://example.org\n```raw\n{{ not a variable }}\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'raw'-'# hash'",
+    "source": "POST https://example.org\n```raw\n# hash\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'json'-'a\\\\q\\\\d'",
+    "source": "POST https://example.org\n```json\na\\q\\d\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'json'-'{{name}}'",
+    "source": "POST https://example.org\n```json\n{{name}}\n```\n",
+    "templates": 1
+  },
+  {
+    "category": "multiline",
+    "name": "'json'-'# hash'",
+    "source": "POST https://example.org\n```json\n# hash\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'xml'-'a\\\\q\\\\d'",
+    "source": "POST https://example.org\n```xml\na\\q\\d\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'xml'-'{{name}}'",
+    "source": "POST https://example.org\n```xml\n{{name}}\n```\n",
+    "templates": 1
+  },
+  {
+    "category": "multiline",
+    "name": "'xml'-'# hash'",
+    "source": "POST https://example.org\n```xml\n# hash\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'graphql'-'a\\\\q\\\\d'",
+    "source": "POST https://example.org\n```graphql\na\\q\\d\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "'graphql'-'{{name}}'",
+    "source": "POST https://example.org\n```graphql\n{{name}}\n```\n",
+    "templates": 1
+  },
+  {
+    "category": "multiline",
+    "name": "'graphql'-'# hash'",
+    "source": "POST https://example.org\n```graphql\n# hash\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "multiline",
+    "name": "graphql-variables",
+    "source": "POST https://example.org\n```graphql\nquery Q($id: Int!) { user(id: $id) { id } }\nvariables { \"id\": 1 }\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "ast-forms",
+    "name": "quoted-template",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"{{name}}\"\n",
+    "templates": 1
+  },
+  {
+    "category": "ast-forms",
+    "name": "query-template",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: header \"{{name}}\"\n",
+    "templates": 1
+  },
+  {
+    "category": "ast-forms",
+    "name": "json-template",
+    "source": "POST https://example.org\n{\"x\":\"{{name}}\"}\n",
+    "templates": 1
+  },
+  {
+    "category": "ast-forms",
+    "name": "json-slash",
+    "source": "POST https://example.org\n{\"x\":\"a\\/b\"}\n",
+    "templates": 0
+  },
+  {
+    "category": "ast-forms",
+    "name": "filename-template",
+    "source": "POST https://example.org\nfile,{{path}};\n",
+    "templates": 1
+  },
+  {
+    "category": "ast-forms",
+    "name": "url-template",
+    "source": "GET https://example.org/{{name}}\n",
+    "templates": 1
+  },
+  {
+    "category": "xml",
+    "name": "<root><!-- hi --><child/></root>",
+    "source": "POST https://example.org\n<root><!-- hi --><child/></root>\n",
+    "templates": 0
+  },
+  {
+    "category": "xml",
+    "name": "<root><![CDATA[a<b]]></root>",
+    "source": "POST https://example.org\n<root><![CDATA[a<b]]></root>\n",
+    "templates": 0
+  },
+  {
+    "category": "xml",
+    "name": "<root>one\ntwo</root>",
+    "source": "POST https://example.org\n<root>one\ntwo</root>\n",
+    "templates": 0
+  },
+  {
+    "category": "xml",
+    "name": "<root a=\"a>b\"/>",
+    "source": "POST https://example.org\n<root a=\"a>b\"/>\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "empty-BasicAuth",
+    "source": "GET https://example.org\n[BasicAuth]\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "empty-Query",
+    "source": "GET https://example.org\n[Query]\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "empty-Form",
+    "source": "GET https://example.org\n[Form]\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "empty-Multipart",
+    "source": "GET https://example.org\n[Multipart]\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "empty-Cookies",
+    "source": "GET https://example.org\n[Cookies]\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "empty-Options",
+    "source": "GET https://example.org\n[Options]\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "empty-Captures",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "empty-Asserts",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "variable-'hello world'",
+    "source": "GET https://example.org\n[Options]\nvariable: x=hello world\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "variable-''",
+    "source": "GET https://example.org\n[Options]\nvariable: x=\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "variable-'{{name}}'",
+    "source": "GET https://example.org\n[Options]\nvariable: x={{name}}\n",
+    "templates": 1
+  },
+  {
+    "category": "extended",
+    "name": "variable-'-1'",
+    "source": "GET https://example.org\n[Options]\nvariable: x=-1\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "variable-'\"hello world\"'",
+    "source": "GET https://example.org\n[Options]\nvariable: x=\"hello world\"\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "multipart-file,a.txt;",
+    "source": "POST https://example.org\n[Multipart]\nx: file,a.txt;\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "multipart-file,a.txt; text/plain",
+    "source": "POST https://example.org\n[Multipart]\nx: file,a.txt; text/plain\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "multipart-file,a.json; application/vnd.api+json",
+    "source": "POST https://example.org\n[Multipart]\nx: file,a.json; application/vnd.api+json\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "multipart-file,a.txt; text/plain; charset=utf-8",
+    "source": "POST https://example.org\n[Multipart]\nx: file,a.txt; text/plain; charset=utf-8\n",
+    "templates": 0
+  },
+  {
+    "category": "extended",
+    "name": "quoted-{{name}}",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"{{name}}\"\n",
+    "templates": 1
+  },
+  {
+    "category": "extended",
+    "name": "cacert-{{name}}",
+    "source": "GET https://example.org\n[Options]\ncacert: {{name}}\n",
+    "templates": 1
+  },
+  {
+    "category": "extended",
+    "name": "quoted-prefix-{{name}}",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"prefix-{{name}}\"\n",
+    "templates": 1
+  },
+  {
+    "category": "extended",
+    "name": "cacert-prefix-{{name}}",
+    "source": "GET https://example.org\n[Options]\ncacert: prefix-{{name}}\n",
+    "templates": 1
+  },
+  {
+    "category": "extended",
+    "name": "cert-spacing-''",
+    "source": "GET https://example.org\n[Options]\ncert:{{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "extended",
+    "name": "cert-spacing-' '",
+    "source": "GET https://example.org\n[Options]\ncert: {{value}}\n",
+    "templates": 1
+  },
+  {
+    "category": "boundaries",
+    "name": "raw-malformed",
+    "source": "POST https://example.org\n```raw\n{{not closed \\q\n```\n",
+    "templates": 0
+  },
+  {
+    "category": "boundaries",
+    "name": "quoted-two",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"a{{first}}b{{second}}c\"\n",
+    "templates": 2
+  },
+  {
+    "category": "boundaries",
+    "name": "filename-two",
+    "source": "POST https://example.org\nfile,prefix-{{first}}-{{second}}.txt;\n",
+    "templates": 2
+  },
+  {
+    "category": "boundaries",
+    "name": "raw-xml-cdata",
+    "source": "POST https://example.org\n<root><![CDATA[a<b & {{name}}]]></root>\n",
+    "templates": 0
+  },
+  {
+    "category": "boundaries",
+    "name": "xml-hash",
+    "source": "POST https://example.org\n<root># literal \\q {{name}}</root>\n",
+    "templates": 0
+  },
+  {
+    "category": "boundaries",
+    "name": "cjk-key",
+    "source": "GET https://example.org\n漢字: value\n",
+    "templates": 0
+  },
+  {
+    "category": "boundaries",
+    "name": "count-header-number",
+    "source": "GET https://example.org\nExpect: 100-continue\n`data`\n",
+    "templates": 0
+  },
+  {
+    "category": "boundaries",
+    "name": "numeric-json-body",
+    "source": "POST https://example.org\n100\nHTTP 200\n",
+    "templates": 0
+  },
+  {
+    "category": "boundaries",
+    "name": "adjacent-empty-sections",
+    "source": "GET https://example.org\n[Options]\n[Query]\n[BasicAuth]\n[Form]\n[Multipart]\n[Cookies]\nHTTP 200\n[Captures]\n[Asserts]\n",
+    "templates": 0
+  },
+  {
+    "category": "boundaries",
+    "name": "function-prefix-newDateSuffix",
+    "source": "GET https://example.org/{{newDateSuffix}}\n",
+    "templates": 1,
+    "nodes": {
+      "function": 0,
+      "variable_name": 1
+    }
+  },
+  {
+    "category": "boundaries",
+    "name": "function-prefix-newUuid_1",
+    "source": "GET https://example.org/{{newUuid_1}}\n",
+    "templates": 1,
+    "nodes": {
+      "function": 0,
+      "variable_name": 1
+    }
+  },
+  {
+    "category": "boundaries",
+    "name": "keyword-header-true",
+    "source": "GET https://example.org\ntrue: value\n",
+    "templates": 0,
+    "nodes": {
+      "header": 1,
+      "entry": 1
+    }
+  },
+  {
+    "category": "boundaries",
+    "name": "keyword-header-false",
+    "source": "GET https://example.org\nfalse: value\n",
+    "templates": 0,
+    "nodes": {
+      "header": 1,
+      "entry": 1
+    }
+  },
+  {
+    "category": "boundaries",
+    "name": "keyword-header-null",
+    "source": "GET https://example.org\nnull: value\n",
+    "templates": 0,
+    "nodes": {
+      "header": 1,
+      "entry": 1
+    }
+  },
+  {
+    "category": "boundaries",
+    "name": "keyword-header-GET",
+    "source": "GET https://example.org\nGET: value\n",
+    "templates": 0,
+    "nodes": {
+      "header": 1,
+      "entry": 1
+    }
+  },
+  {
+    "category": "boundaries",
+    "name": "keyword-header-POST",
+    "source": "GET https://example.org\nPOST: value\n",
+    "templates": 0,
+    "nodes": {
+      "header": 1,
+      "entry": 1
+    }
+  },
+  {
+    "category": "boundaries",
+    "name": "keyword-header-HTTP",
+    "source": "GET https://example.org\nHTTP: value\n",
+    "templates": 0,
+    "nodes": {
+      "header": 1,
+      "entry": 1
+    }
+  }
+]

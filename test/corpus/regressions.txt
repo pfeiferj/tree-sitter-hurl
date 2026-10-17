@@ -415,8 +415,6 @@ POST https://example.org
             (multiline_string_content)
             (multiline_string_content)
             (multiline_string_content)
-            (multiline_string_content)
-            (multiline_string_content)
             (multiline_string_content)))))))
 
 ==================================================
@@ -471,7 +469,8 @@ POST https://example.org
           (multiline_string
             (template
               template: (expr
-                (variable_name)))))))))
+                (variable_name)))
+            (multiline_string_content)))))))
 
 ==================================================
 literal_backticks
@@ -502,6 +501,7 @@ POST https://example.org
             (multiline_string_content)
             (multiline_string_content)
             (multiline_string_content)
+            (multiline_string_content)
             (multiline_string_content)))))))
 
 ==================================================
@@ -524,7 +524,11 @@ POST https://example.org
         (bytes
           (xml
             (xml_tag
-              (xml_self_closing_tag))))))))
+              (xml_self_closing_tag
+                (xml_name)
+                (xml_attribute
+                  (xml_name)
+                  (xml_attribute_value))))))))))
 
 ==================================================
 nested_self_closing_xml
@@ -546,10 +550,13 @@ POST https://example.org
         (bytes
           (xml
             (xml_tag
-              (xml_open_tag)
+              (xml_open_tag
+                (xml_name))
               (xml_tag
-                (xml_self_closing_tag))
-              (xml_close_tag))))))))
+                (xml_self_closing_tag
+                  (xml_name)))
+              (xml_close_tag
+                (xml_name)))))))))
 
 ==================================================
 signed_assertions
@@ -743,6 +750,8 @@ filters[status]: active
       (header
         (key_value
           (key_string
+            (key_string_content
+              (key_string_text))
             (key_string_content
               (key_string_text)))
           (value_string

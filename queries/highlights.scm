@@ -21,6 +21,8 @@
 (quoted_string) @string
 (json_string) @string
 (file_value) @string.special
+(filename) @string
+(filename_password) @string
 (regex) @string.regex
 
 "\\" @string.escape
@@ -29,8 +31,8 @@
 (key_string_escaped_char) @string.escape
 (value_string_escaped_char) @string.escape
 (oneline_string_escaped_char) @string.escape
-(multiline_string_escaped_char) @string.escape
 (filename_escaped_char) @string.escape
+(filename_password_escaped_char) @string.escape
 (json_string_escaped_char) @string.escape
 
 (method) @type.builtin
@@ -109,3 +111,8 @@
 (certificate_attribute) @string.special
 "redact" @keyword
 (verbosity_option level: _ @constant.builtin)
+
+(function) @function.builtin
+(xml_comment) @comment
+(xml_attribute_value) @string
+(xml_cdata) @string

@@ -164,7 +164,7 @@ class TestQaRegressions(TestCase):
 
     def test_incremental_array_header_disambiguation(self):
         parser = tree_sitter.Parser(tree_sitter.Language(tree_sitter_hurl.language()))
-        for fragment in ("[1]", "[{{name}}]"):
+        for fragment in ("[1]", "[{{name}}]", "100", "true", "false", "null"):
             source = ("GET https://example.org\n" + fragment + "\n").encode()
             tree = parser.parse(source)
             self.assertFalse(tree.root_node.has_error)
