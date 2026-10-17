@@ -35,7 +35,7 @@ test("all shipped examples parse without errors", () => {
   }
 });
 
-test("signed values do not enable negative unsigned options", () => {
+test("signed values preserve the existing option constraints", () => {
   const parser = new Parser();
   parser.setLanguage(Hurl);
   for (const option of ["max-redirs: -1", "connect-timeout: -1s"]) {

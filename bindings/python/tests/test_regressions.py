@@ -137,3 +137,51 @@ class TestRegressions(TestCase):
         for path in sorted((ROOT / "queries").glob("*.scm")):
             with self.subTest(path=path.name):
                 tree_sitter.Query(self.language, path.read_text())
+
+
+QA_CASES = {}
+for index, key in enumerate(("a b", "a\nb", "a\tb", "a# comment\nb", "foo[1e+2]", "1e+2", "a [b]", "a {{b}}", "{{a}} {{b}}")):
+    QA_CASES["invalid_key_" + str(index)] = (False, "GET https://example.org\n" + key + ": value\n")
+# Retain baseline compatibility for bracket-leading template keys,
+# although Hurl 8 interprets that particular prefix as a JSON array.
+for index, key in enumerate(("foo[1]", "foo[01]", "123abc", "X.Version", "foo{{bar}}", "{{foo}}bar", "[{{foo}}]", "a" + chr(92) + "#b")):
+    QA_CASES["valid_key_" + str(index)] = (True, "GET https://example.org\n" + key + ": value\n")
+for index, number in enumerate(("- 1", "-\t1", "-\n1", "- # comment\n1", "-1 .5", "-1. 5")):
+    QA_CASES["split_number_" + str(index)] = (False, "GET https://example.org\nHTTP 200\n[Asserts]\nstatus == " + number + "\n")
+for index, number in enumerate(("-1", "-1.5")):
+    QA_CASES["signed_number_" + str(index)] = (True, "GET https://example.org\nHTTP 200\n[Asserts]\nstatus == " + number + "\n")
+for name, text in (("hash_only", "#"), ("embedded_hash", "a#b"), ("escaped_hash", "a" + chr(92) + "#b")):
+    QA_CASES[name] = (True, "POST https://example.org\n" + TICK + text + TICK + "\n")
+
+
+class TestQaRegressions(TestCase):
+    def test_key_and_numeric_contiguity_and_literal_hashes(self):
+        parser = tree_sitter.Parser(tree_sitter.Language(tree_sitter_hurl.language()))
+        for name, (valid, source) in QA_CASES.items():
+            with self.subTest(name=name, source=source):
+                root = parser.parse(source.encode()).root_node
+                self.assertEqual(not root.has_error, valid, str(root))
+
+    def test_incremental_array_header_disambiguation(self):
+        parser = tree_sitter.Parser(tree_sitter.Language(tree_sitter_hurl.language()))
+        for fragment in ("[1]", "[{{name}}]"):
+            source = ("GET https://example.org\n" + fragment + "\n").encode()
+            tree = parser.parse(source)
+            self.assertFalse(tree.root_node.has_error)
+            at = len(source) - 1
+            suffix = b": value"
+            point = (1, len(fragment))
+            end = (1, len(fragment) + len(suffix))
+            tree.edit(start_byte=at, old_end_byte=at, new_end_byte=at + len(suffix),
+                      start_point=point, old_end_point=point, new_end_point=end)
+            changed = source[:at] + suffix + source[at:]
+            tree = parser.parse(changed, tree)
+            self.assertFalse(tree.root_node.has_error)
+            self.assertEqual(len(descendants(tree.root_node, "header")), 1)
+            self.assertEqual(str(tree.root_node), str(parser.parse(changed).root_node))
+            tree.edit(start_byte=at, old_end_byte=at + len(suffix), new_end_byte=at,
+                      start_point=point, old_end_point=end, new_end_point=point)
+            tree = parser.parse(source, tree)
+            self.assertFalse(tree.root_node.has_error)
+            self.assertEqual(len(descendants(tree.root_node, "body")), 1)
+            self.assertEqual(str(tree.root_node), str(parser.parse(source).root_node))

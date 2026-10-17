@@ -715,25 +715,6 @@
     }
   },
   {
-    "type": "float",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "fraction",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "form_params_section",
     "named": true,
     "fields": {
@@ -762,21 +743,6 @@
         },
         {
           "type": "key_value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "fraction",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "digit",
           "named": true
         }
       ]
@@ -940,21 +906,6 @@
       "types": [
         {
           "type": "predicate_value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "integer",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "digit",
           "named": true
         }
       ]
@@ -1206,17 +1157,24 @@
   {
     "type": "key_string",
     "named": true,
-    "fields": {},
+    "fields": {
+      "template": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "template",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "key_string_content",
-          "named": true
-        },
-        {
-          "type": "template",
           "named": true
         }
       ]
@@ -1240,16 +1198,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "key_string_escaped_char",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "key_string_text",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "key_value",
@@ -1620,6 +1568,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "oneline_string_text",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "option",
@@ -2444,7 +2397,7 @@
     "fields": {
       "template": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "expr",
@@ -2460,6 +2413,20 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "filter",
+          "named": true
+        },
+        {
+          "type": "variable_name",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -3149,6 +3116,10 @@
     "named": true
   },
   {
+    "type": "float",
+    "named": true
+  },
+  {
     "type": "format",
     "named": false
   },
@@ -3203,6 +3174,10 @@
   {
     "type": "insecure",
     "named": false
+  },
+  {
+    "type": "integer",
+    "named": true
   },
   {
     "type": "ipv4",
@@ -3267,6 +3242,14 @@
   {
     "type": "key",
     "named": false
+  },
+  {
+    "type": "key_string_escaped_char",
+    "named": true
+  },
+  {
+    "type": "key_string_text",
+    "named": true
   },
   {
     "type": "lessThan",
@@ -3346,10 +3329,6 @@
   },
   {
     "type": "oneline_string_escaped_char",
-    "named": true
-  },
-  {
-    "type": "oneline_string_text",
     "named": true
   },
   {

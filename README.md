@@ -29,8 +29,9 @@ Regenerate the parser with the pinned Tree-sitter 0.22 CLI (language ABI 14):
 
     npx tree-sitter generate --no-bindings
 
-The EOF scanner must be compiled together with `src/parser.c`; the provided
-bindings and Makefile include it.
+The external scanner handles EOF and bracketed-key/JSON disambiguation. It must
+be compiled together with `src/parser.c`; the provided bindings and Makefile
+include it.
 
 For additional invalid-input, interpolation, CRLF, and incremental EOF coverage:
 

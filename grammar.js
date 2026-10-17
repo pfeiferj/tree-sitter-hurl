@@ -3,7 +3,8 @@ module.exports = grammar({
   //word: $ => $.word,
   extras: $ => [/[\s\p{Zs}\uFEFF\u2060\u200B]/, $.comment],
 
-  externals: ($) => [$._eof],
+  // The final external is a recovery sentinel; it is never emitted.
+  externals: ($) => [$._eof, $._json_array_start, $._bracketed_key_start, $._error_sentinel],
 
   rules: {
     hurl_file: ($) => seq(repeat($.entry), repeat($._comment_or_new_line)),
@@ -265,13 +266,17 @@ module.exports = grammar({
         "\\",
         choice('"', "\\", "b", "f", "n", "r", "t", seq("u", $.unicode_char))
       ),
-    key_string: ($) => repeat1(choice($.template, $.key_string_content)),
+    key_string: ($) => seq(
+      choice(alias($._bracketed_key_content, $.key_string_content), $._key_template, $.key_string_content),
+      repeat(choice($._key_template, $.key_string_content))
+    ),
+    _bracketed_key_content: ($) => seq(alias($._bracketed_key_start, $.key_string_text)),
+    _key_template: ($) => alias(field("template", seq(token.immediate("{{"), $.expr, "}}")), $.template),
     key_string_content: ($) =>
       prec.left(repeat1(choice($.key_string_text, $.key_string_escaped_char))),
-    // Share scalar/bracket tokens with JSON so compact arrays are not lexed as keys.
     key_string_text: ($) =>
-      prec.left(repeat1(choice(/[A-Za-z_@$][A-Za-z0-9_.@$-]*|[.-]/, $._json_number, "true", "false", "null", "[", "]"))),
-    key_string_escaped_char: ($) => seq("\\", choice("#", '"')),
+      token.immediate(/[A-Za-z0-9_.@\$\[\]-]+/),
+    key_string_escaped_char: ($) => token.immediate(seq("\\", choice("#", '"'))),
     xml_value_string: ($) => prec.right(repeat1(choice($.template, $.value_string_text))),
     xml_value_string_text: ($) => prec.right(repeat1(/[^<\n]/)),
     value_string: ($) => prec.right(repeat1(choice($.template, $.value_string_content))),
@@ -287,7 +292,7 @@ module.exports = grammar({
       seq("`", repeat(choice($.template, $.oneline_string_content)), "`"),
     oneline_string_content: ($) =>
       prec.left(repeat1(choice($.oneline_string_text, $.oneline_string_escaped_char))),
-    oneline_string_text: ($) => token(prec(-1, /[^#\n\\`{]+|\{/)),
+    oneline_string_text: ($) => choice(token(prec(1, /[^\n\\`{]+/)), token(prec(-1, "{"))),
     oneline_string_escaped_char: ($) =>
       token(seq("\\", choice("`", "#", "\\", "b", "f", seq("u", /\{[0-9A-Fa-f]{4}\}/)))),
     multiline_string: ($) =>
@@ -329,7 +334,7 @@ module.exports = grammar({
     json_key_value: ($) => seq($.json_key_string, ":", $.json_value),
     json_key_string: ($) => alias($.json_string, "json_key_string"),
     json_array: ($) =>
-      seq("[", optional(seq($.json_value, repeat(seq(",", $.json_value)))), "]"),
+      seq(alias($._json_array_start, "["), optional(seq($.json_value, repeat(seq(",", $.json_value)))), "]"),
     json_string: ($) =>
       seq('"', repeat($.json_string_content), '"'),
     json_string_content: ($) =>
@@ -375,10 +380,10 @@ module.exports = grammar({
     xpath_filter: ($) => seq(field("filter_key", "xpath"), $.quoted_string),
     boolean: ($) => choice("true", "false"),
     _alphanum: ($) => /[A-Za-z0-9]/,
-    integer: ($) => prec.left(seq(optional("-"), repeat1($.digit))),
-    _unsigned_integer: ($) => alias(prec.left(repeat1($.digit)), $.integer),
+    integer: ($) => token(/-?[0-9]+/),
+    _unsigned_integer: ($) => alias(token(/[0-9]+/), $.integer),
     json_integer: ($) => prec.left(seq(repeat1($.json_digit))),
-    float: ($) => seq($.integer, $.fraction),
+    float: ($) => token(/-?[0-9]+\.[0-9]+/),
     digit: ($) => /[0-9]/,
     json_digit: ($) => /[0-9]/,
     hexdigit: ($) => /[0-9A-Fa-f]/,
@@ -396,8 +401,5 @@ module.exports = grammar({
     regex_escaped_char: ($) => seq("\\", /[^\n]/),
   },
   conflicts: ($) => [
-    [$.key_string_text, $.json_array],
-    [$.variable_value, $.key_string_text],
-    [$.key_string_text, $.boolean],
   ],
 });

@@ -585,8 +585,7 @@ jsonpath "$.x" > -2.5
               (predicate_func
                 (equal_predicate
                   (predicate_value
-                    (integer
-                      (digit)))))))
+                    (integer))))))
           (assert
             (query
               (jsonpath_query
@@ -596,11 +595,7 @@ jsonpath "$.x" > -2.5
             (predicate
               (predicate_func
                 (greater_predicate
-                  (float
-                    (integer
-                      (digit))
-                    (fraction
-                      (digit))))))))))))
+                  (float))))))))))
 
 ==================================================
 decode_filter
@@ -741,8 +736,6 @@ filters[status]: active
             (key_string_content
               (key_string_text))
             (key_string_content
-              (key_string_text))
-            (key_string_content
               (key_string_text)))
           (value_string
             (value_string_content
@@ -750,12 +743,6 @@ filters[status]: active
       (header
         (key_value
           (key_string
-            (key_string_content
-              (key_string_text))
-            (key_string_content
-              (key_string_text))
-            (key_string_content
-              (key_string_text))
             (key_string_content
               (key_string_text)))
           (value_string
