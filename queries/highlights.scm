@@ -69,7 +69,7 @@
 (version) @string.special
 
 "null" @constant.builtin
-(option (_ key: _ @constant.builtin) )
+(option (_ option_key: _ @constant.builtin) )
 
 (boolean) @boolean
 

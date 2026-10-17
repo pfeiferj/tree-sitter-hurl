@@ -1,5 +1,39 @@
 [
   {
+    "type": "argument_filter",
+    "named": true,
+    "fields": {
+      "filter_key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "decode",
+            "named": false
+          },
+          {
+            "type": "format",
+            "named": false
+          },
+          {
+            "type": "toDate",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "quoted_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "assert",
     "named": true,
     "fields": {},
@@ -650,6 +684,10 @@
       "required": true,
       "types": [
         {
+          "type": "argument_filter",
+          "named": true
+        },
+        {
           "type": "nth_filter",
           "named": true
         },
@@ -968,7 +1006,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "json_value",
@@ -988,54 +1026,9 @@
     "fields": {}
   },
   {
-    "type": "json_exponent",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "json_digit",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "json_fraction",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "json_digit",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "json_hexdigit",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "json_integer",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "json_digit",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "json_key_string",
@@ -1074,25 +1067,7 @@
   {
     "type": "json_number",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "json_exponent",
-          "named": true
-        },
-        {
-          "type": "json_fraction",
-          "named": true
-        },
-        {
-          "type": "json_integer",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "json_object",
@@ -1268,6 +1243,11 @@
   },
   {
     "type": "key_string_escaped_char",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "key_string_text",
     "named": true,
     "fields": {}
   },
@@ -1640,26 +1620,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "oneline_string_escaped_char",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "unicode_char",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "oneline_string_text",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "option",
@@ -2255,23 +2215,11 @@
             "named": false
           },
           {
-            "type": "decode",
-            "named": false
-          },
-          {
-            "type": "format",
-            "named": false
-          },
-          {
             "type": "htmlEscape",
             "named": false
           },
           {
             "type": "htmlUnescape",
-            "named": false
-          },
-          {
-            "type": "toDate",
             "named": false
           },
           {
@@ -2734,6 +2682,11 @@
     "fields": {}
   },
   {
+    "type": "xml_self_closing_tag",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "xml_tag",
     "named": true,
     "fields": {},
@@ -2751,6 +2704,10 @@
         },
         {
           "type": "xml_prolog_tag",
+          "named": true
+        },
+        {
+          "type": "xml_self_closing_tag",
           "named": true
         },
         {
@@ -3312,10 +3269,6 @@
     "named": false
   },
   {
-    "type": "key_string_text",
-    "named": true
-  },
-  {
     "type": "lessThan",
     "named": false
   },
@@ -3390,6 +3343,14 @@
   {
     "type": "null",
     "named": false
+  },
+  {
+    "type": "oneline_string_escaped_char",
+    "named": true
+  },
+  {
+    "type": "oneline_string_text",
+    "named": true
   },
   {
     "type": "output",

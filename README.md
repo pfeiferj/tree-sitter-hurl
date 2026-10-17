@@ -16,3 +16,26 @@ better highlighting.
 
 * The grammar is based off of [hurl's grammar file](https://github.com/Orange-OpenSource/hurl/blob/master/docs/spec/hurl.grammar).
 * For more information about tree-sitter visit the [tree-sitter website](https://tree-sitter.github.io/tree-sitter/).
+
+## Development and tests
+
+Install project-local tooling and run the corpus, query-compilation, example,
+and Node binding tests:
+
+    npm ci
+    npm test
+
+Regenerate the parser with the pinned Tree-sitter 0.22 CLI (language ABI 14):
+
+    npx tree-sitter generate --no-bindings
+
+The EOF scanner must be compiled together with `src/parser.c`; the provided
+bindings and Makefile include it.
+
+For additional invalid-input, interpolation, CRLF, and incremental EOF coverage:
+
+    python3 -m venv .venv
+    .venv/bin/python -m pip install . 'tree-sitter>=0.25,<0.27'
+    .venv/bin/python -m unittest discover -s bindings/python/tests -v
+
+Tests parse Hurl source only; they do not execute HTTP requests.

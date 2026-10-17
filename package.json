@@ -8,7 +8,7 @@
     "install": "node-gyp-build",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
-    "test": "node --test bindings/node/*_test.js"
+    "test": "tree-sitter test && node --test bindings/node/*_test.js"
   },
   "author": "Jacob Pfeifer",
   "license": "Apache-2.0",
@@ -25,7 +25,7 @@
     }
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.7",
+    "tree-sitter-cli": "^0.22.6",
     "prebuildify": "^6.0.0"
   },
   "tree-sitter": [
