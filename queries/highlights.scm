@@ -102,3 +102,10 @@
 "base64," @string.special
 "file," @string.special
 "hex," @string.special
+
+; Field-based captures also cover current Hurl names added after the legacy list.
+(_ query_name: _ @function.builtin)
+(_ filter_key: _ @function.builtin)
+(certificate_attribute) @string.special
+"redact" @keyword
+(verbosity_option level: _ @constant.builtin)

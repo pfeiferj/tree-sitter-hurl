@@ -119,7 +119,7 @@ class TestRegressions(TestCase):
             "POST https://example.org\n" + FENCE + "\nunterminated\n",
             "POST https://example.org\nbase64,_w==;\n",
             "POST https://example.org\nbase64,-w==;\n",
-            "GET https://example.org\n[Options]\nmax-redirs: -1\n",
+            "GET https://example.org\n[Options]\nmax-redirs: -2\n",
             "GET https://example.org\n[Options]\nconnect-timeout: -1s\n",
             'GET https://example.org\nHTTP 200\n[Asserts]\nbody decode == "a"\n',
             "GET https://example.org\nHTTP 200 [Asserts]\nstatus == 200\n",

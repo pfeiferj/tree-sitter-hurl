@@ -8,6 +8,14 @@
         "required": true,
         "types": [
           {
+            "type": "charsetDecode",
+            "named": false
+          },
+          {
+            "type": "dateFormat",
+            "named": false
+          },
+          {
             "type": "decode",
             "named": false
           },
@@ -16,7 +24,15 @@
             "named": false
           },
           {
+            "type": "jsonpath",
+            "named": false
+          },
+          {
             "type": "toDate",
+            "named": false
+          },
+          {
+            "type": "urlQueryParam",
             "named": false
           }
         ]
@@ -107,7 +123,7 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "comment",
@@ -247,7 +263,18 @@
   {
     "type": "capture",
     "named": true,
-    "fields": {},
+    "fields": {
+      "modifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "redact",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -332,6 +359,37 @@
     }
   },
   {
+    "type": "certificate_attribute",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "certificate_query",
+    "named": true,
+    "fields": {
+      "query_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "certificate",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "certificate_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "contain_predicate",
     "named": true,
     "fields": {
@@ -351,7 +409,7 @@
       "required": true,
       "types": [
         {
-          "type": "quoted_string",
+          "type": "predicate_value",
           "named": true
         }
       ]
@@ -412,6 +470,41 @@
         }
       ]
     }
+  },
+  {
+    "type": "count_option",
+    "named": true,
+    "fields": {
+      "option_key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "count_option_key",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "template",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "count_option_key",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "digit",
@@ -482,11 +575,19 @@
       "required": true,
       "types": [
         {
+          "type": "multiline_string",
+          "named": true
+        },
+        {
           "type": "oneline_base64",
           "named": true
         },
         {
           "type": "oneline_hex",
+          "named": true
+        },
+        {
+          "type": "oneline_string",
           "named": true
         },
         {
@@ -700,6 +801,10 @@
           "named": true
         },
         {
+          "type": "replace_regex_filter",
+          "named": true
+        },
+        {
           "type": "simple_filter_key",
           "named": true
         },
@@ -776,7 +881,19 @@
           "named": true
         },
         {
+          "type": "multiline_string",
+          "named": true
+        },
+        {
+          "type": "oneline_string",
+          "named": true
+        },
+        {
           "type": "quoted_string",
+          "named": true
+        },
+        {
+          "type": "template",
           "named": true
         }
       ]
@@ -810,7 +927,19 @@
           "named": true
         },
         {
+          "type": "multiline_string",
+          "named": true
+        },
+        {
+          "type": "oneline_string",
+          "named": true
+        },
+        {
           "type": "quoted_string",
+          "named": true
+        },
+        {
+          "type": "template",
           "named": true
         }
       ]
@@ -1258,7 +1387,19 @@
           "named": true
         },
         {
+          "type": "multiline_string",
+          "named": true
+        },
+        {
+          "type": "oneline_string",
+          "named": true
+        },
+        {
           "type": "quoted_string",
+          "named": true
+        },
+        {
+          "type": "template",
           "named": true
         }
       ]
@@ -1292,7 +1433,19 @@
           "named": true
         },
         {
+          "type": "multiline_string",
+          "named": true
+        },
+        {
+          "type": "oneline_string",
+          "named": true
+        },
+        {
           "type": "quoted_string",
+          "named": true
+        },
+        {
+          "type": "template",
           "named": true
         }
       ]
@@ -1317,6 +1470,14 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "multiline_string",
+          "named": true
+        },
+        {
+          "type": "oneline_string",
+          "named": true
+        },
         {
           "type": "quoted_string",
           "named": true
@@ -1492,6 +1653,10 @@
         {
           "type": "integer",
           "named": true
+        },
+        {
+          "type": "template",
+          "named": true
         }
       ]
     }
@@ -1595,6 +1760,10 @@
           "named": true
         },
         {
+          "type": "count_option",
+          "named": true
+        },
+        {
           "type": "duration_option",
           "named": true
         },
@@ -1608,6 +1777,10 @@
         },
         {
           "type": "variable_option",
+          "named": true
+        },
+        {
+          "type": "verbosity_option",
           "named": true
         }
       ]
@@ -1754,6 +1927,10 @@
           "named": true
         },
         {
+          "type": "oneline_string",
+          "named": true
+        },
+        {
           "type": "quoted_string",
           "named": true
         },
@@ -1772,6 +1949,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "certificate_query",
+          "named": true
+        },
         {
           "type": "cookie_query",
           "named": true
@@ -2024,6 +2205,36 @@
     }
   },
   {
+    "type": "replace_regex_filter",
+    "named": true,
+    "fields": {
+      "filter_key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "replaceRegex",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "quoted_string",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "request",
     "named": true,
     "fields": {},
@@ -2156,6 +2367,22 @@
         "required": true,
         "types": [
           {
+            "type": "base64Decode",
+            "named": false
+          },
+          {
+            "type": "base64Encode",
+            "named": false
+          },
+          {
+            "type": "base64UrlSafeDecode",
+            "named": false
+          },
+          {
+            "type": "base64UrlSafeEncode",
+            "named": false
+          },
+          {
             "type": "count",
             "named": false
           },
@@ -2168,6 +2395,10 @@
             "named": false
           },
           {
+            "type": "first",
+            "named": false
+          },
+          {
             "type": "htmlEscape",
             "named": false
           },
@@ -2176,7 +2407,27 @@
             "named": false
           },
           {
+            "type": "last",
+            "named": false
+          },
+          {
+            "type": "location",
+            "named": false
+          },
+          {
+            "type": "toFloat",
+            "named": false
+          },
+          {
+            "type": "toHex",
+            "named": false
+          },
+          {
             "type": "toInt",
+            "named": false
+          },
+          {
+            "type": "toString",
             "named": false
           },
           {
@@ -2185,6 +2436,14 @@
           },
           {
             "type": "urlEncode",
+            "named": false
+          },
+          {
+            "type": "utf8Decode",
+            "named": false
+          },
+          {
+            "type": "utf8Encode",
             "named": false
           }
         ]
@@ -2212,6 +2471,10 @@
             "named": false
           },
           {
+            "type": "isDate",
+            "named": false
+          },
+          {
             "type": "isEmpty",
             "named": false
           },
@@ -2236,7 +2499,15 @@
             "named": false
           },
           {
+            "type": "isList",
+            "named": false
+          },
+          {
             "type": "isNumber",
+            "named": false
+          },
+          {
+            "type": "isObject",
             "named": false
           },
           {
@@ -2272,7 +2543,19 @@
             "named": false
           },
           {
+            "type": "ip",
+            "named": false
+          },
+          {
             "type": "md5",
+            "named": false
+          },
+          {
+            "type": "rawbytes",
+            "named": false
+          },
+          {
+            "type": "redirects",
             "named": false
           },
           {
@@ -2285,6 +2568,10 @@
           },
           {
             "type": "url",
+            "named": false
+          },
+          {
+            "type": "version",
             "named": false
           }
         ]
@@ -2337,11 +2624,19 @@
       "required": true,
       "types": [
         {
+          "type": "multiline_string",
+          "named": true
+        },
+        {
           "type": "oneline_base64",
           "named": true
         },
         {
           "type": "oneline_hex",
+          "named": true
+        },
+        {
+          "type": "oneline_string",
           "named": true
         },
         {
@@ -2599,14 +2894,48 @@
           "named": true
         },
         {
-          "type": "key_string",
+          "type": "quoted_string",
           "named": true
         },
         {
-          "type": "quoted_string",
+          "type": "value_string",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "verbosity_option",
+    "named": true,
+    "fields": {
+      "level": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "brief",
+            "named": false
+          },
+          {
+            "type": "debug",
+            "named": false
+          },
+          {
+            "type": "verbose",
+            "named": false
+          }
+        ]
+      },
+      "option_key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "verbosity",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -2856,6 +3185,10 @@
     "named": false
   },
   {
+    "type": "Expire-Date",
+    "named": false
+  },
+  {
     "type": "GET",
     "named": false
   },
@@ -2888,6 +3221,10 @@
     "named": false
   },
   {
+    "type": "Issuer",
+    "named": false
+  },
+  {
     "type": "LINK",
     "named": false
   },
@@ -2917,6 +3254,18 @@
   },
   {
     "type": "PUT",
+    "named": false
+  },
+  {
+    "type": "Serial-Number",
+    "named": false
+  },
+  {
+    "type": "Start-Date",
+    "named": false
+  },
+  {
+    "type": "Subject",
     "named": false
   },
   {
@@ -3016,7 +3365,27 @@
     "named": false
   },
   {
+    "type": "base64Decode",
+    "named": false
+  },
+  {
+    "type": "base64Encode",
+    "named": false
+  },
+  {
+    "type": "base64UrlSafeDecode",
+    "named": false
+  },
+  {
+    "type": "base64UrlSafeEncode",
+    "named": false
+  },
+  {
     "type": "body",
+    "named": false
+  },
+  {
+    "type": "brief",
     "named": false
   },
   {
@@ -3029,6 +3398,14 @@
   },
   {
     "type": "cert",
+    "named": false
+  },
+  {
+    "type": "certificate",
+    "named": false
+  },
+  {
+    "type": "charsetDecode",
     "named": false
   },
   {
@@ -3060,6 +3437,10 @@
     "named": false
   },
   {
+    "type": "dateFormat",
+    "named": false
+  },
+  {
     "type": "daysAfterNow",
     "named": false
   },
@@ -3068,11 +3449,19 @@
     "named": false
   },
   {
+    "type": "debug",
+    "named": false
+  },
+  {
     "type": "decode",
     "named": false
   },
   {
     "type": "delay",
+    "named": false
+  },
+  {
+    "type": "digest",
     "named": false
   },
   {
@@ -3116,6 +3505,10 @@
     "named": true
   },
   {
+    "type": "first",
+    "named": false
+  },
+  {
     "type": "float",
     "named": true
   },
@@ -3133,6 +3526,10 @@
   },
   {
     "type": "greaterThanOrEquals",
+    "named": false
+  },
+  {
+    "type": "h",
     "named": false
   },
   {
@@ -3160,6 +3557,10 @@
     "named": false
   },
   {
+    "type": "http1.1",
+    "named": false
+  },
+  {
     "type": "http2",
     "named": false
   },
@@ -3180,6 +3581,10 @@
     "named": true
   },
   {
+    "type": "ip",
+    "named": false
+  },
+  {
     "type": "ipv4",
     "named": false
   },
@@ -3193,6 +3598,10 @@
   },
   {
     "type": "isCollection",
+    "named": false
+  },
+  {
+    "type": "isDate",
     "named": false
   },
   {
@@ -3220,7 +3629,15 @@
     "named": false
   },
   {
+    "type": "isList",
+    "named": false
+  },
+  {
     "type": "isNumber",
+    "named": false
+  },
+  {
+    "type": "isObject",
     "named": false
   },
   {
@@ -3250,6 +3667,10 @@
   {
     "type": "key_string_text",
     "named": true
+  },
+  {
+    "type": "last",
+    "named": false
   },
   {
     "type": "lessThan",
@@ -3300,6 +3721,10 @@
     "named": false
   },
   {
+    "type": "negotiate",
+    "named": false
+  },
+  {
     "type": "netrc",
     "named": false
   },
@@ -3321,6 +3746,10 @@
   },
   {
     "type": "nth",
+    "named": false
+  },
+  {
+    "type": "ntlm",
     "named": false
   },
   {
@@ -3356,6 +3785,18 @@
     "named": false
   },
   {
+    "type": "rawbytes",
+    "named": false
+  },
+  {
+    "type": "redact",
+    "named": false
+  },
+  {
+    "type": "redirects",
+    "named": false
+  },
+  {
     "type": "regex",
     "named": false
   },
@@ -3369,6 +3810,14 @@
   },
   {
     "type": "replace",
+    "named": false
+  },
+  {
+    "type": "replaceRegex",
+    "named": false
+  },
+  {
+    "type": "resolve",
     "named": false
   },
   {
@@ -3416,7 +3865,19 @@
     "named": false
   },
   {
+    "type": "toFloat",
+    "named": false
+  },
+  {
+    "type": "toHex",
+    "named": false
+  },
+  {
     "type": "toInt",
+    "named": false
+  },
+  {
+    "type": "toString",
     "named": false
   },
   {
@@ -3444,7 +3905,19 @@
     "named": false
   },
   {
+    "type": "urlQueryParam",
+    "named": false
+  },
+  {
     "type": "user",
+    "named": false
+  },
+  {
+    "type": "utf8Decode",
+    "named": false
+  },
+  {
+    "type": "utf8Encode",
     "named": false
   },
   {
@@ -3453,6 +3926,14 @@
   },
   {
     "type": "verbose",
+    "named": false
+  },
+  {
+    "type": "verbosity",
+    "named": false
+  },
+  {
+    "type": "version",
     "named": false
   },
   {

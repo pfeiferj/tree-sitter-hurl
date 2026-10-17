@@ -64,7 +64,7 @@ module.exports = grammar({
       ),
     response_section: ($) => choice($.captures_section, $.asserts_section),
     basic_auth_section: ($) =>
-      seq(field("section_header", "[BasicAuth]"), $._line_ending, $.key_value, $._line_ending),
+      seq(field("section_header", "[BasicAuth]"), $._line_ending, repeat(seq($.key_value, $._line_ending))),
     query_string_params_section: ($) =>
       prec.right(seq(field("section_header", choice("[Query]", "[QueryStringParams]")), $._line_ending, optional($.key_value), repeat(seq($._line_ending,$.key_value)), $._line_ending)),
     form_params_section: ($) =>
@@ -94,6 +94,7 @@ module.exports = grammar({
         ":",
         $.query,
         repeat(seq($.filter)),
+        optional(field("modifier", "redact")),
         $._line_ending
       ),
     assert: ($) =>
@@ -111,6 +112,8 @@ module.exports = grammar({
           $.variable_option,
           $.boolean_option,
           $.integer_option,
+          $.count_option,
+          $.verbosity_option,
           $.duration_option,
           $.string_option
         )
@@ -127,23 +130,26 @@ module.exports = grammar({
         choice("\\", "b", "f", "n", "r", "t", seq("u", $.unicode_char), "#", ";", "{", "}", ":")
       ),
     boolean_option: ($) => seq(field("option_key", $.boolean_option_key), ":", choice($.boolean, $.template)),
-    boolean_option_key: ($) => choice("compressed", "location", "location-trusted", "http1.0", "http2", "http3", "insecure", "ipv4", "ipv6", "netrc", "netrc-optional", "path-as-is", "skip", "verbose", "very-verbose"),
+    boolean_option_key: ($) => choice("digest", "http1.1", "negotiate", "ntlm", "compressed", "location", "location-trusted", "http1.0", "http2", "http3", "insecure", "ipv4", "ipv6", "netrc", "netrc-optional", "path-as-is", "skip", "verbose", "very-verbose"),
     integer_option: ($) => seq(field("option_key", $.integer_option_key), ":", choice($._unsigned_integer, $.template)),
-    integer_option_key: ($) => choice("max-redirs", "retry-max-count", "limit-rate", "max-time", "repeat", "retry"),
+    integer_option_key: ($) => choice("retry-max-count", "limit-rate"),
+    count_option: ($) => seq(field("option_key", $.count_option_key), ":", choice(alias(token(/-1|[0-9]+/), $.integer), $.template)),
+    count_option_key: ($) => choice("max-redirs", "repeat", "retry"),
+    verbosity_option: ($) => seq(field("option_key", "verbosity"), ":", field("level", choice("brief", "verbose", "debug"))),
     duration_option: ($) => seq(field("option_key", $.duration_option_key), ":", choice(seq($._unsigned_integer, optional($.duration_unit)), $.template)),
-    duration_option_key: ($) => choice("connect-timeout", "delay", "retry-interval"),
-    duration_unit: ($) => choice("ms", "s", "m"),
+    duration_option_key: ($) => choice("connect-timeout", "delay", "retry-interval", "max-time"),
+    duration_unit: ($) => choice("ms", "s", "m", "h"),
     string_option: ($) => prec(2, seq(field("option_key", $.string_option_key), ":", choice($.template, $.value_string))),
-    string_option_key: ($) => choice("aws-sigv4", "key", "connect-to", "header", "netrc-file", "output", "pinnedpubkey", "proxy", "unix-socket", "user"),
+    string_option_key: ($) => choice("resolve", "aws-sigv4", "key", "connect-to", "header", "netrc-file", "output", "pinnedpubkey", "proxy", "unix-socket", "user"),
     variable_option: ($) => seq(field("option_key", "variable"), ":", $.variable_definition),
-    variable_definition: ($) => seq($.variable_name, "=", $.variable_value),
+    variable_definition: ($) => seq($.variable_name, "=", optional($.variable_value)),
     variable_value: ($) =>
       choice(
         "null",
         $.boolean,
         $.integer,
         $.float,
-        $.key_string,
+        $.value_string,
         $.quoted_string
       ),
     query: ($) =>
@@ -155,14 +161,17 @@ module.exports = grammar({
         $.jsonpath_query,
         $.regex_query,
         $.variable_query,
+        $.certificate_query,
       ),
-    simple_query: ($) => field("query_name", choice("status","url","body","duration","bytes","sha256","md5")),
+    simple_query: ($) => field("query_name", choice("status","version","rawbytes","ip","redirects","url","body","duration","bytes","sha256","md5")),
     header_query: ($) => seq(field("query_name", "header"), $.quoted_string),
     cookie_query: ($) => seq(field("query_name", "cookie"), $.quoted_string),
     xpath_query: ($) => seq(field("query_name", "xpath"), $.quoted_string),
     jsonpath_query: ($) => seq(field("query_name", "jsonpath"), $.quoted_string),
     regex_query: ($) => seq(field("query_name", "regex"), choice($.quoted_string, $.regex)),
     variable_query: ($) => seq(field("query_name", "variable"), $.quoted_string),
+    certificate_query: ($) => seq(field("query_name", "certificate"), '"', $.certificate_attribute, '"'),
+    certificate_attribute: ($) => choice("Subject", "Issuer", "Start-Date", "Expire-Date", "Serial-Number"),
     predicate: ($) => seq(optional("not"), $.predicate_func),
     predicate_func: ($) =>
       choice(
@@ -179,7 +188,7 @@ module.exports = grammar({
         $.match_predicate,
         $.include_predicate,
       ),
-    simple_predicate: ($) => field("predicate_name", choice("exists", "isInteger", "isFloat", "isBoolean", "isString", "isCollection", "isNumber", "isIsoDate", "isEmpty", "isIpv4", "isIpv6", "isUuid"
+    simple_predicate: ($) => field("predicate_name", choice("isDate", "isList", "isObject", "exists", "isInteger", "isFloat", "isBoolean", "isString", "isCollection", "isNumber", "isIsoDate", "isEmpty", "isIpv4", "isIpv6", "isUuid"
     )),
     equal_predicate: ($) =>
       seq(choice(field("predicate_name", "equals"), "=="), $.predicate_value),
@@ -188,37 +197,38 @@ module.exports = grammar({
     greater_predicate: ($) =>
       seq(
         choice(field("predicate_name", "greaterThan"), ">"),
-        choice($.integer, $.float, $.quoted_string)
+        choice($.integer, $.float, $._predicate_string, $.template)
       ),
     greater_or_equal_predicate: ($) =>
       seq(
         choice(field("predicate_name", "greaterThanOrEquals"), ">="),
-        choice($.integer, $.float, $.quoted_string)
+        choice($.integer, $.float, $._predicate_string, $.template)
       ),
     less_predicate: ($) =>
       seq(
         choice(field("predicate_name", "lessThan"), "<"),
-        choice($.integer, $.float, $.quoted_string)
+        choice($.integer, $.float, $._predicate_string, $.template)
       ),
     less_or_equal_predicate: ($) =>
       seq(
         choice(field("predicate_name", "lessThanOrEquals"), "<="),
-        choice($.integer, $.float, $.quoted_string)
+        choice($.integer, $.float, $._predicate_string, $.template)
       ),
     start_with_predicate: ($) =>
       seq(
         field("predicate_name", "startsWith"),
-        choice($.quoted_string, $.oneline_hex, $.oneline_base64)
+        choice($._predicate_string, $.oneline_hex, $.oneline_base64)
       ),
     end_with_predicate: ($) =>
       seq(
         field("predicate_name", "endsWith"),
-        choice($.quoted_string, $.oneline_hex, $.oneline_base64)
+        choice($._predicate_string, $.oneline_hex, $.oneline_base64)
       ),
-    contain_predicate: ($) => seq(field("predicate_name", "contains"), $.quoted_string),
+    contain_predicate: ($) => seq(field("predicate_name", "contains"), $.predicate_value),
     match_predicate: ($) =>
-      seq(field("predicate_name", "matches"), choice($.quoted_string, $.regex)),
+      seq(field("predicate_name", "matches"), choice($._predicate_string, $.regex)),
     include_predicate: ($) => seq(field("predicate_name", "includes"), $.predicate_value),
+    _predicate_string: ($) => choice($.quoted_string, $.oneline_string, $.multiline_string),
     predicate_value: ($) =>
       choice(
         "null",
@@ -230,6 +240,7 @@ module.exports = grammar({
         $.oneline_hex,
         $.oneline_base64,
         $.oneline_file,
+        $.oneline_string,
         $.multiline_string
       ),
     bytes: ($) =>
@@ -367,15 +378,17 @@ module.exports = grammar({
         $.regex_filter,
         $.nth_filter,
         $.replace_filter,
+        $.replace_regex_filter,
         $.split_filter,
         $.xpath_filter,
         $.argument_filter
       ),
-    simple_filter_key: ($) => field("filter_key", choice("count","urlEncode","urlDecode","toInt","htmlEscape","htmlUnescape","daysAfterNow","daysBeforeNow")),
-    argument_filter: ($) => seq(field("filter_key", choice("decode", "format", "toDate")), $.quoted_string),
+    simple_filter_key: ($) => field("filter_key", choice("base64Decode", "base64Encode", "base64UrlSafeDecode", "base64UrlSafeEncode", "first", "last", "location", "toFloat", "toHex", "toString", "utf8Decode", "utf8Encode", "count","urlEncode","urlDecode","toInt","htmlEscape","htmlUnescape","daysAfterNow","daysBeforeNow")),
+    argument_filter: ($) => seq(field("filter_key", choice("charsetDecode", "dateFormat", "jsonpath", "urlQueryParam", "decode", "format", "toDate")), $.quoted_string),
     regex_filter: ($) => seq(field("filter_key", "regex"), choice($.quoted_string, $.regex)),
-    nth_filter: ($) => seq(field("filter_key", "nth"), $.integer),
+    nth_filter: ($) => seq(field("filter_key", "nth"), choice($.integer, $.template)),
     replace_filter: ($) => seq(field("filter_key", "replace"), choice($.quoted_string, $.regex), $.quoted_string),
+    replace_regex_filter: ($) => seq(field("filter_key", "replaceRegex"), choice($.quoted_string, $.regex), $.quoted_string),
     split_filter: ($) => seq(field("filter_key", "split"), $.quoted_string),
     xpath_filter: ($) => seq(field("filter_key", "xpath"), $.quoted_string),
     boolean: ($) => choice("true", "false"),

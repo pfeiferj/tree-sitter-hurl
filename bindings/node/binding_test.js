@@ -35,11 +35,21 @@ test("all shipped examples parse without errors", () => {
   }
 });
 
-test("signed values preserve the existing option constraints", () => {
+test("signed values preserve valid count sentinel constraints", () => {
   const parser = new Parser();
   parser.setLanguage(Hurl);
-  for (const option of ["max-redirs: -1", "connect-timeout: -1s"]) {
+  for (const option of ["max-redirs: -2", "connect-timeout: -1s"]) {
     assert.equal(parser.parse("GET https://example.org\n[Options]\n" + option + "\n").rootNode.hasError, true, option);
   }
   assert.equal(parser.parse('GET https://example.org\nHTTP 200\n[Asserts]\nbody decode == "x"\n').rootNode.hasError, true);
+});
+
+test("all stable Hurl feature-name fixtures parse", () => {
+  const parser = new Parser();
+  parser.setLanguage(Hurl);
+  const cases = JSON.parse(fs.readFileSync(path.join(root, "test", "fixtures", "hurl8-features.json"), "utf8"));
+  for (const fixture of cases) {
+    assert.equal(parser.parse(fixture.source).rootNode.hasError, false,
+      fixture.category + ": " + fixture.name);
+  }
 });
