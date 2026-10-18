@@ -1,0 +1,188 @@
+==================================================
+filters charsetDecode
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: body charsetDecode "utf-8"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (simple_query)) (filter (argument_filter (quoted_string (quoted_string_content (quoted_string_text)))))))))))
+
+==================================================
+filters dateFormat
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: body dateFormat "%Y"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (simple_query)) (filter (argument_filter (quoted_string (quoted_string_content (quoted_string_text)))))))))))
+
+==================================================
+filters replaceRegex
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: body replaceRegex /x/ "y"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (simple_query)) (filter (replace_regex_filter (regex (regex_content (regex_text))) (quoted_string (quoted_string_content (quoted_string_text)))))))))))
+
+==================================================
+queries version
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: version
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (simple_query))))))))
+
+==================================================
+queries rawbytes
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: rawbytes
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (simple_query))))))))
+
+==================================================
+queries certificate
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: certificate "Subject"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (certificate_query (certificate_attribute)))))))))
+
+==================================================
+predicates isDate
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+body isDate
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (simple_predicate)))))))))
+
+==================================================
+predicates isList
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+body isList
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (simple_predicate)))))))))
+
+==================================================
+predicates isObject
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+body isObject
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (simple_predicate)))))))))
+
+==================================================
+options digest
+==================================================
+
+GET https://example.org
+[Options]
+digest: true
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (boolean_option option_key: (boolean_option_key) (boolean))))))))
+
+==================================================
+options http1.1
+==================================================
+
+GET https://example.org
+[Options]
+http1.1: true
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (boolean_option option_key: (boolean_option_key) (boolean))))))))
+
+==================================================
+options negotiate
+==================================================
+
+GET https://example.org
+[Options]
+negotiate: true
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (boolean_option option_key: (boolean_option_key) (boolean))))))))
+
+==================================================
+options ntlm
+==================================================
+
+GET https://example.org
+[Options]
+ntlm: true
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (boolean_option option_key: (boolean_option_key) (boolean))))))))
+
+==================================================
+options resolve
+==================================================
+
+GET https://example.org
+[Options]
+resolve: example.org:443:127.0.0.1
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (string_option option_key: (string_option_key) (value_string (value_string_content (value_string_text))))))))))
+
+==================================================
+options verbosity
+==================================================
+
+GET https://example.org
+[Options]
+verbosity: debug
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (verbosity_option)))))))

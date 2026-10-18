@@ -1,0 +1,137 @@
+==================================================
+Published grammar filters and certificate attributes
+==================================================
+
+GET https://example.org/{{getEnv}}
+HTTP 200
+[Asserts]
+body charsetEncode "UTF-8" == "x"
+certificate Subject == "x"
+
+---
+
+(hurl_file
+  (entry
+    (request
+      (method)
+      (value_string
+        (value_string_content
+          (value_string_text))
+        (template
+          (expr
+            (function)))))
+    (response
+      (version)
+      (status)
+      (response_section
+        (asserts_section
+          (assert
+            (query
+              (simple_query))
+            (filter
+              (argument_filter
+                (quoted_string
+                  (quoted_string_content
+                    (quoted_string_text)))))
+            (predicate
+              (predicate_func
+                (equal_predicate
+                  (predicate_value
+                    (quoted_string
+                      (quoted_string_content
+                        (quoted_string_text))))))))
+          (assert
+            (query
+              (certificate_query
+                (certificate_attribute)))
+            (predicate
+              (predicate_func
+                (equal_predicate
+                  (predicate_value
+                    (quoted_string
+                      (quoted_string_content
+                        (quoted_string_text)))))))))))))
+
+==================================================
+XML CDATA, processing instruction and DTD boundaries
+==================================================
+
+POST https://example.org
+<?pi ??><!DOCTYPE root [<!ENTITY value "a>b">]><root><![CDATA[]]]></root>
+GET https://example.org/next
+
+---
+
+(hurl_file
+  (entry
+    (request
+      (method)
+      (value_string
+        (value_string_content
+          (value_string_text)))
+      (body
+        (bytes
+          (xml
+            (xml_prolog_tag)
+            (xml_doctype
+              (xml_name)
+              (xml_dtd_declaration))
+            (xml_tag
+              (xml_open_tag
+                (xml_name))
+              (xml_cdata)
+              (xml_close_tag
+                (xml_name))))))))
+  (entry
+    (request
+      (method)
+      (value_string
+        (value_string_content
+          (value_string_text))))))
+
+==================================================
+JSON leading comma
+:error
+==================================================
+
+POST https://example.org
+{,"x":1}
+
+---
+
+
+
+==================================================
+JSON raw string newline
+:error
+==================================================
+
+POST https://example.org
+{"x":"a
+b"}
+
+---
+
+
+
+==================================================
+XML missing attribute separator
+:error
+==================================================
+
+POST https://example.org
+<root a="1"b="2"/>
+
+---
+
+
+
+==================================================
+XML invalid attribute less-than
+:error
+==================================================
+
+POST https://example.org
+<root a="<"/>
+
+---

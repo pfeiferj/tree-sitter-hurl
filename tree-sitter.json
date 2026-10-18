@@ -1,0 +1,29 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "hurl",
+      "camelcase": "Hurl",
+      "scope": "source.hurl",
+      "path": ".",
+      "file-types": ["hurl"],
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm"
+    }
+  ],
+  "metadata": {
+    "version": "1.6.2",
+    "license": "Apache-2.0",
+    "description": "Hurl grammar for tree-sitter",
+    "authors": [{"name": "Jacob Pfeifer"}],
+    "links": {"repository": "https://github.com/pfeiferj/tree-sitter-hurl"}
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}

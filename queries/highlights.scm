@@ -21,6 +21,8 @@
 (quoted_string) @string
 (json_string) @string
 (file_value) @string.special
+(filename) @string
+(filename_password) @string
 (regex) @string.regex
 
 "\\" @string.escape
@@ -29,8 +31,8 @@
 (key_string_escaped_char) @string.escape
 (value_string_escaped_char) @string.escape
 (oneline_string_escaped_char) @string.escape
-(multiline_string_escaped_char) @string.escape
 (filename_escaped_char) @string.escape
+(filename_password_escaped_char) @string.escape
 (json_string_escaped_char) @string.escape
 
 (method) @type.builtin
@@ -69,9 +71,10 @@
 (version) @string.special
 
 "null" @constant.builtin
-(option (_ key: _ @constant.builtin) )
+(option (_ option_key: _ @constant.builtin) )
 
 (boolean) @boolean
+(json_boolean) @boolean
 
 (variable_name) @variable
 
@@ -102,3 +105,15 @@
 "base64," @string.special
 "file," @string.special
 "hex," @string.special
+
+; Field-based captures also cover current Hurl names added after the legacy list.
+(_ query_name: _ @function.builtin)
+(_ filter_key: _ @function.builtin)
+(certificate_attribute) @string.special
+"redact" @keyword
+(verbosity_option level: _ @constant.builtin)
+
+(function) @function.builtin
+(xml_comment) @comment
+(xml_attribute_value) @string
+(xml_cdata) @string

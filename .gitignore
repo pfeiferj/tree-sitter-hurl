@@ -35,8 +35,23 @@ bower_components
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
+# Build output
+/build/
+/target/
+/.build/
+/prebuilds/
+*.o
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.node
+*.wasm
+/tree-sitter-hurl.pc
+
+# Python build metadata
+*.egg-info/
 
 # Dependency directories
 node_modules/

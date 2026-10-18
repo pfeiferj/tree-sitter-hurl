@@ -1,0 +1,508 @@
+==================================================
+functions newDate
+==================================================
+
+GET https://example.org/{{newDate}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)) (template template: (expr (function)))))))
+
+==================================================
+functions newUuid
+==================================================
+
+GET https://example.org/{{newUuid}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)) (template template: (expr (function)))))))
+
+==================================================
+value-forms comparison-placeholder->
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+status > {{limit}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (greater_predicate (template template: (expr (variable_name))))))))))))
+
+==================================================
+value-forms comparison-placeholder->=
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+status >= {{limit}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (greater_or_equal_predicate (template template: (expr (variable_name))))))))))))
+
+==================================================
+option-placeholders aws-sigv4
+==================================================
+
+GET https://example.org
+[Options]
+aws-sigv4: {{value}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (string_option option_key: (string_option_key) (template template: (expr (variable_name))))))))))
+
+==================================================
+option-placeholders cacert
+==================================================
+
+GET https://example.org
+[Options]
+cacert: {{value}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (ca_certificate_option (filename (template template: (expr (variable_name)))))))))))
+
+==================================================
+captures redact-status
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: status redact
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (simple_query))))))))
+
+==================================================
+captures redact-jsonpath "$.secret"
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: jsonpath "$.secret" redact
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (jsonpath_query (quoted_string (quoted_string_content (quoted_string_text)))))))))))
+
+==================================================
+queries-fields certificate-Start-Date
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: certificate "Start-Date"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (certificate_query (certificate_attribute)))))))))
+
+==================================================
+queries-fields certificate-Expire-Date
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: certificate "Expire-Date"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (certificate_query (certificate_attribute)))))))))
+
+==================================================
+key-forms key-foo
+==================================================
+
+GET https://example.org
+foo: value
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+
+==================================================
+key-forms key-é
+==================================================
+
+GET https://example.org
+é: value
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+
+==================================================
+string-forms value-unicode-\u{41}
+==================================================
+
+GET https://example.org
+X: \u{41}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text) (value_string_escaped_char))))))))
+
+==================================================
+string-forms quoted-unicode-\u{41}
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+body == "\u{41}"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (equal_predicate (predicate_value (quoted_string (quoted_string_content (quoted_string_escaped_char)))))))))))))
+
+==================================================
+filename-forms a\ b.txt
+==================================================
+
+POST https://example.org
+file,a\ b.txt;
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (oneline_file (filename (filename_content (filename_text)) (filename_content (filename_escaped_char)) (filename_content (filename_text)))))))))
+
+==================================================
+filename-forms a\\b.txt
+==================================================
+
+POST https://example.org
+file,a\\b.txt;
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (oneline_file (filename (filename_content (filename_text)) (filename_content (filename_escaped_char)) (filename_content (filename_text)))))))))
+
+==================================================
+filename-password path:pass
+==================================================
+
+GET https://example.org
+[Options]
+cert: path:pass
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (cert_option (filename_password (filename_password_content (filename_password_text))))))))))
+
+==================================================
+filename-password {{cert}}
+==================================================
+
+GET https://example.org
+[Options]
+cert: {{cert}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section (option (cert_option (filename_password (template template: (expr (variable_name)))))))))))
+
+==================================================
+multiline ''-'a\\q\\d'
+==================================================
+
+POST https://example.org
+```
+a\q\d
+```
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (multiline_string (multiline_string_content)))))))
+
+==================================================
+multiline ''-'{{name}}'
+==================================================
+
+POST https://example.org
+```
+{{name}}
+```
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (multiline_string (template template: (expr (variable_name))) (multiline_string_content)))))))
+
+==================================================
+ast-forms quoted-template
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+body == "{{name}}"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (equal_predicate (predicate_value (quoted_string (template template: (expr (variable_name))))))))))))))
+
+==================================================
+ast-forms query-template
+==================================================
+
+GET https://example.org
+HTTP 200
+[Captures]
+x: header "{{name}}"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (captures_section (capture (key_string (key_string_content (key_string_text))) (query (header_query (quoted_string (template template: (expr (variable_name))))))))))))
+
+==================================================
+xml <root><!-- hi --><child/></root>
+==================================================
+
+POST https://example.org
+<root><!-- hi --><child/></root>
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (xml (xml_tag (xml_open_tag (xml_name)) (xml_comment) (xml_tag (xml_self_closing_tag (xml_name))) (xml_close_tag (xml_name)))))))))
+
+==================================================
+xml <root><![CDATA[a<b]]></root>
+==================================================
+
+POST https://example.org
+<root><![CDATA[a<b]]></root>
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (xml (xml_tag (xml_open_tag (xml_name)) (xml_cdata) (xml_close_tag (xml_name)))))))))
+
+==================================================
+extended empty-BasicAuth
+==================================================
+
+GET https://example.org
+[BasicAuth]
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (basic_auth_section)))))
+
+==================================================
+extended empty-Query
+==================================================
+
+GET https://example.org
+[Query]
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (query_string_params_section)))))
+
+==================================================
+boundaries raw-malformed
+==================================================
+
+POST https://example.org
+```raw
+{{not closed \q
+```
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (multiline_string (multiline_string_type) (multiline_string_content)))))))
+
+==================================================
+boundaries quoted-two
+==================================================
+
+GET https://example.org
+HTTP 200
+[Asserts]
+body == "a{{first}}b{{second}}c"
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section (assert (query (simple_query)) (predicate (predicate_func (equal_predicate (predicate_value (quoted_string (quoted_string_content (quoted_string_text)) (template template: (expr (variable_name))) (quoted_string_content (quoted_string_text)) (template template: (expr (variable_name))) (quoted_string_content (quoted_string_text)))))))))))))
+
+==================================================
+boundaries filename-two
+==================================================
+
+POST https://example.org
+file,prefix-{{first}}-{{second}}.txt;
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (oneline_file (filename (filename_content (filename_text)) (template template: (expr (variable_name))) (filename_content (filename_text)) (template template: (expr (variable_name))) (filename_content (filename_text)))))))))
+
+==================================================
+boundaries raw-xml-cdata
+==================================================
+
+POST https://example.org
+<root><![CDATA[a<b & {{name}}]]></root>
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (xml (xml_tag (xml_open_tag (xml_name)) (xml_cdata) (xml_close_tag (xml_name)))))))))
+
+==================================================
+boundaries xml-hash
+==================================================
+
+POST https://example.org
+<root># literal \q {{name}}</root>
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (xml (xml_tag (xml_open_tag (xml_name)) (xml_value_string (xml_value_string_text)) (xml_close_tag (xml_name)))))))))
+
+==================================================
+boundaries cjk-key
+==================================================
+
+GET https://example.org
+漢字: value
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+
+==================================================
+boundaries count-header-number
+==================================================
+
+GET https://example.org
+Expect: 100-continue
+`data`
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))) (body (bytes (oneline_string (oneline_string_content (oneline_string_text))))))))
+
+==================================================
+boundaries numeric-json-body
+==================================================
+
+POST https://example.org
+100
+HTTP 200
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (body (bytes (json_value (json_number))))) (response (version) (status))))
+
+==================================================
+boundaries adjacent-empty-sections
+==================================================
+
+GET https://example.org
+[Options]
+[Query]
+[BasicAuth]
+[Form]
+[Multipart]
+[Cookies]
+HTTP 200
+[Captures]
+[Asserts]
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (request_section (options_section)) (request_section (query_string_params_section)) (request_section (basic_auth_section)) (request_section (form_params_section)) (request_section (multipart_form_data_section)) (request_section (cookies_section))) (response (version) (status) (response_section (captures_section)) (response_section (asserts_section)))))
+
+==================================================
+boundaries function-prefix-newDateSuffix
+==================================================
+
+GET https://example.org/{{newDateSuffix}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)) (template template: (expr (variable_name)))))))
+
+==================================================
+boundaries function-prefix-newUuid_1
+==================================================
+
+GET https://example.org/{{newUuid_1}}
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)) (template template: (expr (variable_name)))))))
+
+==================================================
+boundaries keyword-header-true
+==================================================
+
+GET https://example.org
+true: value
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+
+==================================================
+boundaries keyword-header-false
+==================================================
+
+GET https://example.org
+false: value
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+
+==================================================
+boundaries keyword-header-null
+==================================================
+
+GET https://example.org
+null: value
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+
+==================================================
+boundaries keyword-header-GET
+==================================================
+
+GET https://example.org
+GET: value
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+
+==================================================
+boundaries keyword-header-POST
+==================================================
+
+GET https://example.org
+POST: value
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))
+
+==================================================
+boundaries keyword-header-HTTP
+==================================================
+
+GET https://example.org
+HTTP: value
+
+---
+
+(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text)) (key_string_content (key_string_text))) (value_string (value_string_content (value_string_text))))))))

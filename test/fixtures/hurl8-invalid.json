@@ -1,0 +1,102 @@
+[
+  {
+    "name": "max-redirs--2",
+    "source": "GET https://example.org\n[Options]\nmax-redirs: -2\n"
+  },
+  {
+    "name": "repeat--2",
+    "source": "GET https://example.org\n[Options]\nrepeat: -2\n"
+  },
+  {
+    "name": "retry--2",
+    "source": "GET https://example.org\n[Options]\nretry: -2\n"
+  },
+  {
+    "name": "limit-rate--1",
+    "source": "GET https://example.org\n[Options]\nlimit-rate: -1\n"
+  },
+  {
+    "name": "max-time-1 h",
+    "source": "GET https://example.org\n[Options]\nmax-time: 1 h\n"
+  },
+  {
+    "name": "connect-timeout-1.5s",
+    "source": "GET https://example.org\n[Options]\nconnect-timeout: 1.5s\n"
+  },
+  {
+    "name": "delay--1s",
+    "source": "GET https://example.org\n[Options]\ndelay: -1s\n"
+  },
+  {
+    "name": "verbosity-\"debug\"",
+    "source": "GET https://example.org\n[Options]\nverbosity: \"debug\"\n"
+  },
+  {
+    "name": "verbosity-{{value}}",
+    "source": "GET https://example.org\n[Options]\nverbosity: {{value}}\n"
+  },
+  {
+    "name": "verbosity-quiet",
+    "source": "GET https://example.org\n[Options]\nverbosity: quiet\n"
+  },
+  {
+    "name": "cert-a b.pem",
+    "source": "GET https://example.org\n[Options]\ncert: a b.pem\n"
+  },
+  {
+    "name": "cert-{{cert}} {{password}}",
+    "source": "GET https://example.org\n[Options]\ncert: {{cert}} {{password}}\n"
+  },
+  {
+    "name": "startsWith-file,a.txt;",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody startsWith file,a.txt;\n"
+  },
+  {
+    "name": "startsWith-{{value}}",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody startsWith {{value}}\n"
+  },
+  {
+    "name": "startsWith-/x/",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody startsWith /x/\n"
+  },
+  {
+    "name": "endsWith-file,a.txt;",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody endsWith file,a.txt;\n"
+  },
+  {
+    "name": "matches-hex,beef;",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody matches hex,beef;\n"
+  },
+  {
+    "name": "certificate-\"unknown\"",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: certificate \"unknown\"\n"
+  },
+  {
+    "name": "certificate-\"{{name}}\"",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: certificate \"{{name}}\"\n"
+  },
+  {
+    "name": "unicode-D800",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"\\u{D800}\"\n"
+  },
+  {
+    "name": "unicode-110000",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"\\u{110000}\"\n"
+  },
+  {
+    "name": "unicode-xyz",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"\\u{xyz}\"\n"
+  },
+  {
+    "name": "contiguity-25",
+    "source": "POST https://example.org\nfile,a b.txt;\n"
+  },
+  {
+    "name": "contiguity-26",
+    "source": "GET https://example.org\nfoo bar: value\n"
+  },
+  {
+    "name": "contiguity-27",
+    "source": "GET https://example.org\nfoo\\\nbar: value\n"
+  }
+]

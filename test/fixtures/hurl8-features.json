@@ -1,0 +1,597 @@
+[
+  {
+    "category": "filters",
+    "name": "base64Decode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body base64Decode\n"
+  },
+  {
+    "category": "filters",
+    "name": "base64Encode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body base64Encode\n"
+  },
+  {
+    "category": "filters",
+    "name": "base64UrlSafeDecode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body base64UrlSafeDecode\n"
+  },
+  {
+    "category": "filters",
+    "name": "base64UrlSafeEncode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body base64UrlSafeEncode\n"
+  },
+  {
+    "category": "filters",
+    "name": "count",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body count\n"
+  },
+  {
+    "category": "filters",
+    "name": "daysAfterNow",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body daysAfterNow\n"
+  },
+  {
+    "category": "filters",
+    "name": "daysBeforeNow",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body daysBeforeNow\n"
+  },
+  {
+    "category": "filters",
+    "name": "charsetDecode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body charsetDecode \"utf-8\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "decode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body decode \"utf-8\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "first",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body first\n"
+  },
+  {
+    "category": "filters",
+    "name": "format",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body format \"%Y\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "dateFormat",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body dateFormat \"%Y\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "htmlEscape",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body htmlEscape\n"
+  },
+  {
+    "category": "filters",
+    "name": "htmlUnescape",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body htmlUnescape\n"
+  },
+  {
+    "category": "filters",
+    "name": "jsonpath",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body jsonpath \"$.x\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "last",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body last\n"
+  },
+  {
+    "category": "filters",
+    "name": "location",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body location\n"
+  },
+  {
+    "category": "filters",
+    "name": "nth",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body nth 0\n"
+  },
+  {
+    "category": "filters",
+    "name": "regex",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body regex \"x\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "replace",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body replace \"x\" \"y\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "replaceRegex",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body replaceRegex /x/ \"y\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "split",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body split \",\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "toDate",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body toDate \"%Y\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "toFloat",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body toFloat\n"
+  },
+  {
+    "category": "filters",
+    "name": "toHex",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body toHex\n"
+  },
+  {
+    "category": "filters",
+    "name": "toInt",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body toInt\n"
+  },
+  {
+    "category": "filters",
+    "name": "toString",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body toString\n"
+  },
+  {
+    "category": "filters",
+    "name": "urlEncode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body urlEncode\n"
+  },
+  {
+    "category": "filters",
+    "name": "urlDecode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body urlDecode\n"
+  },
+  {
+    "category": "filters",
+    "name": "urlQueryParam",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body urlQueryParam \"token\"\n"
+  },
+  {
+    "category": "filters",
+    "name": "utf8Decode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body utf8Decode\n"
+  },
+  {
+    "category": "filters",
+    "name": "utf8Encode",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body utf8Encode\n"
+  },
+  {
+    "category": "filters",
+    "name": "xpath",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body xpath \"//x\"\n"
+  },
+  {
+    "category": "queries",
+    "name": "status",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: status\n"
+  },
+  {
+    "category": "queries",
+    "name": "version",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: version\n"
+  },
+  {
+    "category": "queries",
+    "name": "url",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: url\n"
+  },
+  {
+    "category": "queries",
+    "name": "header",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: header \"X-Test\"\n"
+  },
+  {
+    "category": "queries",
+    "name": "cookie",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: cookie \"sid\"\n"
+  },
+  {
+    "category": "queries",
+    "name": "body",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: body\n"
+  },
+  {
+    "category": "queries",
+    "name": "xpath",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: xpath \"//x\"\n"
+  },
+  {
+    "category": "queries",
+    "name": "jsonpath",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: jsonpath \"$.x\"\n"
+  },
+  {
+    "category": "queries",
+    "name": "regex",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: regex \"x\"\n"
+  },
+  {
+    "category": "queries",
+    "name": "variable",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: variable \"x\"\n"
+  },
+  {
+    "category": "queries",
+    "name": "duration",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: duration\n"
+  },
+  {
+    "category": "queries",
+    "name": "bytes",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: bytes\n"
+  },
+  {
+    "category": "queries",
+    "name": "rawbytes",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: rawbytes\n"
+  },
+  {
+    "category": "queries",
+    "name": "sha256",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: sha256\n"
+  },
+  {
+    "category": "queries",
+    "name": "md5",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: md5\n"
+  },
+  {
+    "category": "queries",
+    "name": "certificate",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: certificate \"Subject\"\n"
+  },
+  {
+    "category": "queries",
+    "name": "ip",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: ip\n"
+  },
+  {
+    "category": "queries",
+    "name": "redirects",
+    "source": "GET https://example.org\nHTTP 200\n[Captures]\nx: redirects\n"
+  },
+  {
+    "category": "predicates",
+    "name": "==",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody == \"x\"\n"
+  },
+  {
+    "category": "predicates",
+    "name": "!=",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody != \"x\"\n"
+  },
+  {
+    "category": "predicates",
+    "name": ">",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody > 1\n"
+  },
+  {
+    "category": "predicates",
+    "name": ">=",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody >= 1\n"
+  },
+  {
+    "category": "predicates",
+    "name": "<",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody < 1\n"
+  },
+  {
+    "category": "predicates",
+    "name": "<=",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody <= 1\n"
+  },
+  {
+    "category": "predicates",
+    "name": "startsWith",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody startsWith \"x\"\n"
+  },
+  {
+    "category": "predicates",
+    "name": "endsWith",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody endsWith \"x\"\n"
+  },
+  {
+    "category": "predicates",
+    "name": "contains",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody contains \"x\"\n"
+  },
+  {
+    "category": "predicates",
+    "name": "includes",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody includes \"x\"\n"
+  },
+  {
+    "category": "predicates",
+    "name": "matches",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody matches \"x\"\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isInteger",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isInteger\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isFloat",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isFloat\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isBoolean",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isBoolean\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isString",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isString\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isCollection",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isCollection\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isDate",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isDate\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isIsoDate",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isIsoDate\n"
+  },
+  {
+    "category": "predicates",
+    "name": "exists",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody exists\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isEmpty",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isEmpty\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isNumber",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isNumber\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isIpv4",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isIpv4\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isIpv6",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isIpv6\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isUuid",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isUuid\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isList",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isList\n"
+  },
+  {
+    "category": "predicates",
+    "name": "isObject",
+    "source": "GET https://example.org\nHTTP 200\n[Asserts]\nbody isObject\n"
+  },
+  {
+    "category": "options",
+    "name": "aws-sigv4",
+    "source": "GET https://example.org\n[Options]\naws-sigv4: value\n"
+  },
+  {
+    "category": "options",
+    "name": "cacert",
+    "source": "GET https://example.org\n[Options]\ncacert: value\n"
+  },
+  {
+    "category": "options",
+    "name": "cert",
+    "source": "GET https://example.org\n[Options]\ncert: value\n"
+  },
+  {
+    "category": "options",
+    "name": "compressed",
+    "source": "GET https://example.org\n[Options]\ncompressed: true\n"
+  },
+  {
+    "category": "options",
+    "name": "connect-to",
+    "source": "GET https://example.org\n[Options]\nconnect-to: value\n"
+  },
+  {
+    "category": "options",
+    "name": "connect-timeout",
+    "source": "GET https://example.org\n[Options]\nconnect-timeout: 1\n"
+  },
+  {
+    "category": "options",
+    "name": "delay",
+    "source": "GET https://example.org\n[Options]\ndelay: 1\n"
+  },
+  {
+    "category": "options",
+    "name": "digest",
+    "source": "GET https://example.org\n[Options]\ndigest: true\n"
+  },
+  {
+    "category": "options",
+    "name": "insecure",
+    "source": "GET https://example.org\n[Options]\ninsecure: true\n"
+  },
+  {
+    "category": "options",
+    "name": "header",
+    "source": "GET https://example.org\n[Options]\nheader: value\n"
+  },
+  {
+    "category": "options",
+    "name": "http1.0",
+    "source": "GET https://example.org\n[Options]\nhttp1.0: true\n"
+  },
+  {
+    "category": "options",
+    "name": "http1.1",
+    "source": "GET https://example.org\n[Options]\nhttp1.1: true\n"
+  },
+  {
+    "category": "options",
+    "name": "http2",
+    "source": "GET https://example.org\n[Options]\nhttp2: true\n"
+  },
+  {
+    "category": "options",
+    "name": "http3",
+    "source": "GET https://example.org\n[Options]\nhttp3: true\n"
+  },
+  {
+    "category": "options",
+    "name": "ipv4",
+    "source": "GET https://example.org\n[Options]\nipv4: true\n"
+  },
+  {
+    "category": "options",
+    "name": "ipv6",
+    "source": "GET https://example.org\n[Options]\nipv6: true\n"
+  },
+  {
+    "category": "options",
+    "name": "key",
+    "source": "GET https://example.org\n[Options]\nkey: value\n"
+  },
+  {
+    "category": "options",
+    "name": "limit-rate",
+    "source": "GET https://example.org\n[Options]\nlimit-rate: 1\n"
+  },
+  {
+    "category": "options",
+    "name": "location",
+    "source": "GET https://example.org\n[Options]\nlocation: true\n"
+  },
+  {
+    "category": "options",
+    "name": "location-trusted",
+    "source": "GET https://example.org\n[Options]\nlocation-trusted: true\n"
+  },
+  {
+    "category": "options",
+    "name": "max-redirs",
+    "source": "GET https://example.org\n[Options]\nmax-redirs: 1\n"
+  },
+  {
+    "category": "options",
+    "name": "max-time",
+    "source": "GET https://example.org\n[Options]\nmax-time: 1\n"
+  },
+  {
+    "category": "options",
+    "name": "negotiate",
+    "source": "GET https://example.org\n[Options]\nnegotiate: true\n"
+  },
+  {
+    "category": "options",
+    "name": "netrc",
+    "source": "GET https://example.org\n[Options]\nnetrc: true\n"
+  },
+  {
+    "category": "options",
+    "name": "netrc-file",
+    "source": "GET https://example.org\n[Options]\nnetrc-file: value\n"
+  },
+  {
+    "category": "options",
+    "name": "netrc-optional",
+    "source": "GET https://example.org\n[Options]\nnetrc-optional: true\n"
+  },
+  {
+    "category": "options",
+    "name": "ntlm",
+    "source": "GET https://example.org\n[Options]\nntlm: true\n"
+  },
+  {
+    "category": "options",
+    "name": "output",
+    "source": "GET https://example.org\n[Options]\noutput: value\n"
+  },
+  {
+    "category": "options",
+    "name": "path-as-is",
+    "source": "GET https://example.org\n[Options]\npath-as-is: true\n"
+  },
+  {
+    "category": "options",
+    "name": "pinnedpubkey",
+    "source": "GET https://example.org\n[Options]\npinnedpubkey: value\n"
+  },
+  {
+    "category": "options",
+    "name": "proxy",
+    "source": "GET https://example.org\n[Options]\nproxy: value\n"
+  },
+  {
+    "category": "options",
+    "name": "repeat",
+    "source": "GET https://example.org\n[Options]\nrepeat: 1\n"
+  },
+  {
+    "category": "options",
+    "name": "resolve",
+    "source": "GET https://example.org\n[Options]\nresolve: example.org:443:127.0.0.1\n"
+  },
+  {
+    "category": "options",
+    "name": "retry",
+    "source": "GET https://example.org\n[Options]\nretry: 1\n"
+  },
+  {
+    "category": "options",
+    "name": "retry-interval",
+    "source": "GET https://example.org\n[Options]\nretry-interval: 1\n"
+  },
+  {
+    "category": "options",
+    "name": "skip",
+    "source": "GET https://example.org\n[Options]\nskip: true\n"
+  },
+  {
+    "category": "options",
+    "name": "unix-socket",
+    "source": "GET https://example.org\n[Options]\nunix-socket: value\n"
+  },
+  {
+    "category": "options",
+    "name": "user",
+    "source": "GET https://example.org\n[Options]\nuser: value\n"
+  },
+  {
+    "category": "options",
+    "name": "variable",
+    "source": "GET https://example.org\n[Options]\nvariable: x=1\n"
+  },
+  {
+    "category": "options",
+    "name": "verbose",
+    "source": "GET https://example.org\n[Options]\nverbose: true\n"
+  },
+  {
+    "category": "options",
+    "name": "verbosity",
+    "source": "GET https://example.org\n[Options]\nverbosity: debug\n"
+  },
+  {
+    "category": "options",
+    "name": "very-verbose",
+    "source": "GET https://example.org\n[Options]\nvery-verbose: true\n"
+  }
+]
