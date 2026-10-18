@@ -1126,7 +1126,7 @@
   },
   {
     "type": "json_key_string",
-    "named": false,
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1138,11 +1138,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "json_key_string",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "json_key_value",
