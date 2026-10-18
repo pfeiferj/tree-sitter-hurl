@@ -12,6 +12,10 @@
             "named": false
           },
           {
+            "type": "charsetEncode",
+            "named": false
+          },
+          {
             "type": "dateFormat",
             "named": false
           },
@@ -251,7 +255,7 @@
     },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "filename",
@@ -345,7 +349,7 @@
     },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "filename_password",
@@ -402,10 +406,10 @@
     },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "filename",
+          "type": "value_string",
           "named": true
         }
       ]
@@ -1122,7 +1126,7 @@
   },
   {
     "type": "json_key_string",
-    "named": true,
+    "named": false,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1134,6 +1138,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "json_key_string",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "json_key_value",
@@ -2840,6 +2849,10 @@
           "named": true
         },
         {
+          "type": "xml_doctype",
+          "named": true
+        },
+        {
           "type": "xml_prolog_tag",
           "named": true
         },
@@ -2879,6 +2892,41 @@
       "types": [
         {
           "type": "xml_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "xml_doctype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "xml_comment",
+          "named": true
+        },
+        {
+          "type": "xml_dtd_declaration",
+          "named": true
+        },
+        {
+          "type": "xml_dtd_string",
+          "named": true
+        },
+        {
+          "type": "xml_name",
+          "named": true
+        },
+        {
+          "type": "xml_parameter_entity_reference",
+          "named": true
+        },
+        {
+          "type": "xml_prolog_tag",
           "named": true
         }
       ]
@@ -3073,6 +3121,10 @@
     "named": false
   },
   {
+    "type": "<!DOCTYPE",
+    "named": false
+  },
+  {
     "type": "</",
     "named": false
   },
@@ -3169,11 +3221,19 @@
     "named": false
   },
   {
+    "type": "PUBLIC",
+    "named": false
+  },
+  {
     "type": "PURGE",
     "named": false
   },
   {
     "type": "PUT",
+    "named": false
+  },
+  {
+    "type": "SYSTEM",
     "named": false
   },
   {
@@ -3325,6 +3385,10 @@
     "named": false
   },
   {
+    "type": "charsetEncode",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true,
     "extra": true
@@ -3427,6 +3491,10 @@
   },
   {
     "type": "format",
+    "named": false
+  },
+  {
+    "type": "getEnv",
     "named": false
   },
   {
@@ -3866,7 +3934,19 @@
     "named": true
   },
   {
+    "type": "xml_dtd_declaration",
+    "named": true
+  },
+  {
+    "type": "xml_dtd_string",
+    "named": true
+  },
+  {
     "type": "xml_name",
+    "named": true
+  },
+  {
+    "type": "xml_parameter_entity_reference",
     "named": true
   },
   {

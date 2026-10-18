@@ -1,0 +1,13 @@
+[
+  {"name":"charsetEncode", "source":"GET https://example.org\nHTTP 200\n[Asserts]\nbody charsetEncode \"UTF-8\" == \"x\"\n", "nodes":{"argument_filter":1}},
+  {"name":"getEnv function", "source":"GET https://example.org/{{getEnv}}\n", "nodes":{"function":1,"template":1}},
+  {"name":"getEnv prefix stays a variable", "source":"GET https://example.org/{{getEnvSuffix}}\n", "nodes":{"function":0,"variable_name":1,"template":1}},
+  {"name":"unquoted certificate attribute", "source":"GET https://example.org\nHTTP 200\n[Asserts]\ncertificate Subject == \"x\"\n", "nodes":{"certificate_attribute":1}},
+  {"name":"client key value string", "source":"GET https://example.org\n[Options]\nkey: my key.pem;password\n", "nodes":{"value_string":2}},
+  {"name":"legacy client key filename escapes", "source":"GET https://example.org\n[Options]\nkey: my\\ key\\;{{name}}.pem\n", "nodes":{"template":1}},
+  {"name":"variable key-string escapes", "source":"GET https://example.org\n[Options]\nvariable: x=a\\:b\\/c\\\"d\n", "nodes":{"value_string_escaped_char":3}},
+  {"name":"leading zero count", "source":"GET https://example.org\n[Options]\nmax-redirs: 01\n"},
+  {"name":"leading zero integer", "source":"GET https://example.org\n[Options]\nlimit-rate: 0010\n"},
+  {"name":"leading zero duration", "source":"GET https://example.org\n[Options]\nretry-interval: 01h\n"},
+  {"name":"empty file options", "source":"GET https://example.org\n[Options]\ncacert:\ncert:\nkey:\n", "nodes":{"option":3}}
+]

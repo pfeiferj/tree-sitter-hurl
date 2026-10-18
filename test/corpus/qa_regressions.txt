@@ -1,5 +1,6 @@
 ==================================================
 invalid_key_0
+:error
 ==================================================
 
 GET https://example.org
@@ -7,10 +8,11 @@ a b: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (ERROR) (value_string (value_string_content (value_string_text))))))))
+
 
 ==================================================
 invalid_key_1
+:error
 ==================================================
 
 GET https://example.org
@@ -19,10 +21,11 @@ b: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (ERROR) (value_string (value_string_content (value_string_text))))))))
+
 
 ==================================================
 invalid_key_2
+:error
 ==================================================
 
 GET https://example.org
@@ -30,10 +33,11 @@ a	b: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (ERROR) (value_string (value_string_content (value_string_text))))))))
+
 
 ==================================================
 invalid_key_3
+:error
 ==================================================
 
 GET https://example.org
@@ -42,10 +46,11 @@ b: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (comment) (ERROR) (value_string (value_string_content (value_string_text))))))))
+
 
 ==================================================
 invalid_key_4
+:error
 ==================================================
 
 GET https://example.org
@@ -53,10 +58,11 @@ foo[1e+2]: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (ERROR) (value_string (value_string_content (value_string_text))))))))
+
 
 ==================================================
 invalid_key_5
+:error
 ==================================================
 
 GET https://example.org
@@ -64,10 +70,11 @@ GET https://example.org
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (ERROR) (value_string (value_string_content (value_string_text))))))))
+
 
 ==================================================
 invalid_key_6
+:error
 ==================================================
 
 GET https://example.org
@@ -75,10 +82,11 @@ a [b]: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text))) (header (key_value (key_string (key_string_content (key_string_text))) (ERROR (UNEXPECTED 'b')) (value_string (value_string_content (value_string_text))))))))
+
 
 ==================================================
 invalid_key_7
+:error
 ==================================================
 
 GET https://example.org
@@ -86,10 +94,11 @@ a {{b}}: value
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (ERROR (key_string_content (key_string_text)) (bytes (json_value (template template: (expr (variable_name))))))))
+
 
 ==================================================
 invalid_key_8
+:error
 ==================================================
 
 GET https://example.org
@@ -97,7 +106,7 @@ GET https://example.org
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (ERROR (template template: (expr (variable_name))) (bytes (json_value (template template: (expr (variable_name))))))))
+
 
 ==================================================
 valid_key_0
@@ -189,6 +198,7 @@ a\#b: value
 
 ==================================================
 split_number_0
+:error
 ==================================================
 
 GET https://example.org
@@ -198,10 +208,11 @@ status == - 1
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section))) (ERROR (query (simple_query)))))
+
 
 ==================================================
 split_number_1
+:error
 ==================================================
 
 GET https://example.org
@@ -211,10 +222,11 @@ status == -	1
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section))) (ERROR (query (simple_query)))))
+
 
 ==================================================
 split_number_2
+:error
 ==================================================
 
 GET https://example.org
@@ -225,10 +237,11 @@ status == -
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section))) (ERROR (query (simple_query)))))
+
 
 ==================================================
 split_number_3
+:error
 ==================================================
 
 GET https://example.org
@@ -239,10 +252,11 @@ status == - # comment
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section))) (ERROR (query (simple_query)) (comment))))
+
 
 ==================================================
 split_number_4
+:error
 ==================================================
 
 GET https://example.org
@@ -252,10 +266,11 @@ status == -1 .5
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section))) (ERROR (query (simple_query)) (predicate (predicate_func (equal_predicate (predicate_value (integer))))))))
+
 
 ==================================================
 split_number_5
+:error
 ==================================================
 
 GET https://example.org
@@ -265,7 +280,7 @@ status == -1. 5
 
 ---
 
-(hurl_file (entry (request (method) (value_string (value_string_content (value_string_text)))) (response (version) (status) (response_section (asserts_section))) (ERROR (query (simple_query)) (predicate (predicate_func (equal_predicate (predicate_value (integer))))))))
+
 
 ==================================================
 signed_number_0

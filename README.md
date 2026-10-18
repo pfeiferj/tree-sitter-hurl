@@ -14,7 +14,7 @@ better highlighting.
 
 ## Acknowledgements
 
-* The grammar is based off of [hurl's grammar file](https://github.com/Orange-OpenSource/hurl/blob/master/docs/spec/hurl.grammar).
+* The grammar is based on [Hurl's published grammar](https://hurl.dev/docs/grammar.html).
 * For more information about tree-sitter visit the [tree-sitter website](https://tree-sitter.github.io/tree-sitter/).
 
 ## Development and tests
@@ -25,9 +25,14 @@ and Node binding tests:
     npm ci
     npm test
 
-Regenerate the parser with the pinned Tree-sitter 0.22 CLI (language ABI 14):
+Regenerate the parser with the pinned Tree-sitter 0.27.1 CLI (language ABI 15):
 
-    npx tree-sitter generate --no-bindings
+    npm run generate
+
+ABI 15 requires a Tree-sitter 0.25+ runtime; the Node tests use 0.25.1.
+`tree-sitter.json` contains the language and query metadata. The corpus runner
+validates generic queries separately from Neovim-only directives; pass CLI test
+options through it, for example `npm run test:corpus -- --include XML`.
 
 The external scanner handles EOF and key/section/JSON disambiguation. It must
 be compiled together with `src/parser.c`; the provided bindings and Makefile
@@ -36,7 +41,7 @@ include it.
 For additional invalid-input, interpolation, CRLF, and incremental EOF coverage:
 
     python3 -m venv .venv
-    .venv/bin/python -m pip install . 'tree-sitter>=0.25,<0.27'
+    .venv/bin/python -m pip install . 'tree-sitter>=0.25,<0.28'
     .venv/bin/python -m unittest discover -s bindings/python/tests -v
 
 Neovim-specific queries live in `queries/neovim/` and target **Neovim 0.12+**.
@@ -69,12 +74,16 @@ Tests parse Hurl source only; they do not execute HTTP requests.
 
 ## Hurl compatibility
 
-The current compatibility target is the published **Hurl 8.0.1** release. The
-regression fixtures cover its filter/query/predicate/file-option names, value
-forms, and template AST boundaries. Tests only parse source; no HTTP is executed.
+The compatibility target includes **Hurl 8.0.1** and the
+[published Hurl grammar](https://hurl.dev/docs/grammar.html). Stable-release
+fixtures cover filter/query/predicate/file-option names, value forms, and
+template AST boundaries. `test/fixtures/published-grammar.json` separately covers
+published-only syntax. Tests only parse source; no HTTP is executed.
 
-- Quoted strings and filenames expose interpolation nodes. **newDate** and
-  **newUuid** have dedicated function nodes; longer variable names remain variables.
+- Quoted strings and filenames expose interpolation nodes. **newDate**,
+  **newUuid**, and **getEnv** have dedicated function nodes; longer names remain
+  variables. Client-key options now expose value-string nodes, matching their
+  broader published syntax, while retaining legacy filename escapes.
 - Multiline backslashes are literal. **raw** fences and bare XML (including CDATA)
   do not interpolate; use a normal/XML-labelled fence when interpolation is wanted.
 - Count options accept the **-1** sentinel only for max-redirs, repeat, and retry.
@@ -82,8 +91,17 @@ forms, and template AST boundaries. Tests only parse source; no HTTP is executed
 - Existing textual predicate aliases, retry-max-count, regex-valued replace,
   and extra fence-language hints remain accepted as compatibility/highlighting
   extensions. This grammar is not a replacement for Hurl validation.
-- Formal-grammar-only charsetEncode and getEnv functions are not implemented;
-  they are not supported by the stable release. Bare getEnv remains a variable.
+- Published-only **charsetEncode**, **getEnv**, unquoted certificate attributes,
+  leading-zero option integers, empty filename options, and key-string variable
+  escapes are accepted alongside released syntax. Hurl itself may reject these
+  depending on its version; acceptance here does not imply runtime support.
+- Native JSON supports Hurl templates but rejects leading/trailing commas and
+  unescaped string control characters. Its string tokens do not skip Hurl extras.
+- Native XML supports Unicode XML 1.0 names, processing instructions, comments,
+  CDATA, and DOCTYPEs with external identifiers or internal declarations. It
+  enforces tag/attribute spacing and excludes literal `<` from attribute values.
+  Matching tag names, entity resolution, and DTD validity remain outside the
+  scope of this editor grammar; malformed documents can still produce trees.
 
 The development audit syntax-checked the 375 Hurl fixtures in the official 8.0.1
 source archive. Of the 320 files accepted by its formatter, all 320 now parse

@@ -10,6 +10,16 @@ import (
 func TestCanLoadGrammar(t *testing.T) {
 	language := tree_sitter.NewLanguage(tree_sitter_hurl.Language())
 	if language == nil {
-		t.Errorf("Error loading Hurl grammar")
+		t.Fatal("Error loading Hurl grammar")
+	}
+	parser := tree_sitter.NewParser()
+	defer parser.Close()
+	if err := parser.SetLanguage(language); err != nil {
+		t.Fatal(err)
+	}
+	tree := parser.Parse([]byte("POST https://example.org\n{\"value\": {{name}}}\n"), nil)
+	defer tree.Close()
+	if tree.RootNode().HasError() {
+		t.Fatal(tree.RootNode().ToSexp())
 	}
 }

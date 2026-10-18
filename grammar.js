@@ -5,10 +5,12 @@ function escaped(chars, immediate = false) {
 }
 const filenameText = /[^#;{}\s\\]+/;
 const filenameEscapes = ["\\", "b", "f", "n", "r", "t", "#", ";", " ", "{", "}"];
+// XML 1.0 NameStartChar/NameChar, including combining marks and supplementary planes.
+const xmlNameStart = String.raw`[:A-Z_a-z\u{C0}-\u{D6}\u{D8}-\u{F6}\u{F8}-\u{2FF}\u{370}-\u{37D}\u{37F}-\u{1FFF}\u{200C}-\u{200D}\u{2070}-\u{218F}\u{2C00}-\u{2FEF}\u{3001}-\u{D7FF}\u{F900}-\u{FDCF}\u{FDF0}-\u{FFFD}\u{10000}-\u{EFFFF}]`;
+const xmlName = new RustRegex(`${xmlNameStart}${xmlNameStart.slice(0, -1)}.0-9\\-\\u{B7}\\u{300}-\\u{36F}\\u{203F}-\\u{2040}]*`);
 
 module.exports = grammar({
   name: "hurl",
-  //word: $ => $.word,
   extras: $ => [/[\s\p{Zs}\uFEFF\u2060\u200B]/, $.comment],
 
   // The final external is a recovery sentinel; it is never emitted.
@@ -128,10 +130,10 @@ module.exports = grammar({
         )
       ),
     ca_certificate_option: ($) =>
-      seq(field("option_key", "cacert"), ":", $.filename),
-    client_key_option: ($) => seq(field("option_key", "key"), ":", $.filename),
+      seq(field("option_key", "cacert"), ":", optional($.filename)),
+    client_key_option: ($) => seq(field("option_key", "key"), ":", optional(alias($._option_value_string, $.value_string))),
     cert_option: ($) =>
-      seq(field("option_key", "cert"), ":", $.filename_password),
+      seq(field("option_key", "cert"), ":", optional($.filename_password)),
     filename_password: ($) => seq(
       choice($.template, $.filename_password_content),
       repeat(choice(alias($._key_template, $.template), alias($._filename_password_continue, $.filename_password_content)))
@@ -147,7 +149,7 @@ module.exports = grammar({
     boolean_option_key: ($) => choice("digest", "http1.1", "negotiate", "ntlm", "compressed", "location", "location-trusted", "http1.0", "http2", "http3", "insecure", "ipv4", "ipv6", "netrc", "netrc-optional", "path-as-is", "skip", "verbose", "very-verbose"),
     integer_option: ($) => seq(field("option_key", $.integer_option_key), ":", choice($._unsigned_integer, $.template)),
     integer_option_key: ($) => choice("retry-max-count", "limit-rate"),
-    count_option: ($) => seq(field("option_key", $.count_option_key), ":", choice(alias(token(/-1|0|[1-9][0-9]*/), $.integer), $.template)),
+    count_option: ($) => seq(field("option_key", $.count_option_key), ":", choice(alias(token(/-1|[0-9]+/), $.integer), $.template)),
     count_option_key: ($) => choice("max-redirs", "repeat", "retry"),
     verbosity_option: ($) => seq(field("option_key", "verbosity"), ":", field("level", choice("brief", "verbose", "debug"))),
     duration_option: ($) => seq(field("option_key", $.duration_option_key), ":", choice(seq($._unsigned_integer, optional($.duration_unit)), $.template)),
@@ -163,9 +165,16 @@ module.exports = grammar({
         $.boolean,
         $.integer,
         $.float,
-        $.value_string,
+        alias($._option_value_string, $.value_string),
         $.quoted_string
       ),
+    // Preserve released filename/value escapes while accepting the published
+    // key-string variable values and value-string client-key syntax.
+    _option_value_string: ($) => prec.right(repeat1(choice($.template, alias($._option_value_string_content, $.value_string_content)))),
+    _option_value_string_content: ($) => prec.right(repeat1(choice(
+      $.value_string_text,
+      alias(escaped([...filenameEscapes, '"', ":", "/", ","]), $.value_string_escaped_char)
+    ))),
     query: ($) =>
       choice(
         $.simple_query,
@@ -184,7 +193,7 @@ module.exports = grammar({
     jsonpath_query: ($) => seq(field("query_name", "jsonpath"), $.quoted_string),
     regex_query: ($) => seq(field("query_name", "regex"), choice($.quoted_string, $.regex)),
     variable_query: ($) => seq(field("query_name", "variable"), $.quoted_string),
-    certificate_query: ($) => seq(field("query_name", "certificate"), '"', $.certificate_attribute, '"'),
+    certificate_query: ($) => seq(field("query_name", "certificate"), choice($.certificate_attribute, seq('"', $.certificate_attribute, '"'))),
     certificate_attribute: ($) => choice("Subject", "Issuer", "Start-Date", "Expire-Date", "Serial-Number"),
     predicate: ($) => seq(optional("not"), $.predicate_func),
     predicate_func: ($) =>
@@ -268,20 +277,38 @@ module.exports = grammar({
         $.oneline_file,
         $.oneline_hex
       ),
-    xml: ($) => seq(repeat(choice($.xml_prolog_tag, $.xml_comment)), $.xml_tag),
-    xml_prolog_tag: ($) => token(seq("<?", /([^?]|\?[^>])*/, "?>")),
+    xml: ($) => seq(
+      repeat(choice($.xml_prolog_tag, $.xml_comment)),
+      optional(seq($.xml_doctype, repeat(choice($.xml_prolog_tag, $.xml_comment)))),
+      $.xml_tag
+    ),
+    xml_prolog_tag: ($) => token(seq("<?", /([^?]|\?+[^?>])*\?*/, "?>")),
     xml_comment: ($) => token(seq("<!--", /([^-]|-[^-])*/, "-->")),
-    xml_cdata: ($) => token(seq("<![CDATA[", /([^\]]|\][^\]]|\]\][^>])*/, "]]>")),
+    xml_cdata: ($) => token(seq("<![CDATA[", /([^\]]|\][^\]]|\]\]+[^\]>])*\]*/, "]]>")),
+    xml_doctype: ($) => seq(
+      "<!DOCTYPE", $._xml_space, $.xml_name,
+      optional(seq($._xml_space, choice(
+        seq(token.immediate("SYSTEM"), $._xml_space, $.xml_dtd_string),
+        seq(token.immediate("PUBLIC"), $._xml_space, $.xml_dtd_string, $._xml_space, $.xml_dtd_string)
+      ))),
+      optional($._xml_space),
+      optional(seq("[", repeat(choice($.xml_dtd_declaration, $.xml_comment, $.xml_prolog_tag, $.xml_parameter_entity_reference)), "]", optional($._xml_space))),
+      token.immediate(">")
+    ),
+    xml_dtd_string: ($) => token.immediate(choice(/"[^"]*"/, /'[^']*'/)),
+    xml_dtd_declaration: ($) => token(seq("<!", /[A-Z]+/, repeat(choice(/[^"'<>]+/, /"[^"]*"/, /'[^']*'/)), ">")),
+    xml_parameter_entity_reference: ($) => token(seq("%", xmlName, ";")),
     xml_tag: ($) => choice(
       $.xml_self_closing_tag,
       seq($.xml_open_tag, repeat(choice($.xml_prolog_tag, $.xml_comment, $.xml_cdata, $.xml_tag, $.xml_value_string)), $.xml_close_tag)
     ),
-    xml_name: ($) => /[A-Za-z_:\p{Alphabetic}][A-Za-z0-9_.:\p{Alphabetic}\p{Number}-]*/,
-    xml_attribute: ($) => seq($.xml_name, "=", $.xml_attribute_value),
-    xml_attribute_value: ($) => token(choice(/"[^"]*"/, /'[^']*'/)),
-    xml_self_closing_tag: ($) => seq("<", $.xml_name, repeat($.xml_attribute), "/>"),
-    xml_open_tag: ($) => seq("<", $.xml_name, repeat($.xml_attribute), ">"),
-    xml_close_tag: ($) => seq("</", $.xml_name, ">"),
+    xml_name: ($) => token.immediate(xmlName),
+    _xml_space: ($) => token.immediate(/[ \t\r\n]+/),
+    xml_attribute: ($) => seq($._xml_space, $.xml_name, optional($._xml_space), token.immediate("="), optional($._xml_space), $.xml_attribute_value),
+    xml_attribute_value: ($) => token.immediate(choice(/"[^"<]*"/, /'[^'<]*'/)),
+    xml_self_closing_tag: ($) => seq("<", $.xml_name, repeat($.xml_attribute), optional($._xml_space), token.immediate("/>")),
+    xml_open_tag: ($) => seq("<", $.xml_name, repeat($.xml_attribute), optional($._xml_space), token.immediate(">")),
+    xml_close_tag: ($) => seq("</", $.xml_name, optional($._xml_space), token.immediate(">")),
     oneline_base64: ($) => seq("base64,", /[a-zA-Z0-9+\/= \t\r\n]+/, ";"),
     oneline_file: ($) => seq("file,", optional($.filename), ";"),
     oneline_hex: ($) => seq("hex,", repeat($.hexdigit), ";"),
@@ -353,22 +380,25 @@ module.exports = grammar({
         $.json_boolean,
         "null"),
     json_object: ($) =>
-      seq("{", optional($.json_key_value), repeat(seq(",", $.json_key_value)), "}"),
+      seq("{", optional(seq($.json_key_value, repeat(seq(",", $.json_key_value)))), "}"),
     json_key_value: ($) => seq($.json_key_string, ":", $.json_value),
     json_key_string: ($) => alias($.json_string, "json_key_string"),
     json_array: ($) =>
       seq(alias($._json_array_start, "["), optional(seq($.json_value, repeat(seq(",", $.json_value)))), "]"),
     json_string: ($) =>
-      seq('"', repeat($.json_string_content), '"'),
+      seq('"', repeat($.json_string_content), token.immediate('"')),
+    // Immediate tokens prevent Hurl extras from swallowing invalid JSON controls
+    // or comments inside a string, including immediately before a template.
     json_string_content: ($) =>
-      prec.left(choice($.template, $.json_string_text, $.json_string_escaped_char)),
-    json_string_text: ($) => choice(token(prec(1, /[^"\\{]+/)), token(prec(-1, "{"))),
-    json_string_escaped_char: ($) => token(seq("\\", choice('"', "\\", "/", "b", "f", "n", "r", "t", /u[0-9A-Fa-f]{4}/))),
+      prec.left(choice(alias($._json_string_template, $.template), $.json_string_text, $.json_string_escaped_char)),
+    _json_string_template: ($) => field("template", seq(token.immediate("{{"), $.expr, "}}")),
+    json_string_text: ($) => choice(token.immediate(prec(1, /[^"\\{\x00-\x1F]+/)), token.immediate(prec(-1, "{"))),
+    json_string_escaped_char: ($) => token.immediate(seq("\\", choice('"', "\\", "/", "b", "f", "n", "r", "t", /u[0-9A-Fa-f]{4}/))),
     json_number: ($) => $._json_number,
     json_boolean: ($) => choice("true", "false"),
     template: ($) => field("template", seq("{{", $.expr, "}}")),
     expr: ($) => seq(choice($.function, $.variable_name), repeat(seq($.filter))),
-    function: ($) => choice("newDate", "newUuid"),
+    function: ($) => choice("newDate", "newUuid", "getEnv"),
     variable_name: ($) => /[A-Za-z][A-Za-z_0-9-]*/,
     filter: ($) =>
       choice(
@@ -382,7 +412,7 @@ module.exports = grammar({
         $.argument_filter
       ),
     simple_filter_key: ($) => field("filter_key", choice("base64Decode", "base64Encode", "base64UrlSafeDecode", "base64UrlSafeEncode", "first", "last", "location", "toFloat", "toHex", "toString", "utf8Decode", "utf8Encode", "count","urlEncode","urlDecode","toInt","htmlEscape","htmlUnescape","daysAfterNow","daysBeforeNow")),
-    argument_filter: ($) => seq(field("filter_key", choice("charsetDecode", "dateFormat", "jsonpath", "urlQueryParam", "decode", "format", "toDate")), $.quoted_string),
+    argument_filter: ($) => seq(field("filter_key", choice("charsetDecode", "charsetEncode", "dateFormat", "jsonpath", "urlQueryParam", "decode", "format", "toDate")), $.quoted_string),
     regex_filter: ($) => seq(field("filter_key", "regex"), choice($.quoted_string, $.regex)),
     nth_filter: ($) => seq(field("filter_key", "nth"), choice($.integer, $.template)),
     replace_filter: ($) => seq(field("filter_key", "replace"), choice($.quoted_string, $.regex), $.quoted_string),
@@ -392,7 +422,7 @@ module.exports = grammar({
     boolean: ($) => choice("true", "false"),
     _alphanum: ($) => /[A-Za-z0-9]/,
     integer: ($) => token(/-?[0-9]+/),
-    _unsigned_integer: ($) => alias(token(/0|[1-9][0-9]*/), $.integer),
+    _unsigned_integer: ($) => alias(token(/[0-9]+/), $.integer),
     json_integer: ($) => prec.left(seq(repeat1($.json_digit))),
     float: ($) => token(/-?[0-9]+\.[0-9]+/),
     digit: ($) => /[0-9]/,

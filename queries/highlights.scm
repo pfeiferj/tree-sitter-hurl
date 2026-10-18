@@ -74,6 +74,7 @@
 (option (_ option_key: _ @constant.builtin) )
 
 (boolean) @boolean
+(json_boolean) @boolean
 
 (variable_name) @variable
 

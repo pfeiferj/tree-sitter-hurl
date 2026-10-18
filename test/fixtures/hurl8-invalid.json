@@ -16,14 +16,6 @@
     "source": "GET https://example.org\n[Options]\nlimit-rate: -1\n"
   },
   {
-    "name": "max-redirs-01",
-    "source": "GET https://example.org\n[Options]\nmax-redirs: 01\n"
-  },
-  {
-    "name": "limit-rate-01",
-    "source": "GET https://example.org\n[Options]\nlimit-rate: 01\n"
-  },
-  {
     "name": "max-time-1 h",
     "source": "GET https://example.org\n[Options]\nmax-time: 1 h\n"
   },
@@ -34,10 +26,6 @@
   {
     "name": "delay--1s",
     "source": "GET https://example.org\n[Options]\ndelay: -1s\n"
-  },
-  {
-    "name": "retry-interval-01h",
-    "source": "GET https://example.org\n[Options]\nretry-interval: 01h\n"
   },
   {
     "name": "verbosity-\"debug\"",
