@@ -39,6 +39,32 @@ For additional invalid-input, interpolation, CRLF, and incremental EOF coverage:
     .venv/bin/python -m pip install . 'tree-sitter>=0.25,<0.27'
     .venv/bin/python -m unittest discover -s bindings/python/tests -v
 
+Neovim-specific queries live in `queries/neovim/` and target **Neovim 0.12+**.
+Install them as `queries/hurl/*.scm` on Neovim's runtimepath. Validate query
+compilation, highlight coverage, hyperlinks, XML commenting, and native JSON
+folding using a parser shared library built from this checkout (including
+`src/scanner.c`):
+
+    nvim --headless -u NONE -i NONE -n -l test/neovim_queries.lua /path/to/hurl.so
+
+Injected-tree tests also use `json` and `xml` parsers on the runtimepath. To test
+actual reindentation, pass a `nvim-treesitter` checkout as the second argument:
+
+    nvim --headless -u NONE -i NONE -n -l test/neovim_queries.lua /path/to/hurl.so /path/to/nvim-treesitter
+
+Missing optional test dependencies are reported as skips. Neovim core does not
+consume `indents.scm` itself; an indentation provider such as `nvim-treesitter`
+is required. Its multiline fallback preserves payload whitespace when no
+injected-language indenter takes over.
+
+Native JSON uses Hurl's own highlighting so interpolation remains Hurl syntax;
+JSON-labelled fences still use the optional JSON parser. Fenced injections
+exclude template ranges, but a template used as a whole JSON value can still
+leave incomplete JSON for the injected parser. XML has fallback tag highlighting
+and commenting metadata for built-in `gc`. Literal HTTP(S) request URLs provide
+hyperlink metadata for supporting terminals; unresolved templates and Hurl escape
+sequences are not linked.
+
 Tests parse Hurl source only; they do not execute HTTP requests.
 
 ## Hurl compatibility

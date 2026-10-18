@@ -529,11 +529,6 @@
     "fields": {}
   },
   {
-    "type": "digit",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "duration_option",
     "named": true,
     "fields": {
@@ -1025,13 +1020,9 @@
     }
   },
   {
-    "type": "hexdigit",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "hurl_file",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1126,11 +1117,6 @@
   },
   {
     "type": "json_boolean",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "json_digit",
     "named": true,
     "fields": {}
   },
@@ -3063,19 +3049,7 @@
     "named": false
   },
   {
-    "type": "+",
-    "named": false
-  },
-  {
     "type": ",",
-    "named": false
-  },
-  {
-    "type": "-",
-    "named": false
-  },
-  {
-    "type": ".",
     "named": false
   },
   {
@@ -3128,10 +3102,6 @@
   },
   {
     "type": "DELETE",
-    "named": false
-  },
-  {
-    "type": "E",
     "named": false
   },
   {
@@ -3356,7 +3326,8 @@
   },
   {
     "type": "comment",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "compressed",
@@ -3417,10 +3388,6 @@
   {
     "type": "duration_unit",
     "named": true
-  },
-  {
-    "type": "e",
-    "named": false
   },
   {
     "type": "endsWith",
@@ -3485,6 +3452,10 @@
   {
     "type": "hex,",
     "named": false
+  },
+  {
+    "type": "hexdigit",
+    "named": true
   },
   {
     "type": "htmlEscape",
