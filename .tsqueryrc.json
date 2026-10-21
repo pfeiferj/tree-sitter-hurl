@@ -1,0 +1,6 @@
+{
+  "parser_install_directories": ["."],
+  "parser_aliases": {
+    "neovim": "hurl"
+  }
+}

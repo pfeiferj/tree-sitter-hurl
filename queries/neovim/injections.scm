@@ -1,5 +1,4 @@
 ; Native JSON is highlighted by Hurl so templates are not reparsed as JSON.
-
 ((comment) @injection.content
   (#set! injection.language "comment"))
 

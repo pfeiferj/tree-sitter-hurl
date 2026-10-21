@@ -4,7 +4,8 @@
   (json_key_string)
 ] @property
 
-(_ section_header: _ @module)
+(_
+  section_header: _ @module)
 
 [
   "\\"
@@ -18,15 +19,18 @@
   (json_string_escaped_char)
 ] @string.escape
 
-(_ query_name: _ @function.builtin)
+(_
+  query_name: _ @function.builtin)
 
-(_ filter_key: _ @function.builtin)
+(_
+  filter_key: _ @function.builtin)
 
 (function) @function.builtin
 
 "null" @constant.builtin
 
-(_ option_key: _ @constant.builtin)
+(_
+  option_key: _ @constant.builtin)
 
 (verbosity_option
   level: _ @constant.builtin)
@@ -40,7 +44,8 @@
 
 "not" @keyword.operator
 
-(_ predicate_name: _ @keyword.operator)
+(_
+  predicate_name: _ @keyword.operator)
 
 "redact" @keyword
 
@@ -129,16 +134,34 @@
   (#set! @string.special.url url @string.special.url))
 
 [
-  (xml_open_tag (xml_name) @tag)
-  (xml_close_tag (xml_name) @tag)
-  (xml_self_closing_tag (xml_name) @tag)
+  (xml_open_tag
+    (xml_name) @tag)
+  (xml_close_tag
+    (xml_name) @tag)
+  (xml_self_closing_tag
+    (xml_name) @tag)
 ]
 
-(xml_attribute (xml_name) @tag.attribute)
+(xml_attribute
+  (xml_name) @tag.attribute)
 
-(xml_open_tag ["<" ">"] @tag.delimiter)
-(xml_close_tag ["</" ">"] @tag.delimiter)
-(xml_self_closing_tag ["<" "/>"] @tag.delimiter)
+(xml_open_tag
+  [
+    "<"
+    ">"
+  ] @tag.delimiter)
+
+(xml_close_tag
+  [
+    "</"
+    ">"
+  ] @tag.delimiter)
+
+(xml_self_closing_tag
+  [
+    "<"
+    "/>"
+  ] @tag.delimiter)
 
 ((xml) @_xml
   (#set! @_xml bo.commentstring "<!-- %s -->"))
