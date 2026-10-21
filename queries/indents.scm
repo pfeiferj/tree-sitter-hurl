@@ -10,4 +10,5 @@
 ] @branch
 
 (xml_tag) @indent
+
 (xml_close_tag) @branch
